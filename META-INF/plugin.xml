@@ -41,5 +41,7 @@
 
   <extensions defaultExtensionNs="com.intellij">
       <fileTypeFactory implementation="org.antlr.jetbrains.st4plugin.STGroupFileTypeFactory"/>
+	  <lang.syntaxHighlighterFactory key="STGroup"
+									 implementationClass="org.antlr.jetbrains.st4plugin.STGroupSyntaxHighlighterFactory"/>
   </extensions>
 </idea-plugin>
