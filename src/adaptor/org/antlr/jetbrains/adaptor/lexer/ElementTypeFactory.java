@@ -32,7 +32,9 @@ public class ElementTypeFactory {
 		return result;
 	}
 
-	public static List<TokenElementType> getTokenElementTypes(Language language, List<String> tokenNames) {
+	public static List<TokenElementType> getTokenElementTypes(Language language,
+	                                                          List<String> tokenNames)
+	{
 		List<TokenElementType> result = tokenElementTypesCache.get(language);
 		if (result == null) {
 			TokenElementType[] elementTypes = new TokenElementType[tokenNames.size()];
@@ -49,7 +51,9 @@ public class ElementTypeFactory {
 		return result;
 	}
 
-	public static List<RuleElementType> getRuleElementTypes(Language language, List<String> ruleNames) {
+	public static List<RuleElementType> getRuleElementTypes(Language language,
+	                                                        List<String> ruleNames)
+	{
 		List<RuleElementType> result = ruleElementTypesCache.get(language);
 		if (result == null) {
 			RuleElementType[] elementTypes = new RuleElementType[ruleNames.size()];
@@ -64,8 +68,12 @@ public class ElementTypeFactory {
 		return result;
 	}
 
-	public static TokenSet createTokenSet(Language language, List<String> tokenNames, int... types) {
-		List<TokenElementType> tokenElementTypes = getTokenElementTypes(language, tokenNames);
+	public static TokenSet createTokenSet(Language language,
+	                                      List<String> tokenNames,
+	                                      int... types)
+	{
+		List<TokenElementType> tokenElementTypes =
+			getTokenElementTypes(language, tokenNames);
 
 		IElementType[] elementTypes = new IElementType[types.length];
 		for (int i = 0; i < types.length; i++) {
@@ -80,8 +88,12 @@ public class ElementTypeFactory {
 		return TokenSet.create(elementTypes);
 	}
 
-	public static TokenSet createRuleSet(Language language, List<String> ruleNames, int... rules) {
-		List<RuleElementType> tokenElementTypes = getRuleElementTypes(language, ruleNames);
+	public static TokenSet createRuleSet(Language language,
+	                                     List<String> ruleNames,
+	                                     int... rules)
+	{
+		List<RuleElementType> tokenElementTypes =
+			getRuleElementTypes(language, ruleNames);
 
 		IElementType[] elementTypes = new IElementType[rules.length];
 		for (int i = 0; i < rules.length; i++) {

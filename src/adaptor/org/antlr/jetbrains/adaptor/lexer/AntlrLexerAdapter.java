@@ -22,6 +22,20 @@ import java.util.Map;
  * default implementation {@link SimpleAntlrLexerAdapter} can be
  * used.</p>
  *
+ * Intellij lexers need to track state as they must be able to
+ * restart lexing in the middle of the input buffer. From
+ * <a href="http://www.jetbrains.org/intellij/sdk/docs/reference_guide/custom_language_support/implementing_lexer.html">Intellij doc</a>:
+ *
+ * "A lexer that can be used incrementally may need to return its
+ * state, which means the context corresponding to each position in a
+ * file. For example, a Java lexer could have separate states for top
+ * level context, comment context and string literal context. An
+ * important requirement for a syntax highlighting lexer is that its
+ * state must be represented by a single integer number returned from
+ * Lexer.getState(). That state will be passed to the Lexer.start()
+ * method, along with the start offset of the fragment to process,
+ * when lexing is resumed from the middle of a file."
+ *
  * @author Sam Harwell
  */
 public abstract class AntlrLexerAdapter<State extends AntlrLexerState>
