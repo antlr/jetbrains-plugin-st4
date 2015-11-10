@@ -1,6 +1,5 @@
 package org.antlr.jetbrains.st4plugin;
 
-import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.colors.EditorColorsManager;
@@ -10,12 +9,10 @@ import com.intellij.openapi.editor.markup.HighlighterLayer;
 import com.intellij.openapi.editor.markup.HighlighterTargetArea;
 import com.intellij.openapi.editor.markup.MarkupModel;
 import com.intellij.openapi.editor.markup.TextAttributes;
-import com.intellij.psi.tree.IElementType;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.Token;
-import org.jetbrains.annotations.NotNull;
 
 public class SyntaxHighlighter {
 	protected Lexer lexer;
@@ -44,21 +41,31 @@ public class SyntaxHighlighter {
 		final EditorColorsManager editorColorsManager = EditorColorsManager.getInstance();
 		final EditorColorsScheme scheme =
 			editorColorsManager.getScheme(EditorColorsScheme.DEFAULT_SCHEME_NAME);
-		final TextAttributes attr =
-			scheme.getAttributes(DefaultLanguageHighlighterColors.STRING);
 		for (int i=0; i<tokens.size(); i++) {
 			Token t = tokens.get(i);
-			markupModel.addRangeHighlighter(
-				t.getStartIndex(),
-				t.getStopIndex()+1,
-				HighlighterLayer.SYNTAX, // layer
-				attr,
-				HighlighterTargetArea.EXACT_RANGE);
+			TextAttributes attr = null;
+			if ( t.getType()>=Token.MIN_USER_TOKEN_TYPE ) {
+				TextAttributesKey key = tokenTypeToAttrMap[t.getType()];
+				if ( key!=null ) {
+					attr = scheme.getAttributes(key);
+					markupModel.addRangeHighlighter(
+						t.getStartIndex(),
+						t.getStopIndex()+1,
+						HighlighterLayer.SYNTAX, // layer
+						attr,
+						HighlighterTargetArea.EXACT_RANGE);
+				}
+			}
 		}
 	}
 
-	@NotNull
-	TextAttributesKey[] getTokenHighlights(IElementType tokenType) {
-		return new TextAttributesKey[0];
+	public void setAttributes(int tokenType, TextAttributesKey attr) {
+		tokenTypeToAttrMap[tokenType] = attr;
+	}
+
+	public void setAttributes(int[] tokenTypes, TextAttributesKey attr) {
+		for (int t : tokenTypes) {
+			tokenTypeToAttrMap[t] = attr;
+		}
 	}
 }
