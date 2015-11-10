@@ -7,8 +7,6 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.EditorFactory;
-import com.intellij.openapi.editor.event.DocumentAdapter;
-import com.intellij.openapi.editor.event.DocumentEvent;
 import com.intellij.openapi.editor.event.EditorFactoryAdapter;
 import com.intellij.openapi.editor.event.EditorFactoryEvent;
 import com.intellij.openapi.extensions.PluginId;
@@ -41,6 +39,18 @@ public class STGroupPluginController implements ProjectComponent {
 
 	public STGroupPluginController(Project project) {
 		this.project = project;
+	}
+
+	public static STGroupPluginController getInstance(Project project) {
+		if ( project==null ) {
+			LOG.error("getInstance: project is null");
+			return null;
+		}
+		STGroupPluginController pc = project.getComponent(STGroupPluginController.class);
+		if ( pc==null ) {
+			LOG.error("getInstance: getComponent() for "+project.getName()+" returns null");
+		}
+		return pc;
 	}
 
 	@Override
@@ -98,7 +108,7 @@ public class STGroupPluginController implements ProjectComponent {
 					final Document doc = editor.getDocument();
 					VirtualFile vfile = FileDocumentManager.getInstance().getFile(doc);
 					if ( vfile!=null && vfile.getName().endsWith(".stg") ) {
-						STGroupFileEditorListener listener = new STGroupFileEditorListener();
+						STGroupFileEditorListener listener = new STGroupFileEditorListener(project);
 						doc.putUserData(EDITOR_DOCUMENT_LISTENER_KEY, listener);
 						doc.addDocumentListener(listener);
 					}
@@ -139,6 +149,20 @@ public class STGroupPluginController implements ProjectComponent {
 		LOG.info("editorFileClosedEvent "+fileName+" "+project.getName());
 	}
 
+	public Editor getEditor(Document doc) {
+		if (doc == null) return null;
+
+		EditorFactory factory = EditorFactory.getInstance();
+		final Editor[] editors = factory.getEditors(doc, project);
+		if ( editors.length==0 ) {
+			// no editor found for this file. likely an out-of-sequence issue
+			// where Intellij is opening a project and doesn't fire events
+			// in order we'd expect.
+			return null;
+		}
+		return editors[0]; // hope just one
+	}
+
 	private class MyVirtualFileAdapter extends VirtualFileAdapter {
 		@Override
 		public void contentsChanged(VirtualFileEvent event) {
@@ -157,14 +181,6 @@ public class STGroupPluginController implements ProjectComponent {
 		@Override
 		public void fileClosed(FileEditorManager source, VirtualFile file) {
 			if ( !projectIsClosed ) editorFileClosedEvent(file);
-		}
-	}
-
-	private class STGroupFileEditorListener extends DocumentAdapter {
-		@Override
-		public void documentChanged(DocumentEvent e) {
-			String docText = e.getDocument().getCharsSequence().toString();
-			System.out.println("doc: "+docText);
 		}
 	}
 }
