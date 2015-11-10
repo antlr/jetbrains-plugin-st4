@@ -17,6 +17,7 @@ import org.antlr.v4.runtime.Token;
 public class SyntaxHighlighter {
 	protected Lexer lexer;
 	protected TextAttributesKey[] tokenTypeToAttrMap;
+	final EditorColorsManager editorColorsManager = EditorColorsManager.getInstance();
 
 	public SyntaxHighlighter(Lexer lexer) {
 		this.lexer = lexer;
@@ -37,33 +38,40 @@ public class SyntaxHighlighter {
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		tokens.fill();
 
-		System.out.println("tokens: "+tokens.getTokens().toString());
-		final EditorColorsManager editorColorsManager = EditorColorsManager.getInstance();
 		final EditorColorsScheme scheme =
 			editorColorsManager.getScheme(EditorColorsScheme.DEFAULT_SCHEME_NAME);
 		for (int i=0; i<tokens.size(); i++) {
-			Token t = tokens.get(i);
-			TextAttributes attr = null;
-			if ( t.getType()>=Token.MIN_USER_TOKEN_TYPE ) {
-				TextAttributesKey key = tokenTypeToAttrMap[t.getType()];
-				if ( key!=null ) {
-					attr = scheme.getAttributes(key);
-					markupModel.addRangeHighlighter(
-						t.getStartIndex(),
-						t.getStopIndex()+1,
-						HighlighterLayer.SYNTAX, // layer
-						attr,
-						HighlighterTargetArea.EXACT_RANGE);
-				}
+			TextAttributesKey key = getAttributesKey(tokens, i);
+			if ( key!=null ) {
+				TextAttributes attr = scheme.getAttributes(key);
+				Token t = tokens.get(i);
+				markupModel.addRangeHighlighter(
+					t.getStartIndex(),
+					t.getStopIndex()+1,
+					HighlighterLayer.SYNTAX, // layer
+					attr,
+					HighlighterTargetArea.EXACT_RANGE);
 			}
 		}
 	}
 
-	public void setAttributes(int tokenType, TextAttributesKey attr) {
+	/** Override this if you want to do some simple context-sensitive
+	 *  highlighting. For general case, a real parser should be used.
+	 */
+	public TextAttributesKey getAttributesKey(CommonTokenStream tokens, int tokenIndex) {
+		Token t = tokens.get(tokenIndex);
+		int tokenType = t.getType();
+		if ( tokenType>=Token.MIN_USER_TOKEN_TYPE ) {
+			return tokenTypeToAttrMap[tokenType];
+		}
+		return null;
+	}
+
+	public void setAttributesKey(int tokenType, TextAttributesKey attr) {
 		tokenTypeToAttrMap[tokenType] = attr;
 	}
 
-	public void setAttributes(int[] tokenTypes, TextAttributesKey attr) {
+	public void setAttributesKey(int[] tokenTypes, TextAttributesKey attr) {
 		for (int t : tokenTypes) {
 			tokenTypeToAttrMap[t] = attr;
 		}
