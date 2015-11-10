@@ -5,33 +5,41 @@ import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.colors.EditorColorsManager;
 import com.intellij.openapi.editor.colors.EditorColorsScheme;
-import com.intellij.openapi.editor.event.DocumentAdapter;
-import com.intellij.openapi.editor.event.DocumentEvent;
+import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.editor.markup.HighlighterLayer;
 import com.intellij.openapi.editor.markup.HighlighterTargetArea;
 import com.intellij.openapi.editor.markup.MarkupModel;
 import com.intellij.openapi.editor.markup.TextAttributes;
-import com.intellij.openapi.project.Project;
-import org.antlr.jetbrains.st4plugin.parsing.ParsingUtils;
+import com.intellij.psi.tree.IElementType;
+import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.Token;
+import org.jetbrains.annotations.NotNull;
 
-public class STGroupFileEditorListener extends DocumentAdapter {
-	public Project project;
+public class SyntaxHighlighter {
+	protected Lexer lexer;
+	protected TextAttributesKey[] tokenTypeToAttrMap;
 
-	public STGroupFileEditorListener(Project project) {
-		this.project = project;
+	public SyntaxHighlighter(Lexer lexer) {
+		this.lexer = lexer;
+		if ( lexer!=null ) {
+			String[] tokenNames = lexer.getRuleNames(); // lexer rules are tokens
+			tokenTypeToAttrMap = new TextAttributesKey[tokenNames.length+1];
+		}
 	}
 
-	@Override
-	public void documentChanged(DocumentEvent e) {
-		Document doc = e.getDocument();
+	public void highlight(Editor editor) {
+		Document doc = editor.getDocument();
 		String docText = doc.getCharsSequence().toString();
-		STGroupPluginController ctrl = STGroupPluginController.getInstance(project);
-		if ( ctrl==null ) return;
-		Editor editor = ctrl.getEditor(doc);
 		MarkupModel markupModel = editor.getMarkupModel();
-		CommonTokenStream tokens = ParsingUtils.tokenize(docText);
+
+		// tokenize
+		ANTLRInputStream input = new ANTLRInputStream(docText);
+		lexer.setInputStream(input);
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		tokens.fill();
+
 		System.out.println("tokens: "+tokens.getTokens().toString());
 		final EditorColorsManager editorColorsManager = EditorColorsManager.getInstance();
 		final EditorColorsScheme scheme =
@@ -47,5 +55,10 @@ public class STGroupFileEditorListener extends DocumentAdapter {
 				attr,
 				HighlighterTargetArea.EXACT_RANGE);
 		}
+	}
+
+	@NotNull
+	TextAttributesKey[] getTokenHighlights(IElementType tokenType) {
+		return new TextAttributesKey[0];
 	}
 }
