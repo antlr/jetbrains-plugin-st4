@@ -39,23 +39,18 @@ lexer grammar STGLexer;
 
 import LexBasic;	// Standard set of fragments
 
-channels {
-	OFF_CHANNEL		// non-default channel for whitespace and comments
-}
-
 // ------------------------------------------------------------------------------
 // mode default
 
-DOC_COMMENT			: DocComment		-> channel(OFF_CHANNEL)	;
-BLOCK_COMMENT		: BlockComment		-> channel(OFF_CHANNEL)	;
-LINE_COMMENT		: LineComment		-> channel(OFF_CHANNEL)	;
+DOC_COMMENT			: DocComment		-> channel(HIDDEN)	;
+BLOCK_COMMENT		: BlockComment		-> channel(HIDDEN)	;
+LINE_COMMENT		: LineComment		-> channel(HIDDEN)	;
 
-TMPL_COMMENT		: LBang .? RBang	-> channel(OFF_CHANNEL)	;
+TMPL_COMMENT		: LBang .? RBang	-> channel(HIDDEN)	;
 
-HORZ_WS				: Hws+			-> channel(OFF_CHANNEL)	;
-VERT_WS				: Vws+			-> channel(OFF_CHANNEL)	;
+WS					: [ \r\n\t]+		-> channel(HIDDEN)	;
 
-ID        			: NameStartChar NameChar*			;
+ID        			: NameStartChar NameChar* ;
 
 STRING				: DQuoteLiteral			;
 BIGSTRING 			: LDAngle .*? RDAngle	;
