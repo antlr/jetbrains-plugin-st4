@@ -25,8 +25,6 @@ import com.intellij.openapi.vfs.VirtualFileAdapter;
 import com.intellij.openapi.vfs.VirtualFileEvent;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.util.messages.MessageBusConnection;
-import org.antlr.jetbrains.st4plugin.parsing.STGLexer;
-import org.antlr.v4.runtime.Token;
 import org.jetbrains.annotations.NotNull;
 
 public class STGroupPluginController implements ProjectComponent {
@@ -145,29 +143,8 @@ public class STGroupPluginController implements ProjectComponent {
 		if ( editor==null ) return;
 
 		// First do outer STGroup level tokenization
-		STGroupSyntaxHighlighter groupHighlighter = new STGroupSyntaxHighlighter();
-		groupHighlighter.highlight(editor);
-
-		// Also tokenize templates for highlighting
-		for (Token t : groupHighlighter.tokens.getTokens()) {
-			STSyntaxHighlighter templateHighlighter = new STSyntaxHighlighter();
-			if ( t.getType()==STGLexer.STRING ||
-				 t.getType()==STGLexer.ANON_TEMPLATE )
-			{
-//				System.out.println("template: "+t);
-				String text = t.getText();
-				text = text.substring(1, text.length()-1);
-				templateHighlighter.highlight(editor, text, t.getStartIndex()+1, t.getStopIndex()-1);
-			}
-			if ( t.getType()==STGLexer.BIGSTRING ||
-				 t.getType()==STGLexer.BIGSTRING_NO_NL )
-			{
-//				System.out.println("template: "+t);
-				String text = t.getText();
-				text = text.substring(2, text.length()-2);
-				templateHighlighter.highlight(editor, text, t.getStartIndex()+2, t.getStopIndex()-2);
-			}
-		}
+		STGroupSyntaxHighlighter groupHighlighter = new STGroupSyntaxHighlighter(editor);
+		groupHighlighter.highlight();
 	}
 
 	public void editorFileClosedEvent(VirtualFile vfile) {

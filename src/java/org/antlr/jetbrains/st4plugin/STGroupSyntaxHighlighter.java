@@ -1,8 +1,8 @@
 package org.antlr.jetbrains.st4plugin;
 
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
+import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
-import com.intellij.openapi.util.Key;
 import org.antlr.jetbrains.st4plugin.parsing.STGLexer;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -12,15 +12,16 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class STGroupSyntaxHighlighter extends SyntaxHighlighter {
-	public static final Key<Token> GROUP_HIGHLIGHT = Key.create("GROUP_HIGHLIGHT");
-	public CommonTokenStream tokens;
+	public STGroupSyntaxHighlighter(Editor editor) {
+		super(editor);
+	}
 
 	@NotNull
 	@Override
 	public CommonTokenStream tokenize(String text) {
 		ANTLRInputStream input = new ANTLRInputStream(text);
 		STGLexer lexer = new STGLexer(input);
-		tokens = new CommonTokenStream(lexer);
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		tokens.fill();
 		return tokens;
 	}
@@ -45,10 +46,42 @@ public class STGroupSyntaxHighlighter extends SyntaxHighlighter {
 		return key;
 	}
 
-	@NotNull
 	@Override
-	public Key<Token> getHighlightCategoryKey() {
-		return GROUP_HIGHLIGHT;
+	public boolean isEmbeddedLanguageToken(int tokenType) {
+		return
+			tokenType==STGLexer.STRING ||
+			tokenType==STGLexer.ANON_TEMPLATE ||
+			tokenType==STGLexer.BIGSTRING ||
+			tokenType==STGLexer.BIGSTRING_NO_NL;
+	}
+
+	@Override
+	public void highlightEmbedded(Token t) {
+		STSyntaxHighlighter templateHighlighter = new STSyntaxHighlighter(getEditor());
+		int startOfEmbeddedToken = t.getStartIndex();
+		if ( t.getType()==STGLexer.STRING ||
+			 t.getType()==STGLexer.ANON_TEMPLATE )
+		{
+//				System.out.println("template: "+t);
+			String text = t.getText();
+			text = text.substring(1, text.length()-1);
+			startOfEmbeddedToken++;
+			templateHighlighter.highlight(text, startOfEmbeddedToken, t.getStopIndex()-1);
+		}
+		else if ( t.getType()==STGLexer.BIGSTRING ||
+			 t.getType()==STGLexer.BIGSTRING_NO_NL )
+		{
+//				System.out.println("template: "+t);
+			String text = t.getText();
+			text = text.substring(2, text.length()-2);
+			startOfEmbeddedToken += 2;
+			templateHighlighter.highlight(text, startOfEmbeddedToken, t.getStopIndex()-2);
+		}
+		// do error tokens
+		for (Token err : templateHighlighter.lexer.getErrorTokens()) {
+			System.out.println(err);
+			templateHighlighter.highlightToken(err, startOfEmbeddedToken);
+		}
 	}
 
 	@NotNull
@@ -60,10 +93,6 @@ public class STGroupSyntaxHighlighter extends SyntaxHighlighter {
 				return new TextAttributesKey[] {DefaultLanguageHighlighterColors.LINE_COMMENT};
 			case STGLexer.BLOCK_COMMENT :
 				return new TextAttributesKey[] {DefaultLanguageHighlighterColors.BLOCK_COMMENT};
-//			case STGLexer.STRING :
-//				return DefaultLanguageHighlighterColors.STRING;
-//			case STGLexer.BIGSTRING :
-//				return DefaultLanguageHighlighterColors.STRING;
 			case STGLexer.ID :
 				return new TextAttributesKey[] {DefaultLanguageHighlighterColors.IDENTIFIER};
 

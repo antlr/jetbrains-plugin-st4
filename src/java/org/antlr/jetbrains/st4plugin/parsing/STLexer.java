@@ -57,8 +57,9 @@ import java.util.List;
  * consistent).</p>
  */
 public class STLexer implements TokenSource {
-    public static final char EOF = (char)-1;            // EOF char
+    public static final int EOF = -1;              // EOF char
     public static final int EOF_TYPE = Token.EOF;  // EOF token type
+    public static final int ERROR_TYPE = 99999999;
 
     public static final Token SKIP = new CommonToken(-1, "<skip>");
 
@@ -134,7 +135,9 @@ public class STLexer implements TokenSource {
     /** Our lexer routines might have to emit more than a single token. We
      *  buffer everything through this list.
      */
-    List<Token> tokens = new ArrayList<Token>();
+    protected List<Token> tokens = new ArrayList<Token>();
+
+    protected List<Token> errorTokens = new ArrayList<Token>();
 
 	public STLexer(String input) { this(new ANTLR3StringStream(input), null, '<', '>'); }
 
@@ -181,6 +184,10 @@ public class STLexer implements TokenSource {
 
 	public void lexerError(int start, int stop) {
 		System.err.println("lexerError "+start+".."+stop);
+        CommonToken t = newToken(ERROR_TYPE);
+        t.setStartIndex(start);
+   	    t.setStopIndex(stop);
+        errorTokens.add(t);
 	}
 
 	@Override
@@ -196,14 +203,14 @@ public class STLexer implements TokenSource {
 	 */
     public void match(char x) {
         if ( c != x ) {
-	        lexerError(x,c);
+	        lexerError(startCharIndex,input.index());
 		}
 		consume();
     }
 
 	protected void consume() {
         input.consume();
-        c = (char)input.LA(1);
+        c = input.LA(1);
     }
 
     public void emit(Token token) { tokens.add(token); }
@@ -364,13 +371,16 @@ public class STLexer implements TokenSource {
 			case ' '  : text = " "; break;
             default :
 	            lexerError(startCharIndex, input.index());
-				consume();
+				if ( c==EOF ) {
+                    return SKIP;
+                }
+                consume();
 				match(delimiterStopChar);
 				return SKIP;
         }
         consume();
-		Token t = newToken(TEXT, text, input.getCharPositionInLine()-2);
         match(delimiterStopChar);
+        Token t = newToken(TEXT, text, input.getCharPositionInLine()-2);
         return t;
     }
 
@@ -397,11 +407,17 @@ public class STLexer implements TokenSource {
         }
         chars[3] = (char)c;
         // ESCAPE kills >
-        char uc = (char)Integer.parseInt(new String(chars), 16);
+        consume();
+        char uc;
+        try {
+            uc = (char)Integer.parseInt(new String(chars), 16);
+        }
+        catch (NumberFormatException nfe) {
+            uc = Character.MAX_VALUE;
+        }
         Token t = newToken(TEXT, String.valueOf(uc), input.getCharPositionInLine()-6);
-		consume();
-		match(delimiterStopChar);
-		return t;
+        match(delimiterStopChar);
+        return t;
     }
 
     Token mTEXT() {
@@ -530,7 +546,7 @@ public class STLexer implements TokenSource {
     public static boolean isWS(int c) { return c==' ' || c=='\t' || c=='\n' || c=='\r'; }
     public static boolean isUnicodeLetter(int c) { return c>='a'&&c<='f' || c>='A'&&c<='F' || c>='0'&&c<='9'; }
 
-    public Token newToken(int ttype) {
+    public CommonToken newToken(int ttype) {
         CommonToken t = new CommonToken(ttype, input.substring(startCharIndex, input.index()-1));
 	    t.setStartIndex(startCharIndex);
 	    t.setStopIndex(input.index()-1);
@@ -539,7 +555,7 @@ public class STLexer implements TokenSource {
 		return t;
 	}
 
-    public Token newTokenFromPreviousChar(int ttype) {
+    public CommonToken newTokenFromPreviousChar(int ttype) {
         CommonToken t = new CommonToken(ttype, input.substring(input.index()-1, input.index()-1));
 	    t.setStartIndex(input.index()-1);
 	    t.setStopIndex(input.index()-1);
@@ -548,7 +564,7 @@ public class STLexer implements TokenSource {
         return t;
     }
 
-    public Token newToken(int ttype, String text, int pos) {
+    public CommonToken newToken(int ttype, String text, int pos) {
         CommonToken t = new CommonToken(ttype, text);
 		t.setStartIndex(startCharIndex);
 		t.setStopIndex(input.index()-1);
@@ -557,7 +573,7 @@ public class STLexer implements TokenSource {
         return t;
     }
 
-	public Token newToken(int ttype, String text) {
+	public CommonToken newToken(int ttype, String text) {
         CommonToken t = new CommonToken(ttype, text);
         t.setStartIndex(startCharIndex);
         t.setStopIndex(input.index()-1);
@@ -566,7 +582,11 @@ public class STLexer implements TokenSource {
 		return t;
 	}
 
-	@Override
+    public List<Token> getErrorTokens() {
+        return errorTokens;
+    }
+
+    @Override
     public String getSourceName() {
         return "no idea";
     }
