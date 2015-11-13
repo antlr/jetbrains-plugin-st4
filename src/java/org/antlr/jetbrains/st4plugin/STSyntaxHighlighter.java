@@ -1,15 +1,30 @@
 package org.antlr.jetbrains.st4plugin;
 
+import com.intellij.codeInsight.daemon.impl.HighlightInfo;
+import com.intellij.lang.annotation.Annotation;
+import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.HighlighterColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
+import com.intellij.openapi.editor.markup.EffectType;
+import com.intellij.openapi.editor.markup.HighlighterLayer;
+import com.intellij.openapi.editor.markup.HighlighterTargetArea;
+import com.intellij.openapi.editor.markup.MarkupModel;
+import com.intellij.openapi.editor.markup.RangeHighlighter;
+import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.ui.JBColor;
+import org.antlr.jetbrains.st4plugin.parsing.MyParserErrorListener;
 import org.antlr.jetbrains.st4plugin.parsing.STLexer;
+import org.antlr.jetbrains.st4plugin.parsing.STParser;
 import org.antlr.v4.runtime.CommonToken;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
 
@@ -22,8 +37,8 @@ public class STSyntaxHighlighter extends SyntaxHighlighter {
 
 	protected STLexer lexer = null;
 
-	public STSyntaxHighlighter(Editor editor) {
-		super(editor);
+	public STSyntaxHighlighter(Editor editor, int startIndex) {
+		super(editor, startIndex);
 	}
 
 	@NotNull
@@ -46,6 +61,44 @@ public class STSyntaxHighlighter extends SyntaxHighlighter {
 		else {
 			super.highlightToken(t, start);
 		}
+	}
+
+	@Override
+	public ParserRuleContext parse(CommonTokenStream tokens) {
+		MyParserErrorListener errorListener = new MyParserErrorListener();
+		STParser parser = new STParser(tokens);
+		parser.removeErrorListeners();
+		parser.addErrorListener(errorListener);
+		ParserRuleContext tree = parser.template();
+		for (MyParserErrorListener.Issue I : errorListener.issues) {
+			syntaxError(I.annotation, I.offendingToken);
+		}
+		return tree;
+	}
+
+	protected void syntaxError(String annotation, Token offendingToken) {
+		Annotation annot = new Annotation(20, 30, HighlightSeverity.ERROR, "Test!", "Test Message!");
+		HighlightInfo info = HighlightInfo.fromAnnotation(annot);
+		List<HighlightInfo> al = new ArrayList<HighlightInfo>();
+		al.add(info);
+//		UpdateHighlightersUtil.setHighlightersToEditor(project, doc, 20, 30, al, null, 0)
+
+		final TextAttributes attr = new TextAttributes();
+		attr.setForegroundColor(JBColor.RED);
+		attr.setEffectColor(JBColor.RED);
+		attr.setEffectType(EffectType.WAVE_UNDERSCORE);
+		MarkupModel markupModel = editor.getMarkupModel();
+		RangeHighlighter highlighter =
+			markupModel.addRangeHighlighter(startIndex+offendingToken.getStartIndex(),
+			                                startIndex+offendingToken.getStopIndex()+1,
+			                                HighlighterLayer.ERROR, // layer
+			                                attr,
+			                                HighlighterTargetArea.EXACT_RANGE);
+	}
+
+	@Override
+	protected void highlightTree(ParserRuleContext tree, CommonTokenStream tokens) {
+//		XPath.findAll(tree, "", new STParser(tokens));
 	}
 
 	@NotNull

@@ -143,7 +143,7 @@ public class STGroupPluginController implements ProjectComponent {
 		if ( editor==null ) return;
 
 		// First do outer STGroup level tokenization
-		STGroupSyntaxHighlighter groupHighlighter = new STGroupSyntaxHighlighter(editor);
+		STGroupSyntaxHighlighter groupHighlighter = new STGroupSyntaxHighlighter(editor,0);
 		groupHighlighter.highlight();
 	}
 

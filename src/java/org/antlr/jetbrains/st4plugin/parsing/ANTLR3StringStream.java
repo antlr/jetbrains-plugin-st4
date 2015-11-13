@@ -1,9 +1,12 @@
 package org.antlr.jetbrains.st4plugin.parsing;
 
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.misc.Interval;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class ANTLR3StringStream {
+public class ANTLR3StringStream implements CharStream {
 	public class CharStreamState {
 		/** Index into the char stream of next lookahead char */
 		int p;
@@ -61,6 +64,11 @@ public class ANTLR3StringStream {
 		this();
 		this.data = data;
 		this.n = numberOfActualCharsInArray;
+	}
+
+	@Override
+	public String getText(Interval interval) { // unused
+		return null;
 	}
 
 	/** Reset the stream so that it's in the same state it was

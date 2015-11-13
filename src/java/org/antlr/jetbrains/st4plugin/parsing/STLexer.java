@@ -33,9 +33,11 @@ package org.antlr.jetbrains.st4plugin.parsing;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonToken;
+import org.antlr.v4.runtime.CommonTokenFactory;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.TokenFactory;
 import org.antlr.v4.runtime.TokenSource;
+import org.antlr.v4.runtime.misc.Pair;
 import org.stringtemplate.v4.compiler.STParser;
 
 import java.util.ArrayList;
@@ -139,6 +141,8 @@ public class STLexer implements TokenSource {
 
     protected List<Token> errorTokens = new ArrayList<Token>();
 
+	TokenFactory tokenFactory = new CommonTokenFactory();
+
 	public STLexer(String input) { this(new ANTLR3StringStream(input), null, '<', '>'); }
 
     public STLexer(String input, Token templateToken) {
@@ -169,22 +173,22 @@ public class STLexer implements TokenSource {
 
 	@Override
 	public CharStream getInputStream() {
-		return null;
+		return input;
 	}
 
 	@Override
 	public void setTokenFactory(TokenFactory<?> tokenFactory) {
-
+		this.tokenFactory = tokenFactory;
 	}
 
 	@Override
 	public TokenFactory<?> getTokenFactory() {
-		return null;
+		return tokenFactory;
 	}
 
 	public void lexerError(int start, int stop) {
 		System.err.println("lexerError "+start+".."+stop);
-        CommonToken t = newToken(ERROR_TYPE);
+        CommonToken t = (CommonToken)newToken(ERROR_TYPE);
         t.setStartIndex(start);
    	    t.setStopIndex(stop);
         errorTokens.add(t);
@@ -546,45 +550,42 @@ public class STLexer implements TokenSource {
     public static boolean isWS(int c) { return c==' ' || c=='\t' || c=='\n' || c=='\r'; }
     public static boolean isUnicodeLetter(int c) { return c>='a'&&c<='f' || c>='A'&&c<='F' || c>='0'&&c<='9'; }
 
-    public CommonToken newToken(int ttype) {
-        CommonToken t = new CommonToken(ttype, input.substring(startCharIndex, input.index()-1));
-	    t.setStartIndex(startCharIndex);
-	    t.setStopIndex(input.index()-1);
-	    t.setLine(startLine);
-        t.setCharPositionInLine(startCharPositionInLine);
-		return t;
+    public int getChannel(int ttype) {
+        switch ( ttype ) {
+            case NEWLINE :
+            case COMMENT :
+                return Token.HIDDEN_CHANNEL;
+	        default :
+		        return Token.DEFAULT_CHANNEL;
+        }
+    }
+
+    public Token newToken(int ttype) {
+	    String text = input.substring(startCharIndex, input.index()-1);
+	    return newToken(ttype, text, startCharIndex, input.index()-1, startLine, startCharPositionInLine);
 	}
 
-    public CommonToken newTokenFromPreviousChar(int ttype) {
-        CommonToken t = new CommonToken(ttype, input.substring(input.index()-1, input.index()-1));
-	    t.setStartIndex(input.index()-1);
-	    t.setStopIndex(input.index()-1);
-        t.setLine(input.getLine());
-        t.setCharPositionInLine(input.getCharPositionInLine()-1);
-        return t;
+    public Token newTokenFromPreviousChar(int ttype) {
+	    String text = input.substring(input.index()-1, input.index()-1);
+	    return newToken(ttype, text, input.index()-1, input.index()-1, input.getLine(), input.getCharPositionInLine()-1);
     }
 
-    public CommonToken newToken(int ttype, String text, int pos) {
-        CommonToken t = new CommonToken(ttype, text);
-		t.setStartIndex(startCharIndex);
-		t.setStopIndex(input.index()-1);
-        t.setLine(input.getLine());
-        t.setCharPositionInLine(pos);
-        return t;
+    public Token newToken(int ttype, String text, int pos) {
+	    return newToken(ttype, text, startCharIndex, input.index()-1, input.getLine(), pos);
     }
 
-	public CommonToken newToken(int ttype, String text) {
-        CommonToken t = new CommonToken(ttype, text);
-        t.setStartIndex(startCharIndex);
-        t.setStopIndex(input.index()-1);
-		t.setLine(startLine);
-		t.setCharPositionInLine(startCharPositionInLine);
-		return t;
+	public Token newToken(int ttype, String text) {
+		return newToken(ttype, text, startCharIndex, input.index()-1, startLine, startCharPositionInLine);
 	}
 
-    public List<Token> getErrorTokens() {
-        return errorTokens;
-    }
+	public Token newToken(int ttype, String text, int start, int stop, int line, int charPosInLine) {
+		Pair<TokenSource, CharStream> source = new Pair<TokenSource, CharStream>(this, input);
+		return tokenFactory.create(source, ttype, text, getChannel(ttype), start, stop, line, charPosInLine);
+	}
+
+	public List<Token> getErrorTokens() {
+		return errorTokens;
+	}
 
     @Override
     public String getSourceName() {

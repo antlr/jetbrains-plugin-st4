@@ -12,8 +12,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class STGroupSyntaxHighlighter extends SyntaxHighlighter {
-	public STGroupSyntaxHighlighter(Editor editor) {
-		super(editor);
+	public STGroupSyntaxHighlighter(Editor editor, int startIndex) {
+		super(editor, startIndex);
 	}
 
 	@NotNull
@@ -57,7 +57,7 @@ public class STGroupSyntaxHighlighter extends SyntaxHighlighter {
 
 	@Override
 	public void highlightEmbedded(Token t) {
-		STSyntaxHighlighter templateHighlighter = new STSyntaxHighlighter(getEditor());
+		STSyntaxHighlighter templateHighlighter = null;
 		int startOfEmbeddedToken = t.getStartIndex();
 		if ( t.getType()==STGLexer.STRING ||
 			 t.getType()==STGLexer.ANON_TEMPLATE )
@@ -66,7 +66,8 @@ public class STGroupSyntaxHighlighter extends SyntaxHighlighter {
 			String text = t.getText();
 			text = text.substring(1, text.length()-1);
 			startOfEmbeddedToken++;
-			templateHighlighter.highlight(text, startOfEmbeddedToken, t.getStopIndex()-1);
+			templateHighlighter = new STSyntaxHighlighter(getEditor(),startOfEmbeddedToken);
+			templateHighlighter.highlight(text, startOfEmbeddedToken);
 		}
 		else if ( t.getType()==STGLexer.BIGSTRING ||
 			 t.getType()==STGLexer.BIGSTRING_NO_NL )
@@ -75,7 +76,8 @@ public class STGroupSyntaxHighlighter extends SyntaxHighlighter {
 			String text = t.getText();
 			text = text.substring(2, text.length()-2);
 			startOfEmbeddedToken += 2;
-			templateHighlighter.highlight(text, startOfEmbeddedToken, t.getStopIndex()-2);
+			templateHighlighter = new STSyntaxHighlighter(getEditor(),startOfEmbeddedToken);
+			templateHighlighter.highlight(text, startOfEmbeddedToken);
 		}
 		// do error tokens
 		for (Token err : templateHighlighter.lexer.getErrorTokens()) {

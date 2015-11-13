@@ -11,20 +11,22 @@ import com.intellij.openapi.editor.markup.RangeHighlighter;
 import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.openapi.util.Key;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class SyntaxHighlighter {
-//	public static final Key<Token> HIGHLIGHT_CATEGORY_KEY = Key.create("HIGHLIGHT_LAYER_KEY");
 	public static final TextAttributesKey[] NO_ATTR =
 		new TextAttributesKey[] {TextAttributesKey.createTextAttributesKey("NO_ATTR")};
 
 	final EditorColorsManager editorColorsManager = EditorColorsManager.getInstance();
 
 	protected Editor editor;
+	protected int startIndex;
 
-	public SyntaxHighlighter(Editor editor) {
+	public SyntaxHighlighter(Editor editor, int startIndex) {
 		this.editor = editor;
+		this.startIndex = startIndex;
 	}
 
 	/** Return a stream of Tokens covering all input characters in text. If your
@@ -33,6 +35,14 @@ public abstract class SyntaxHighlighter {
 	 */
 	@NotNull
 	public abstract CommonTokenStream tokenize(String text);
+
+	public void highlightEmbedded(Token t) {
+	}
+
+	public ParserRuleContext parse(CommonTokenStream tokens) { return null; }
+
+	public void parseEmbedded(Token t) {
+	}
 
 	/** Override this if you want to do some simple context-sensitive
 	 *  highlighting. For general case, a real parser should be used.
@@ -52,33 +62,19 @@ public abstract class SyntaxHighlighter {
 
 	public boolean isEmbeddedLanguageToken(int tokenType) { return false; }
 
-	/** We tag highlighters with a key so we can remove all of them
-	 *  before colorizing again.  Ignore this if you only have one
-	 *  layer of highlighting.  E.g., StringTemplate has group files
-	 *  and then syntax within each template that must be highlighted
-	 *  differently.
-	 */
-//	@NotNull
-//	public Key<Token> getHighlightCategoryKey() {
-//		return HIGHLIGHT_CATEGORY_KEY;
-//	}
-
-	public void highlightEmbedded(Token t) {
-	}
-
 	public void highlight() {
 		MarkupModel markupModel = getEditor().getMarkupModel();
 		markupModel.removeAllHighlighters();
 
 		String text = getEditor().getDocument().getText();
-		highlight(text, 0, text.length()-1);
+		highlight(text, 0);
 	}
 
 	/** Highlight tokens in editor and assume all token char indexes
-	 *  are relative to start and <= stop (inclusive). This is useful for embedded
+	 *  are relative to start. This is useful for embedded
 	 *  languages.
 	 */
-	public void highlight(String text, int start, int stop) {
+	public void highlight(String text, int start) {
 		CommonTokenStream tokens = tokenize(text);
 //		System.out.println(tokens.getTokens());
 		for (int i=0; i<tokens.size(); i++) {
@@ -92,6 +88,9 @@ public abstract class SyntaxHighlighter {
 				}
 			}
 		}
+
+		ParserRuleContext tree = parse(tokens);
+		highlightTree(tree, tokens);
 	}
 
 	protected void highlightToken(Token t, int start) {
@@ -110,6 +109,9 @@ public abstract class SyntaxHighlighter {
 					HighlighterTargetArea.EXACT_RANGE);
 //			h.putUserData(getHighlightCategoryKey(), t);
 		}
+	}
+
+	protected void highlightTree(ParserRuleContext tree, CommonTokenStream tokens) {
 	}
 
 	public Editor getEditor() {
