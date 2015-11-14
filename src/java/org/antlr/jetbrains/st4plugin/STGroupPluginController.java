@@ -90,7 +90,7 @@ public class STGroupPluginController implements ProjectComponent {
 
 
 	public void installListeners() {
-		LOG.info("installListeners "+project.getName());
+		LOG.info("installListeners " + project.getName());
 		// Listen for .stg file saves
 		VirtualFileManager.getInstance().addVirtualFileListener(myVirtualFileListener);
 
@@ -115,12 +115,14 @@ public class STGroupPluginController implements ProjectComponent {
 	// editor listeners events.
 	public void uninstallListeners() {
 		VirtualFileManager.getInstance().removeVirtualFileListener(myVirtualFileListener);
-		MessageBusConnection msgBus = project.getMessageBus().connect(project);
-		msgBus.disconnect();
+		if ( !projectIsClosed ) {
+			MessageBusConnection msgBus = project.getMessageBus().connect(project);
+			msgBus.disconnect();
+		}
 	}
 
 	public void fileSavedEvent(VirtualFile file) {
-		LOG.info("fileSavedEvent "+(file!=null?file.getPath():"none")+" "+project.getName());
+		LOG.info("fileSavedEvent " + (file != null ? file.getPath() : "none") + " " + project.getName());
 	}
 
 	public void currentEditorFileSwitchedEvent(VirtualFile oldFile, VirtualFile newFile) {
@@ -130,8 +132,10 @@ public class STGroupPluginController implements ProjectComponent {
 			return;
 		}
 
-		Document doc = FileDocumentManager.getInstance().getDocument(newFile);
-		syntaxHighlightDocument(doc);
+		if ( newFile.getName().endsWith(".stg") ) {
+			Document doc = FileDocumentManager.getInstance().getDocument(newFile);
+			syntaxHighlightDocument(doc);
+		}
 	}
 
 	public void editorDocumentAlteredEvent(Document doc) {
@@ -143,7 +147,7 @@ public class STGroupPluginController implements ProjectComponent {
 		if ( editor==null ) return;
 
 		// First do outer STGroup level tokenization
-		STGroupSyntaxHighlighter groupHighlighter = new STGroupSyntaxHighlighter(editor,0);
+		XSTGroupSyntaxHighlighter groupHighlighter = new XSTGroupSyntaxHighlighter(editor,0);
 		groupHighlighter.highlight();
 	}
 

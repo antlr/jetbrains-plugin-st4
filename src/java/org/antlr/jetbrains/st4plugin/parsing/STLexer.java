@@ -31,12 +31,16 @@
 package org.antlr.jetbrains.st4plugin.parsing;
 
 
+import org.antlr.v4.runtime.ANTLRErrorListener;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonToken;
 import org.antlr.v4.runtime.CommonTokenFactory;
+import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.TokenFactory;
 import org.antlr.v4.runtime.TokenSource;
+import org.antlr.v4.runtime.atn.ATN;
+import org.antlr.v4.runtime.misc.Interval;
 import org.antlr.v4.runtime.misc.Pair;
 import org.stringtemplate.v4.compiler.STParser;
 
@@ -58,14 +62,14 @@ import java.util.List;
  * {@code STParser.g} via {@code STLexer.tokens} file (which must remain
  * consistent).</p>
  */
-public class STLexer implements TokenSource {
+public class STLexer extends Lexer {
     public static final int EOF = -1;              // EOF char
     public static final int EOF_TYPE = Token.EOF;  // EOF token type
     public static final int ERROR_TYPE = 99999999;
 
     public static final Token SKIP = new CommonToken(-1, "<skip>");
 
-    // must follow STLexer.tokens file that STParser.g loads
+    // !!! must follow STLexer.tokens file that STParser.g loads !!!
     public static final int RBRACK=17;
     public static final int LBRACK=16;
     public static final int ELSE=5;
@@ -139,9 +143,7 @@ public class STLexer implements TokenSource {
      */
     protected List<Token> tokens = new ArrayList<Token>();
 
-    protected List<Token> errorTokens = new ArrayList<Token>();
-
-	TokenFactory tokenFactory = new CommonTokenFactory();
+	protected TokenFactory tokenFactory = new CommonTokenFactory();
 
 	public STLexer(String input) { this(new ANTLR3StringStream(input), null, '<', '>'); }
 
@@ -154,7 +156,8 @@ public class STLexer implements TokenSource {
 				   char delimiterStartChar,
 				   char delimiterStopChar)
 	{
-		this.input = input;
+		this.input = input; // set local specialized input for use in this subclass
+		setInputStream(input);
 		c = input.LA(1); // prime lookahead
 		this.templateToken = templateToken;
 		this.delimiterStartChar = delimiterStartChar;
@@ -162,13 +165,18 @@ public class STLexer implements TokenSource {
 	}
 
 	@Override
+	public void reset() {
+		// don't use this; just to prevent errors when treated as a proper ANTLR lexer
+	}
+
+	@Override
 	public int getCharPositionInLine() {
-		return 0;
+		return input.getCharPositionInLine();
 	}
 
 	@Override
 	public int getLine() {
-		return 0;
+		return input.getLine();
 	}
 
 	@Override
@@ -187,11 +195,12 @@ public class STLexer implements TokenSource {
 	}
 
 	public void lexerError(int start, int stop) {
-		System.err.println("lexerError "+start+".."+stop);
-        CommonToken t = (CommonToken)newToken(ERROR_TYPE);
-        t.setStartIndex(start);
-   	    t.setStopIndex(stop);
-        errorTokens.add(t);
+		System.err.println("ST lexerError " + start + ".." + stop);
+		ANTLRErrorListener listener = getErrorListenerDispatch();
+		final String text = input.getText(Interval.of(start, stop));
+		final Token t = newToken(Token.INVALID_TYPE, text, start, stop, getLine(), getCharPositionInLine());
+		listener.syntaxError(this, t, getLine(), getCharPositionInLine(),
+							 "Bad char or token error in template: "+ text, null);
 	}
 
 	@Override
@@ -554,6 +563,7 @@ public class STLexer implements TokenSource {
         switch ( ttype ) {
             case NEWLINE :
             case COMMENT :
+            case INDENT :
                 return Token.HIDDEN_CHANNEL;
 	        default :
 		        return Token.DEFAULT_CHANNEL;
@@ -583,10 +593,6 @@ public class STLexer implements TokenSource {
 		return tokenFactory.create(source, ttype, text, getChannel(ttype), start, stop, line, charPosInLine);
 	}
 
-	public List<Token> getErrorTokens() {
-		return errorTokens;
-	}
-
     @Override
     public String getSourceName() {
         return "no idea";
@@ -596,4 +602,20 @@ public class STLexer implements TokenSource {
 		if ( c==EOF ) return "<EOF>";
 		return String.valueOf((char)c);
 	}
+
+    // Satisfy Lexer interface to hook into syntax highlighter
+    @Override
+    public ATN getATN() {
+        return null;
+    }
+
+    @Override
+    public String[] getRuleNames() {
+        return new String[0];
+    }
+
+    @Override
+    public String getGrammarFileName() {
+        return "STLexer";
+    }
 }

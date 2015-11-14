@@ -50,8 +50,6 @@ TMPL_COMMENT		: LBang .? RBang	-> channel(HIDDEN)	;
 
 WS					: [ \r\n\t]+		-> channel(HIDDEN)	;
 
-ID        			: NameStartChar NameChar* ;
-
 STRING				: DQuoteLiteral			;
 BIGSTRING 			: LDAngle .*? RDAngle	;
 BIGSTRING_NO_NL		: LPct .*?	RPct		;
@@ -99,6 +97,10 @@ GROUP		: 'group'		;	// not used by parser?
 WRAP		: 'wrap'		;
 ANCHOR		: 'anchor'		;
 SEPARATOR	: 'separator'	;
+
+ID        			: NameStartChar NameChar* ;
+
+JUNK : '#@W#$@#$#@(*&$@#' ; // define to over come https://github.com/antlr/antlr4/issues/1042
 
 
 // -----------------------------------

@@ -3,7 +3,9 @@ package org.antlr.jetbrains.st4plugin;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
+import org.antlr.jetbrains.st4plugin.parsing.LexerErrorListener;
 import org.antlr.jetbrains.st4plugin.parsing.STGLexer;
+import org.antlr.v4.runtime.ANTLRErrorListener;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Token;
@@ -21,6 +23,9 @@ public class STGroupSyntaxHighlighter extends SyntaxHighlighter {
 	public CommonTokenStream tokenize(String text) {
 		ANTLRInputStream input = new ANTLRInputStream(text);
 		STGLexer lexer = new STGLexer(input);
+		lexer.removeErrorListeners();
+		ANTLRErrorListener listener = new LexerErrorListener();
+		lexer.addErrorListener(listener);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		tokens.fill();
 		return tokens;
@@ -80,10 +85,10 @@ public class STGroupSyntaxHighlighter extends SyntaxHighlighter {
 			templateHighlighter.highlight(text, startOfEmbeddedToken);
 		}
 		// do error tokens
-		for (Token err : templateHighlighter.lexer.getErrorTokens()) {
-			System.out.println(err);
-			templateHighlighter.highlightToken(err, startOfEmbeddedToken);
-		}
+//		for (Token err : templateHighlighter.lexer.getErrorTokens()) {
+//			System.out.println(err);
+//			templateHighlighter.highlightToken(err, startOfEmbeddedToken);
+//		}
 	}
 
 	@NotNull

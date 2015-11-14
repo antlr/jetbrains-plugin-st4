@@ -14,7 +14,8 @@ import com.intellij.openapi.editor.markup.MarkupModel;
 import com.intellij.openapi.editor.markup.RangeHighlighter;
 import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.ui.JBColor;
-import org.antlr.jetbrains.st4plugin.parsing.MyParserErrorListener;
+import org.antlr.jetbrains.st4plugin.parsing.Issue;
+import org.antlr.jetbrains.st4plugin.parsing.LexerErrorListener;
 import org.antlr.jetbrains.st4plugin.parsing.STLexer;
 import org.antlr.jetbrains.st4plugin.parsing.STParser;
 import org.antlr.v4.runtime.CommonToken;
@@ -65,12 +66,12 @@ public class STSyntaxHighlighter extends SyntaxHighlighter {
 
 	@Override
 	public ParserRuleContext parse(CommonTokenStream tokens) {
-		MyParserErrorListener errorListener = new MyParserErrorListener();
+		LexerErrorListener errorListener = new LexerErrorListener();
 		STParser parser = new STParser(tokens);
 		parser.removeErrorListeners();
 		parser.addErrorListener(errorListener);
 		ParserRuleContext tree = parser.template();
-		for (MyParserErrorListener.Issue I : errorListener.issues) {
+		for (Issue I : errorListener.issues) {
 			syntaxError(I.annotation, I.offendingToken);
 		}
 		return tree;
