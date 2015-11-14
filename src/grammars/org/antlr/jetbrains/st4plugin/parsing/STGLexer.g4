@@ -100,7 +100,7 @@ SEPARATOR	: 'separator'	;
 
 ID        			: NameStartChar NameChar* ;
 
-JUNK : '#@W#$@#$#@(*&$@#' ; // define to over come https://github.com/antlr/antlr4/issues/1042
+JUNK : '#@W#$@#$#@(*&$@#' ; // define to overcome https://github.com/antlr/antlr4/issues/1042
 
 
 // -----------------------------------

@@ -41,7 +41,6 @@
 
   <extensions defaultExtensionNs="com.intellij">
       <fileTypeFactory implementation="org.antlr.jetbrains.st4plugin.STGroupFileTypeFactory"/>
-      <lang.psiStructureViewFactory language="STGroup" 
-                                    implementationClass="org.antlr.jetbrains.st4plugin.structview.STGroupStructureViewFactory"/>
+      <structureViewBuilder factoryClass="org.antlr.jetbrains.st4plugin.structview.STGroupStructureViewBuilderProvider"/>
   </extensions>
 </idea-plugin>
