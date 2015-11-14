@@ -1,22 +1,20 @@
 <idea-plugin version="2">
   <id>org.antlr.jetbrains.st4plugin</id>
   <name>StringTemplate v4 plugin</name>
-  <version>0.1</version>
+  <version>0.2</version>
   <vendor email="parrt@antlr.org" url="https://github.com/antlr/jetbrains-plugin-st4">ANTLR Project</vendor>
 
   <description><![CDATA[
   <p>
-      This plugin is for StringTemplate v4 It works with Intellij 13.x-15.
+      This plugin is for StringTemplate v4 .stg files. It works with Intellij 13.x-15.
       It should work in other Jetbrains IDEs.
-                I have tested in PyCharm 4.5 and CLion 1.2.
      </p>
 
 <p>
 <a href="https://github.com/antlr/jetbrains-plugin-st4">Github source</a>
   ]]></description>
 
-  <change-notes><![CDATA[
-        ]]>
+  <change-notes><![CDATA[Added structure view.]]>
   </change-notes>
 
   <!-- please see http://confluence.jetbrains.net/display/IDEADEV/Build+Number+Ranges for description -->
