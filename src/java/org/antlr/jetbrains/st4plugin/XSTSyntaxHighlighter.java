@@ -1,12 +1,15 @@
-package org.antlr.jetbrains.st4plugin.parsing;
+package org.antlr.jetbrains.st4plugin;
 
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.HighlighterColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.ui.JBColor;
-import org.antlr.jetbrains.st4plugin.SyntaxHighlighter;
 import org.antlr.jetbrains.st4plugin.XSyntaxHighlighter;
+import org.antlr.jetbrains.st4plugin.parsing.ParserErrorListener;
+import org.antlr.jetbrains.st4plugin.parsing.ParsingResult;
+import org.antlr.jetbrains.st4plugin.parsing.STLexer;
+import org.antlr.jetbrains.st4plugin.parsing.STParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Lexer;

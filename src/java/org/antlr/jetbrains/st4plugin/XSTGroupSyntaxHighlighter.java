@@ -1,27 +1,21 @@
 package org.antlr.jetbrains.st4plugin;
 
-import com.intellij.ide.JavaLanguageCodeStyleSettingsProvider;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.HighlighterColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.ui.JBColor;
-import org.antlr.jetbrains.st4plugin.parsing.LexerErrorListener;
 import org.antlr.jetbrains.st4plugin.parsing.ParserErrorListener;
 import org.antlr.jetbrains.st4plugin.parsing.ParsingResult;
 import org.antlr.jetbrains.st4plugin.parsing.STGLexer;
 import org.antlr.jetbrains.st4plugin.parsing.STGParser;
-import org.antlr.jetbrains.st4plugin.parsing.STParser;
-import org.antlr.jetbrains.st4plugin.parsing.XSTSyntaxHighlighter;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
-import org.antlr.v4.runtime.TokenSource;
 import org.antlr.v4.runtime.tree.ErrorNode;
-import org.antlr.v4.runtime.tree.ErrorNodeImpl;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.antlr.v4.runtime.tree.xpath.XPath;
