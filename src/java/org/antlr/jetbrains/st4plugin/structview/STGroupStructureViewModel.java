@@ -53,6 +53,11 @@ public class STGroupStructureViewModel implements StructureViewModel {
 		}
 	}
 
+	/** force rebuild; see {@link #getRoot()} */
+	public void invalidate() {
+		parseTree = null;
+	}
+
 	@Override
 	public void addEditorPositionListener(@NotNull FileEditorPositionListener listener) {
 	}
@@ -77,6 +82,9 @@ public class STGroupStructureViewModel implements StructureViewModel {
 		listeners.remove(modelListener);
 	}
 
+	/** If parseTree==null, this will return a StructureViewTreeElement with
+	 * getValue()==null, which forces rebuild in {@link com.intellij.ide.impl.StructureViewWrapperImpl#rebuild()}
+	 */
 	@NotNull
 	@Override
 	public StructureViewTreeElement getRoot() {

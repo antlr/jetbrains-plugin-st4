@@ -1,10 +1,7 @@
 package org.antlr.jetbrains.st4plugin;
 
-import com.intellij.ide.impl.StructureViewWrapperImpl;
 import com.intellij.ide.plugins.IdeaPluginDescriptor;
 import com.intellij.ide.plugins.PluginManager;
-import com.intellij.ide.structureView.StructureViewFactoryEx;
-import com.intellij.ide.structureView.StructureViewWrapper;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.diagnostic.Logger;
@@ -34,8 +31,6 @@ import org.antlr.jetbrains.st4plugin.structview.STGroupStructureViewModel;
 import org.jetbrains.annotations.NotNull;
 
 public class STGroupPluginController implements ProjectComponent {
-	public static final int DELAY_BEFORE_STRUCTVIEW_REFRESH = 3000;
-
 	public static final String PLUGIN_ID = "org.antlr.jetbrains.st4plugin";
 	public static final Logger LOG = Logger.getInstance("STGroupPluginController");
 	public static final Key<STGroupFileEditorListener> EDITOR_DOCUMENT_LISTENER_KEY =
@@ -185,33 +180,12 @@ public class STGroupPluginController implements ProjectComponent {
 		return editors[0]; // hope just one
 	}
 
-//	boolean structureViewRebuildRequested = false;
-	long structureViewRebuildStarted = 0;
-
+	/** Invalidate tree upon doc change */
 	public void registerStructureViewModel(final Editor editor, final STGroupStructureViewModel model) {
-//		System.out.println("\nregisterStructureViewModel");
 		final Document doc = editor.getDocument();
 		final DocumentListener listener = new DocumentAdapter() {
 			@Override
-			public void documentChanged(DocumentEvent e) {
-//				System.out.println("TRUCTVIEW_LISTENER triggered");
-				final StructureViewWrapper viewWrapper =
-					StructureViewFactoryEx.getInstanceEx(project).getStructureViewWrapper();
-				if ( viewWrapper instanceof StructureViewWrapperImpl ) {
-					long now = System.currentTimeMillis();
-					if ( now-structureViewRebuildStarted >= DELAY_BEFORE_STRUCTVIEW_REFRESH ) {
-						// done on GUI thread so access should be serialized
-						structureViewRebuildStarted = now;
-						ApplicationManager.getApplication().invokeLater(
-							new Runnable() {
-								@Override
-								public void run() {
-									((StructureViewWrapperImpl) viewWrapper).rebuild();
-								}
-							});
-					}
-				}
-			}
+			public void documentChanged(DocumentEvent e) { model.invalidate(); }
 		};
 		DocumentListener oldListener = doc.getUserData(EDITOR_STRUCTVIEW_LISTENER_KEY);
 		if ( oldListener!=null ) {
