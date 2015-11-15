@@ -34,6 +34,8 @@ import org.antlr.jetbrains.st4plugin.structview.STGroupStructureViewModel;
 import org.jetbrains.annotations.NotNull;
 
 public class STGroupPluginController implements ProjectComponent {
+	public static final int DELAY_BEFORE_STRUCTVIEW_REFRESH = 3000;
+
 	public static final String PLUGIN_ID = "org.antlr.jetbrains.st4plugin";
 	public static final Logger LOG = Logger.getInstance("STGroupPluginController");
 	public static final Key<STGroupFileEditorListener> EDITOR_DOCUMENT_LISTENER_KEY =
@@ -187,18 +189,17 @@ public class STGroupPluginController implements ProjectComponent {
 	long structureViewRebuildStarted = 0;
 
 	public void registerStructureViewModel(final Editor editor, final STGroupStructureViewModel model) {
-		System.out.println("\nregisterStructureViewModel");
+//		System.out.println("\nregisterStructureViewModel");
 		final Document doc = editor.getDocument();
 		final DocumentListener listener = new DocumentAdapter() {
 			@Override
 			public void documentChanged(DocumentEvent e) {
-				System.out.println("TRUCTVIEW_LISTENER triggered");
+//				System.out.println("TRUCTVIEW_LISTENER triggered");
 				final StructureViewWrapper viewWrapper =
 					StructureViewFactoryEx.getInstanceEx(project).getStructureViewWrapper();
 				if ( viewWrapper instanceof StructureViewWrapperImpl ) {
 					long now = System.currentTimeMillis();
-					if ( now-structureViewRebuildStarted >= 2000 ) {
-						System.out.println("too long");
+					if ( now-structureViewRebuildStarted >= DELAY_BEFORE_STRUCTVIEW_REFRESH ) {
 						// done on GUI thread so access should be serialized
 						structureViewRebuildStarted = now;
 						ApplicationManager.getApplication().invokeLater(

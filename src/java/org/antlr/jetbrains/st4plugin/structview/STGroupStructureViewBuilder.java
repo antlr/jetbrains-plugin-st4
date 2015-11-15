@@ -23,7 +23,6 @@ public class STGroupStructureViewBuilder extends TreeBasedStructureViewBuilder {
 	@Override
 	public StructureViewModel createStructureViewModel(final Editor editor) {
 		final STGroupStructureViewModel model = new STGroupStructureViewModel(editor, file);
-		System.out.println("new StructureViewModel");
 		STGroupPluginController controller = STGroupPluginController.getInstance(project);
 		if ( controller!=null ) {
 			controller.registerStructureViewModel(editor, model);

@@ -39,7 +39,7 @@ public class STGroupStructureViewModel implements StructureViewModel {
 	public void setTreeFromText(String text) {
 		final ANTLRInputStream input;
 		try {
-			System.out.println("structview parse "+text.substring(0,5)+"...");
+//			System.out.println("structview parse "+text.substring(0,5)+"...");
 			input = new ANTLRInputStream(new StringReader(text));
 			final STGLexer lexer = new STGLexer(input);
 			lexer.removeErrorListeners(); // do your best to get a tree despite errors
