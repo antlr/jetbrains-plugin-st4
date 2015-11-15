@@ -5,6 +5,7 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.HighlighterColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.editor.markup.TextAttributes;
+import com.intellij.ui.JBColor;
 import org.antlr.jetbrains.st4plugin.parsing.ParserErrorListener;
 import org.antlr.jetbrains.st4plugin.parsing.ParsingResult;
 import org.antlr.jetbrains.st4plugin.parsing.STGLexer;
@@ -33,7 +34,7 @@ public class XSTGroupSyntaxHighlighter extends XSyntaxHighlighter {
 	static {
 		TEMPLATE_NAME = createTextAttributesKey("TEMPLATE_NAME", DefaultLanguageHighlighterColors.INSTANCE_METHOD);
 		TextAttributes attr = TEMPLATE_NAME.getDefaultAttributes().clone();
-//		attr.setForegroundColor(new JBColor(0x808000, 0xFFFFFF));
+		attr.setForegroundColor(new JBColor(0x808000, 0xFFFFFF));
 	}
 
 	public XSTGroupSyntaxHighlighter(Editor editor, int startIndex) {
