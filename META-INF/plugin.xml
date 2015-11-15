@@ -1,7 +1,7 @@
 <idea-plugin version="2">
   <id>org.antlr.jetbrains.st4plugin</id>
   <name>StringTemplate v4 plugin</name>
-  <version>0.3</version>
+  <version>0.4</version>
   <vendor email="parrt@antlr.org" url="https://github.com/antlr/jetbrains-plugin-st4">ANTLR Project</vendor>
 
   <description><![CDATA[
@@ -14,7 +14,9 @@
 <a href="https://github.com/antlr/jetbrains-plugin-st4">Github source</a>
   ]]></description>
 
-  <change-notes><![CDATA[Added navigation from stucture view]]>
+  <change-notes><![CDATA[
+  Ugh. finally got color scheme right.
+  ]]>
   </change-notes>
 
   <!-- please see http://confluence.jetbrains.net/display/IDEADEV/Build+Number+Ranges for description -->
@@ -40,5 +42,6 @@
   <extensions defaultExtensionNs="com.intellij">
       <fileTypeFactory implementation="org.antlr.jetbrains.st4plugin.STGroupFileTypeFactory"/>
       <structureViewBuilder factoryClass="org.antlr.jetbrains.st4plugin.structview.STGroupStructureViewBuilderProvider"/>
+      <additionalTextAttributes scheme="Default" file="colorSchemes/STGroupDefault.xml"/>
   </extensions>
 </idea-plugin>

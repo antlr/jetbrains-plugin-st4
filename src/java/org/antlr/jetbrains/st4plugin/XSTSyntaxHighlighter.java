@@ -4,13 +4,10 @@ import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.HighlighterColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
-import com.intellij.ui.JBColor;
-import org.antlr.jetbrains.st4plugin.XSyntaxHighlighter;
 import org.antlr.jetbrains.st4plugin.parsing.ParserErrorListener;
 import org.antlr.jetbrains.st4plugin.parsing.ParsingResult;
 import org.antlr.jetbrains.st4plugin.parsing.STLexer;
 import org.antlr.jetbrains.st4plugin.parsing.STParser;
-import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.Parser;
@@ -21,8 +18,6 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import org.antlr.v4.runtime.tree.xpath.XPath;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
-import java.io.StringReader;
 import java.util.Collection;
 
 import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
@@ -30,9 +25,6 @@ import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAtt
 public class XSTSyntaxHighlighter extends XSyntaxHighlighter {
 	public static final TextAttributesKey TEMPLATE_TEXT =
 		createTextAttributesKey("TEMPLATE_TEXT", DefaultLanguageHighlighterColors.TEMPLATE_LANGUAGE_COLOR);
-	static {
-		TEMPLATE_TEXT.getDefaultAttributes().setForegroundColor(JBColor.gray);
-	}
 
 	public XSTSyntaxHighlighter(Editor editor, int startIndex) {
 		super(editor, startIndex);

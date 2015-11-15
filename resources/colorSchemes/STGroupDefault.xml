@@ -1,0 +1,13 @@
+<?xml version='1.0'?>
+<list>
+	<option name="TEMPLATE_NAME">
+   <value>
+     <option name="FOREGROUND" value="808000"/>
+   </value>
+ </option>
+	<option name="TEMPLATE_TEXT">
+   <value>
+     <option name="FOREGROUND" value="808080"/>
+   </value>
+ </option>
+</list>
