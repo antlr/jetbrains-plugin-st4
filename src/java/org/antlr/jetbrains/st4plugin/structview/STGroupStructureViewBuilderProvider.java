@@ -17,7 +17,8 @@ public class STGroupStructureViewBuilderProvider implements StructureViewBuilder
 	                                                    @NotNull Project project)
 	{
 		if ( fileType instanceof STGroupFileType ) {
-			return new STGroupStructureViewBuilder(file, project);
+			STGroupStructureViewBuilder builder = new STGroupStructureViewBuilder(file, project);
+			return builder;
 		}
 		return null;
 	}

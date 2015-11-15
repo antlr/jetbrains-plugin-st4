@@ -13,41 +13,44 @@ import org.antlr.jetbrains.st4plugin.parsing.STGLexer;
 import org.antlr.jetbrains.st4plugin.parsing.STGParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class STGroupStructureViewModel implements StructureViewModel {
 	protected Editor editor;
 	protected VirtualFile file;
 	protected ParseTree parseTree;
+	protected List<ModelListener> listeners =
+		Collections.synchronizedList(new ArrayList<ModelListener>());
 
 	public STGroupStructureViewModel(Editor editor, VirtualFile file) {
 		this.editor = editor;
 		this.file = file;
-		this.parseTree = createTree(editor.getDocument().getText());
+		setTreeFromText(editor.getDocument().getText());
 	}
 
-	public ParserRuleContext createTree(String text) {
+	public void setTreeFromText(String text) {
 		final ANTLRInputStream input;
 		try {
-//			System.out.println("structview parse "+text.substring(0,5)+"...");
+			System.out.println("structview parse "+text.substring(0,5)+"...");
 			input = new ANTLRInputStream(new StringReader(text));
 			final STGLexer lexer = new STGLexer(input);
 			lexer.removeErrorListeners(); // do your best to get a tree despite errors
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			STGParser parser = new STGParser(tokens);
 			parser.removeErrorListeners();
-			return parser.group();
+			this.parseTree = parser.group();
 		}
 		catch (IOException ioe) {
 			System.err.println("huh? can't happen");
 		}
-		return null;
 	}
 
 	@Override
@@ -62,17 +65,16 @@ public class STGroupStructureViewModel implements StructureViewModel {
 
 	@Override
 	public void removeEditorPositionListener(@NotNull FileEditorPositionListener listener) {
-
 	}
 
 	@Override
 	public void addModelListener(@NotNull ModelListener modelListener) {
-
+		listeners.add(modelListener);
 	}
 
 	@Override
 	public void removeModelListener(@NotNull ModelListener modelListener) {
-
+		listeners.remove(modelListener);
 	}
 
 	@NotNull

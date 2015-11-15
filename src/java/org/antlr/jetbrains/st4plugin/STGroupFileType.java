@@ -13,6 +13,8 @@ public class STGroupFileType extends LanguageFileType {
 		super(STGroupLanguage.INSTANCE);
 	}
 
+
+
 	@NotNull
 	@Override
 	public String getName() {
