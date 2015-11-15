@@ -35,7 +35,7 @@ public class STGroupRootStructureViewTreeElement extends STGroupStructureViewTre
 		List<TreeElement> treeElements = new ArrayList<TreeElement>(rules.size());
 		for (ParseTree t : rules) {
 			ParseTree nameNode = t.getChild(0);
-			treeElements.add(new STGroupStructureViewTreeElement(nameNode));
+			treeElements.add(new STGroupTemplateDefTreeElement(nameNode));
 		}
 //		System.out.println("rules="+rules);
 		return treeElements.toArray(new TreeElement[treeElements.size()]);

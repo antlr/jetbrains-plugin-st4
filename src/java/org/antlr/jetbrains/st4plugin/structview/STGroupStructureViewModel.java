@@ -49,12 +49,6 @@ public class STGroupStructureViewModel extends TextEditorBasedStructureViewModel
 		parseTree = null;
 	}
 
-	@NotNull
-	@Override
-	protected Class[] getSuitableClasses() {
-		return super.getSuitableClasses();
-	}
-
 	/** If parseTree==null, this will return a StructureViewTreeElement with
 	 * getValue()==null, which forces rebuild in {@link com.intellij.ide.impl.StructureViewWrapperImpl#rebuild()}
 	 */

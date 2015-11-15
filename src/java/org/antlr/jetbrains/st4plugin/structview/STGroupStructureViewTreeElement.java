@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 
-public class STGroupStructureViewTreeElement
+public abstract class STGroupStructureViewTreeElement
 	implements StructureViewTreeElement, ItemPresentation, SortableTreeElement
 {
 	protected ParseTree node;
