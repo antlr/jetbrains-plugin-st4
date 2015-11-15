@@ -69,12 +69,6 @@ public abstract class STGroupStructureViewTreeElement
 
 	@NotNull
 	@Override
-	public ItemPresentation getPresentation() {
-		return new STGroupItemPresentation(node);
-	}
-
-	@NotNull
-	@Override
 	public TreeElement[] getChildren() {
 		return EMPTY_ARRAY;
 	}

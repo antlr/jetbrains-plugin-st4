@@ -3,12 +3,11 @@ package org.antlr.jetbrains.st4plugin.structview;
 import com.intellij.navigation.ItemPresentation;
 import org.antlr.jetbrains.st4plugin.Icons;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.TerminalNode;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 
-public class STGroupItemPresentation implements ItemPresentation {
+public abstract class STGroupItemPresentation implements ItemPresentation {
 	protected ParseTree node;
 
 	public STGroupItemPresentation(ParseTree node) {
@@ -25,9 +24,6 @@ public class STGroupItemPresentation implements ItemPresentation {
 	@Nullable
 	@Override
 	public String getPresentableText() {
-		if ( node instanceof TerminalNode ) {
-			return ((TerminalNode) node).getSymbol().getText();
-		}
 		return "n/a";
 	}
 
