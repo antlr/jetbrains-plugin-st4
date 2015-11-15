@@ -16,8 +16,10 @@ public abstract class STGroupStructureViewTreeElement
 	implements StructureViewTreeElement, ItemPresentation, SortableTreeElement
 {
 	protected ParseTree node;
+	protected STGroupStructureViewModel model;
 
-	public STGroupStructureViewTreeElement(ParseTree node) {
+	public STGroupStructureViewTreeElement(STGroupStructureViewModel model, ParseTree node) {
+		this.model = model;
 		this.node = node;
 	}
 
@@ -36,6 +38,20 @@ public abstract class STGroupStructureViewTreeElement
 		return node.getClass().getSimpleName();
 	}
 
+	@Override
+	public void navigate(boolean requestFocus) {
+	}
+
+	@Override
+	public boolean canNavigate() {
+		return false;
+	}
+
+	@Override
+	public boolean canNavigateToSource() {
+		return false;
+	}
+
 	@Nullable
 	@Override
 	public String getLocationString() {
@@ -51,20 +67,6 @@ public abstract class STGroupStructureViewTreeElement
 	@Override
 	public String getAlphaSortKey() {
 		return getPresentableText();
-	}
-
-	@Override
-	public void navigate(boolean requestFocus) {
-	}
-
-	@Override
-	public boolean canNavigate() {
-		return false;
-	}
-
-	@Override
-	public boolean canNavigateToSource() {
-		return false;
 	}
 
 	@NotNull

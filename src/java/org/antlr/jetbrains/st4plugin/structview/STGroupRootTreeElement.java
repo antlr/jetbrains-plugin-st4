@@ -13,10 +13,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class STGroupRootStructureViewTreeElement extends STGroupStructureViewTreeElement {
+public class STGroupRootTreeElement extends STGroupStructureViewTreeElement {
 	protected final VirtualFile file;
-	public STGroupRootStructureViewTreeElement(ParseTree root, VirtualFile file) {
-		super(root);
+
+	public STGroupRootTreeElement(STGroupStructureViewModel model, ParseTree root, VirtualFile file) {
+		super(model, root);
 		this.file = file;
 	}
 
@@ -35,7 +36,7 @@ public class STGroupRootStructureViewTreeElement extends STGroupStructureViewTre
 		List<TreeElement> treeElements = new ArrayList<TreeElement>(rules.size());
 		for (ParseTree t : rules) {
 			ParseTree nameNode = t.getChild(0);
-			treeElements.add(new STGroupTemplateDefTreeElement(nameNode));
+			treeElements.add(new STGroupTemplateDefTreeElement(model, nameNode));
 		}
 //		System.out.println("rules="+rules);
 		return treeElements.toArray(new TreeElement[treeElements.size()]);
