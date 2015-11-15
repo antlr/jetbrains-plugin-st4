@@ -14,7 +14,7 @@
 <a href="https://github.com/antlr/jetbrains-plugin-st4">Github source</a>
   ]]></description>
 
-  <change-notes><![CDATA[Added structure view.]]>
+  <change-notes><![CDATA[Added navigation from stucture view]]>
   </change-notes>
 
   <!-- please see http://confluence.jetbrains.net/display/IDEADEV/Build+Number+Ranges for description -->
