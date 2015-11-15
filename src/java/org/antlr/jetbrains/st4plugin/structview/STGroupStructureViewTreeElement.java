@@ -1,17 +1,19 @@
 package org.antlr.jetbrains.st4plugin.structview;
 
 import com.intellij.ide.structureView.StructureViewTreeElement;
+import com.intellij.ide.util.treeView.smartTree.SortableTreeElement;
 import com.intellij.ide.util.treeView.smartTree.TreeElement;
 import com.intellij.navigation.ItemPresentation;
 import org.antlr.jetbrains.st4plugin.Icons;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.TerminalNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 
 public class STGroupStructureViewTreeElement
-	implements StructureViewTreeElement, ItemPresentation
+	implements StructureViewTreeElement, ItemPresentation, SortableTreeElement
 {
 	protected ParseTree node;
 
@@ -28,7 +30,10 @@ public class STGroupStructureViewTreeElement
 	@Nullable
 	@Override
 	public String getPresentableText() {
-		return node.getPayload().toString();
+		if ( node instanceof TerminalNode ) {
+			return ((TerminalNode) node).getSymbol().getText();
+		}
+		return node.getClass().getSimpleName();
 	}
 
 	@Nullable
@@ -40,6 +45,12 @@ public class STGroupStructureViewTreeElement
 	@Override
 	public Object getValue() {
 		return node;
+	}
+
+	@NotNull
+	@Override
+	public String getAlphaSortKey() {
+		return getPresentableText();
 	}
 
 	@Override
