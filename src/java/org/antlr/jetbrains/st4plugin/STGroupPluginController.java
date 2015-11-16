@@ -2,7 +2,6 @@ package org.antlr.jetbrains.st4plugin;
 
 import com.intellij.ide.plugins.IdeaPluginDescriptor;
 import com.intellij.ide.plugins.PluginManager;
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
@@ -27,7 +26,6 @@ import com.intellij.openapi.vfs.VirtualFileAdapter;
 import com.intellij.openapi.vfs.VirtualFileEvent;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.util.messages.MessageBusConnection;
-import org.antlr.jetbrains.st4plugin.highlight.STGroupSyntaxHighlighter;
 import org.antlr.jetbrains.st4plugin.structview.STGroupStructureViewModel;
 import org.jetbrains.annotations.NotNull;
 
@@ -140,19 +138,6 @@ public class STGroupPluginController implements ProjectComponent {
 	}
 
 	public void editorDocumentAlteredEvent(Document doc) {
-	}
-
-	public void syntaxHighlightDocument(Document doc) {
-		final Editor editor = getEditor(doc);
-		if ( editor==null ) return;
-		ApplicationManager.getApplication().invokeLater(
-			new Runnable() {
-				@Override
-				public void run() {
-					STGroupSyntaxHighlighter groupHighlighter = new STGroupSyntaxHighlighter(editor,0);
-					groupHighlighter.highlight();
-				}
-			});
 	}
 
 	public void editorFileClosedEvent(VirtualFile vfile) {
