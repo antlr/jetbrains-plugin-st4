@@ -66,6 +66,7 @@ public class STGroupStructureViewModel extends TextEditorBasedStructureViewModel
 	public Object getCurrentEditorElement() {
 		if (editor==null) return null;
 		final int offset = editor.getCaretModel().getOffset();
+		if ( parseTree==null ) return null;
 		Tree selectedNode = Trees.findNodeSuchThat(parseTree, new Predicate<Tree>() {
 			@Override
 			public boolean test(Tree node) {

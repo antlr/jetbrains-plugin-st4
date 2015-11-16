@@ -1,4 +1,4 @@
-package org.antlr.jetbrains.st4plugin;
+package org.antlr.jetbrains.st4plugin.highlight;
 
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.Editor;
@@ -22,11 +22,11 @@ import java.util.Collection;
 
 import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
 
-public class XSTSyntaxHighlighter extends XSyntaxHighlighter {
+public class STSyntaxHighlighter extends SyntaxHighlighter {
 	public static final TextAttributesKey TEMPLATE_TEXT =
 		createTextAttributesKey("TEMPLATE_TEXT", DefaultLanguageHighlighterColors.TEMPLATE_LANGUAGE_COLOR);
 
-	public XSTSyntaxHighlighter(Editor editor, int startIndex) {
+	public STSyntaxHighlighter(Editor editor, int startIndex) {
 		super(editor, startIndex);
 	}
 

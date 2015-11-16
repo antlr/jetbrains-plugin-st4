@@ -1,4 +1,4 @@
-package org.antlr.jetbrains.st4plugin;
+package org.antlr.jetbrains.st4plugin.highlight;
 
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.Editor;
@@ -26,11 +26,11 @@ import java.util.Collection;
 
 import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
 
-public class XSTGroupSyntaxHighlighter extends XSyntaxHighlighter {
+public class STGroupSyntaxHighlighter extends SyntaxHighlighter {
 	public static final TextAttributesKey TEMPLATE_NAME =
 		createTextAttributesKey("TEMPLATE_NAME", DefaultLanguageHighlighterColors.INSTANCE_METHOD);
 
-	public XSTGroupSyntaxHighlighter(Editor editor, int startIndex) {
+	public STGroupSyntaxHighlighter(Editor editor, int startIndex) {
 		super(editor, startIndex);
 	}
 
@@ -126,14 +126,14 @@ public class XSTGroupSyntaxHighlighter extends XSyntaxHighlighter {
 
 	@Override
 	public void highlightEmbedded(Token t) {
-		XSTSyntaxHighlighter templateHighlighter = null;
+		STSyntaxHighlighter templateHighlighter = null;
 		int startOfEmbeddedToken = t.getStartIndex();
 		if (t.getType() == STGLexer.STRING ||
 			t.getType() == STGLexer.ANON_TEMPLATE) {
 			String text = t.getText();
 			text = text.substring(1, text.length() - 1);
 			startOfEmbeddedToken++;
-			templateHighlighter = new XSTSyntaxHighlighter(getEditor(), startOfEmbeddedToken);
+			templateHighlighter = new STSyntaxHighlighter(getEditor(), startOfEmbeddedToken);
 			templateHighlighter.highlight(text);
 		}
 		else if (t.getType() == STGLexer.BIGSTRING ||
@@ -141,7 +141,7 @@ public class XSTGroupSyntaxHighlighter extends XSyntaxHighlighter {
 			String text = t.getText();
 			text = text.substring(2, text.length() - 2);
 			startOfEmbeddedToken += 2;
-			templateHighlighter = new XSTSyntaxHighlighter(getEditor(), startOfEmbeddedToken);
+			templateHighlighter = new STSyntaxHighlighter(getEditor(), startOfEmbeddedToken);
 			templateHighlighter.highlight(text);
 		}
 	}

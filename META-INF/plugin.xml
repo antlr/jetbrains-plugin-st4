@@ -15,7 +15,6 @@
   ]]></description>
 
   <change-notes><![CDATA[
-  Ugh. finally got color scheme right.
   ]]>
   </change-notes>
 
@@ -34,6 +33,9 @@
 	  <component>
        <implementation-class>org.antlr.jetbrains.st4plugin.STGroupPluginController</implementation-class>
    </component>
+    <component>
+        <implementation-class>org.antlr.jetbrains.st4plugin.highlight.STGroupHighlightingPassFactory</implementation-class>
+    </component>
   </project-components>
 
   <actions>

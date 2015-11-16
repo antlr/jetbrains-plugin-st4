@@ -27,6 +27,7 @@ import com.intellij.openapi.vfs.VirtualFileAdapter;
 import com.intellij.openapi.vfs.VirtualFileEvent;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.util.messages.MessageBusConnection;
+import org.antlr.jetbrains.st4plugin.highlight.STGroupSyntaxHighlighter;
 import org.antlr.jetbrains.st4plugin.structview.STGroupStructureViewModel;
 import org.jetbrains.annotations.NotNull;
 
@@ -136,15 +137,9 @@ public class STGroupPluginController implements ProjectComponent {
 		if ( newFile==null ) { // all files must be closed I guess
 			return;
 		}
-
-		if ( newFile.getName().endsWith(".stg") ) {
-			Document doc = FileDocumentManager.getInstance().getDocument(newFile);
-			syntaxHighlightDocument(doc);
-		}
 	}
 
 	public void editorDocumentAlteredEvent(Document doc) {
-		syntaxHighlightDocument(doc);
 	}
 
 	public void syntaxHighlightDocument(Document doc) {
@@ -154,7 +149,7 @@ public class STGroupPluginController implements ProjectComponent {
 			new Runnable() {
 				@Override
 				public void run() {
-					XSTGroupSyntaxHighlighter groupHighlighter = new XSTGroupSyntaxHighlighter(editor,0);
+					STGroupSyntaxHighlighter groupHighlighter = new STGroupSyntaxHighlighter(editor,0);
 					groupHighlighter.highlight();
 				}
 			});

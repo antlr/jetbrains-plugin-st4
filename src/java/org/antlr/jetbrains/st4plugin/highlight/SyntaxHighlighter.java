@@ -1,8 +1,5 @@
-package org.antlr.jetbrains.st4plugin;
+package org.antlr.jetbrains.st4plugin.highlight;
 
-import com.intellij.codeInsight.daemon.impl.HighlightInfo;
-import com.intellij.lang.annotation.Annotation;
-import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.colors.EditorColorsManager;
 import com.intellij.openapi.editor.colors.EditorColorsScheme;
@@ -13,6 +10,7 @@ import com.intellij.openapi.editor.markup.HighlighterTargetArea;
 import com.intellij.openapi.editor.markup.MarkupModel;
 import com.intellij.openapi.editor.markup.RangeHighlighter;
 import com.intellij.openapi.editor.markup.TextAttributes;
+import com.intellij.openapi.util.Key;
 import com.intellij.ui.JBColor;
 import org.antlr.jetbrains.st4plugin.parsing.Issue;
 import org.antlr.jetbrains.st4plugin.parsing.LexerErrorListener;
@@ -23,13 +21,12 @@ import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
-import org.antlr.v4.runtime.tree.ParseTree;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public abstract class XSyntaxHighlighter {
+public abstract class SyntaxHighlighter {
+	public static final Key<Object> SYNTAX_HIGHLIGHTING_TAG = Key.create("SYNTAX_HIGHLIGHTING_TAG");
 	public static final TextAttributesKey[] NO_ATTR =
 		new TextAttributesKey[] {TextAttributesKey.createTextAttributesKey("NO_ATTR")};
 	final EditorColorsManager editorColorsManager = EditorColorsManager.getInstance();
@@ -37,7 +34,7 @@ public abstract class XSyntaxHighlighter {
 	protected Editor editor;
 	protected int startIndex;
 
-	public XSyntaxHighlighter(Editor editor, int startIndex) {
+	public SyntaxHighlighter(Editor editor, int startIndex) {
 		this.editor = editor;
 		this.startIndex = startIndex;
 	}
@@ -54,12 +51,8 @@ public abstract class XSyntaxHighlighter {
 	@NotNull
 	public abstract TextAttributesKey[] getAttributesKey(Token t);
 
-
-
 	public void highlight() {
-		MarkupModel markupModel = getEditor().getMarkupModel();
-		markupModel.removeAllHighlighters();
-
+		removeHighlighters(getEditor(), SYNTAX_HIGHLIGHTING_TAG);
 		String text = getEditor().getDocument().getText();
 		highlight(text);
 	}
@@ -123,12 +116,13 @@ public abstract class XSyntaxHighlighter {
 		attr.setEffectColor(JBColor.RED);
 		attr.setEffectType(EffectType.WAVE_UNDERSCORE);
 		MarkupModel markupModel = editor.getMarkupModel();
-		RangeHighlighter highlighter =
+		RangeHighlighter h =
 			markupModel.addRangeHighlighter(startIndex+offendingToken.getStartIndex(),
 			                                startIndex+offendingToken.getStopIndex()+1,
 			                                HighlighterLayer.ERROR, // layer
 			                                attr,
 			                                HighlighterTargetArea.EXACT_RANGE);
+		h.putUserData(SYNTAX_HIGHLIGHTING_TAG, offendingToken); // store any non-null value to tag it
 	}
 
 	protected void highlightToken(Token t) {
@@ -150,7 +144,20 @@ public abstract class XSyntaxHighlighter {
 				HighlighterLayer.SYNTAX, // layer
 				attr,
 				HighlighterTargetArea.EXACT_RANGE);
-//			h.putUserData(getHighlightCategoryKey(), t);
+		h.putUserData(SYNTAX_HIGHLIGHTING_TAG, t); // store any non-null value to tag it
+	}
+
+	protected static void removeHighlighters(Editor editor, Key taggedWithThis) {
+		final MarkupModel model = editor.getMarkupModel();
+		ArrayList<RangeHighlighter> toRemove = new ArrayList<RangeHighlighter>();
+		for (RangeHighlighter highlighter : model.getAllHighlighters()) {
+			if ( highlighter.getUserData(taggedWithThis) != null ) {
+				toRemove.add(highlighter);
+			}
+		}
+		for (RangeHighlighter highlighter : toRemove) {
+			model.removeHighlighter(highlighter);
+		}
 	}
 
 	public Editor getEditor() {
