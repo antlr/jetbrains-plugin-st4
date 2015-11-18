@@ -32,7 +32,7 @@ public class STGroupRootTreeElement extends STGroupStructureViewTreeElement {
 	public TreeElement[] getChildren() {
 		ParserRuleContext root = (ParserRuleContext) this.node;
 		Collection<ParseTree> rules = Trees.findAllRuleNodes(root, STGParser.RULE_template);
-		if ( rules.size()==9 ) return EMPTY_ARRAY;
+		if ( rules.size()==0 ) return EMPTY_ARRAY;
 		List<TreeElement> treeElements = new ArrayList<TreeElement>(rules.size());
 		for (ParseTree t : rules) {
 			ParseTree nameNode = t.getChild(0);
