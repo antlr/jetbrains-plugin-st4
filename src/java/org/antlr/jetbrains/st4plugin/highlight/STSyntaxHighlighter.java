@@ -23,8 +23,8 @@ import java.util.Collection;
 import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
 
 public class STSyntaxHighlighter extends SyntaxHighlighter {
-	public static final TextAttributesKey TEMPLATE_TEXT =
-		createTextAttributesKey("TEMPLATE_TEXT", DefaultLanguageHighlighterColors.TEMPLATE_LANGUAGE_COLOR);
+	public static final TextAttributesKey STGroup_TEMPLATE_TEXT =
+		createTextAttributesKey("STGroup_TEMPLATE_TEXT", DefaultLanguageHighlighterColors.TEMPLATE_LANGUAGE_COLOR);
 
 	public STSyntaxHighlighter(Editor editor, int startIndex) {
 		super(editor, startIndex);
@@ -80,11 +80,8 @@ public class STSyntaxHighlighter extends SyntaxHighlighter {
 				break;
 			case STLexer.STRING:
 			case STLexer.TEXT:
-				key = TEMPLATE_TEXT;
-				return new TextAttributesKey[]{key, DefaultLanguageHighlighterColors.TEMPLATE_LANGUAGE_COLOR};
-//			case STLexer.ID:
-//				key = DefaultLanguageHighlighterColors.INSTANCE_FIELD;
-//				break;
+				key = STGroup_TEMPLATE_TEXT;
+				break;
 			case STLexer.COMMENT:
 				key = DefaultLanguageHighlighterColors.LINE_COMMENT;
 				break;
@@ -92,10 +89,8 @@ public class STSyntaxHighlighter extends SyntaxHighlighter {
 				key = HighlighterColors.BAD_CHARACTER;
 				break;
 			default:
-//				key = DefaultLanguageHighlighterColors.TEMPLATE_LANGUAGE_COLOR;
-//				break;
-				return NO_ATTR;
+				return EMPTY;
 		}
-		return new TextAttributesKey[]{key};//, DefaultLanguageHighlighterColors.TEMPLATE_LANGUAGE_COLOR};
+		return new TextAttributesKey[]{key};
 	}
 }

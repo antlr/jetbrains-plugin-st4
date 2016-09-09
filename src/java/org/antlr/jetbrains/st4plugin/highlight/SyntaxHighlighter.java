@@ -27,8 +27,8 @@ import java.util.ArrayList;
 
 public abstract class SyntaxHighlighter {
 	public static final Key<Object> SYNTAX_HIGHLIGHTING_TAG = Key.create("SYNTAX_HIGHLIGHTING_TAG");
-	public static final TextAttributesKey[] NO_ATTR =
-		new TextAttributesKey[] {TextAttributesKey.createTextAttributesKey("NO_ATTR")};
+	protected static final TextAttributesKey[] EMPTY = new TextAttributesKey[0];
+
 	final EditorColorsManager editorColorsManager = EditorColorsManager.getInstance();
 
 	protected Editor editor;
@@ -127,7 +127,7 @@ public abstract class SyntaxHighlighter {
 
 	protected void highlightToken(Token t) {
 		TextAttributesKey[] keys = getAttributesKey(t);
-		if ( keys!=NO_ATTR ) {
+		if ( keys!=EMPTY ) {
 			highlightToken(t, keys);
 		}
 	}

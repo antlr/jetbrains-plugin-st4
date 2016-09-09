@@ -27,8 +27,16 @@ import java.util.Collection;
 import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
 
 public class STGroupSyntaxHighlighter extends SyntaxHighlighter {
-	public static final TextAttributesKey TEMPLATE_NAME =
-		createTextAttributesKey("TEMPLATE_NAME", DefaultLanguageHighlighterColors.INSTANCE_METHOD);
+	public static final TextAttributesKey STGroup_TEMPLATE_NAME =
+		createTextAttributesKey("STGroup_TEMPLATE_NAME", DefaultLanguageHighlighterColors.INSTANCE_METHOD);
+	public static final TextAttributesKey LINE_COMMENT =
+		createTextAttributesKey("STGroup_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
+	public static final TextAttributesKey DOC_COMMENT =
+		createTextAttributesKey("STGroup_DOC_COMMENT", DefaultLanguageHighlighterColors.DOC_COMMENT);
+	public static final TextAttributesKey BLOCK_COMMENT =
+		createTextAttributesKey("STGroup_BLOCK_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT);
+
+	private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[] {LINE_COMMENT, DOC_COMMENT, BLOCK_COMMENT};
 
 	public STGroupSyntaxHighlighter(Editor editor, int startIndex) {
 		super(editor, startIndex);
@@ -71,7 +79,7 @@ public class STGroupSyntaxHighlighter extends SyntaxHighlighter {
 		final Collection<ParseTree> ids = XPath.findAll(tree, "//template/ID", parser);
 		for (ParseTree id : ids) {
 			TerminalNode tnode = (TerminalNode)id;
-			highlightToken(tnode.getSymbol(), new TextAttributesKey[]{TEMPLATE_NAME});
+			highlightToken(tnode.getSymbol(), new TextAttributesKey[]{STGroup_TEMPLATE_NAME});
 		}
 	}
 
@@ -80,13 +88,13 @@ public class STGroupSyntaxHighlighter extends SyntaxHighlighter {
 	public TextAttributesKey[] getAttributesKey(Token t) {
 		switch (t.getType()) {
 			case STGLexer.DOC_COMMENT:
-				return new TextAttributesKey[]{DefaultLanguageHighlighterColors.DOC_COMMENT};
+				return COMMENT_KEYS;
 			case STGLexer.LINE_COMMENT:
-				return new TextAttributesKey[]{DefaultLanguageHighlighterColors.LINE_COMMENT};
+				return COMMENT_KEYS;
 			case STGLexer.BLOCK_COMMENT:
-				return new TextAttributesKey[]{DefaultLanguageHighlighterColors.BLOCK_COMMENT};
+				return COMMENT_KEYS;
 			case STGLexer.ID:
-				return new TextAttributesKey[]{DefaultLanguageHighlighterColors.IDENTIFIER};
+				return new TextAttributesKey[]{STGroup_TEMPLATE_NAME};
 
 			case STGLexer.DELIMITERS:
 			case STGLexer.IMPORT:
@@ -110,7 +118,7 @@ public class STGroupSyntaxHighlighter extends SyntaxHighlighter {
 			case Token.INVALID_TYPE:
 				return new TextAttributesKey[]{HighlighterColors.BAD_CHARACTER};
 			default:
-				return NO_ATTR;
+				return EMPTY;
 		}
 	}
 

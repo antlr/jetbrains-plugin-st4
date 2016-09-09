@@ -2,12 +2,12 @@
 <list>
 	<option name="STGroup_TEMPLATE_NAME">
 		<value>
-			<option name="FOREGROUND" value="808000"/>
+			<option name="FOREGROUND" value="FFC66D"/>
 		</value>
 	</option>
 	<option name="STGroup_TEMPLATE_TEXT">
 		<value>
-			<option name="FOREGROUND" value="808080"/>
+			<option name="FOREGROUND" value="9876AA"/>
 		</value>
 	</option>
 </list>
