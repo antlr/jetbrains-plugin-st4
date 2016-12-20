@@ -16,12 +16,10 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/antlr-4.5.1-complete.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/antlr/antlr4/4.6-SNAPSHOT/antlr4-4.6-SNAPSHOT-complete.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/../antlr4/runtime/Java/src" />
-        </SOURCES>
+        <SOURCES />
       </library>
     </orderEntry>
   </component>
