@@ -10,6 +10,8 @@ It understands `.stg` files (not .st files yet). For example,
 
 <img src="images/structview.png" width=350>
 
+<img src="images/darcula.png" width=350>
+
 # Building
 
 For those wanting to build and run this plug-in, you will need to manually
