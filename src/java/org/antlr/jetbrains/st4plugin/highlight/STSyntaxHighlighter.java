@@ -25,6 +25,7 @@ import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAtt
 public class STSyntaxHighlighter extends SyntaxHighlighter {
 	public static final TextAttributesKey STGroup_TEMPLATE_TEXT =
 		createTextAttributesKey("STGroup_TEMPLATE_TEXT", DefaultLanguageHighlighterColors.TEMPLATE_LANGUAGE_COLOR);
+	public static final TextAttributesKey ST_ID = STGroupSyntaxHighlighter.STGroup_TEMPLATE_NAME;
 
 	public STSyntaxHighlighter(Editor editor, int startIndex) {
 		super(editor, startIndex);
@@ -48,17 +49,10 @@ public class STSyntaxHighlighter extends SyntaxHighlighter {
 
 	@Override
 	public void highlightTree(ParserRuleContext tree, Parser parser) {
-		final Collection<ParseTree> options = XPath.findAll(tree, "//option/ID", parser);
-		for (ParseTree o : options) {
-			TerminalNode tnode = (TerminalNode)o;
-			highlightToken(tnode.getSymbol(),
-						   new TextAttributesKey[]{DefaultLanguageHighlighterColors.KEYWORD});
-		}
 		final Collection<ParseTree> ids = XPath.findAll(tree, "//primary/ID", parser);
 		for (ParseTree id : ids) {
 			TerminalNode tnode = (TerminalNode)id;
-			highlightToken(tnode.getSymbol(),
-						   new TextAttributesKey[]{DefaultLanguageHighlighterColors.INSTANCE_FIELD});
+			highlightToken(tnode.getSymbol(), new TextAttributesKey[]{ST_ID});
 		}
 	}
 
@@ -77,6 +71,9 @@ public class STSyntaxHighlighter extends SyntaxHighlighter {
 			case STLexer.ENDIF:
 			case STLexer.SUPER:
 				key = DefaultLanguageHighlighterColors.KEYWORD;
+				break;
+			case STLexer.ID:
+				key = ST_ID;
 				break;
 			case STLexer.STRING:
 			case STLexer.TEXT:

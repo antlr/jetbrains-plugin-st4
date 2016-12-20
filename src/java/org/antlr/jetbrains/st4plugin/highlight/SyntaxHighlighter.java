@@ -134,8 +134,7 @@ public abstract class SyntaxHighlighter {
 
 	protected void highlightToken(Token t, TextAttributesKey[] keys) {
 		MarkupModel markupModel = getEditor().getMarkupModel();
-		final EditorColorsScheme scheme =
-			editorColorsManager.getScheme(EditorColorsScheme.DEFAULT_SCHEME_NAME);
+		EditorColorsScheme scheme = editorColorsManager.getGlobalScheme();
 		TextAttributes attr = merge(scheme, keys);
 		RangeHighlighter h =
 			markupModel.addRangeHighlighter(
