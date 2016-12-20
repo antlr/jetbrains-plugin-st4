@@ -73,19 +73,7 @@ public abstract class SyntaxHighlighter {
 			lexicalError(I.annotation, I.offendingToken);
 		}
 
-//		System.out.println(tokens.getTokens());
-		for (int i=0; i<tokens.size(); i++) {
-			Token t = tokens.get(i);
-			if ( t.getType()!=Token.EOF ) {
-				if ( isEmbeddedLanguageToken(t) ) {
-					highlightEmbedded(t);
-				}
-				else {
-					highlightToken(t);
-				}
-			}
-		}
-
+		// parse first so we set delimiters
 		final ParsingResult results = parse(tokens);
 		if ( results!=null ) {
 			Parser parser = results.parser;
@@ -97,6 +85,19 @@ public abstract class SyntaxHighlighter {
 			}
 
 			highlightTree(tree, parser);
+		}
+
+//		System.out.println(tokens.getTokens());
+		for (int i=0; i<tokens.size(); i++) {
+			Token t = tokens.get(i);
+			if ( t.getType()!=Token.EOF ) {
+				if ( isEmbeddedLanguageToken(t) ) {
+					highlightEmbedded(t);
+				}
+				else {
+					highlightToken(t);
+				}
+			}
 		}
 	}
 

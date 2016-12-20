@@ -4,6 +4,7 @@ import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.HighlighterColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
+import org.antlr.jetbrains.st4plugin.STGroupPluginController;
 import org.antlr.jetbrains.st4plugin.parsing.ParserErrorListener;
 import org.antlr.jetbrains.st4plugin.parsing.ParsingResult;
 import org.antlr.jetbrains.st4plugin.parsing.STGLexer;
@@ -19,9 +20,11 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.antlr.v4.runtime.tree.xpath.XPath;
 import org.jetbrains.annotations.NotNull;
+import org.stringtemplate.v4.STGroup;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
@@ -37,6 +40,8 @@ public class STGroupSyntaxHighlighter extends SyntaxHighlighter {
 		createTextAttributesKey("STGroup_BLOCK_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT);
 
 	private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[] {LINE_COMMENT, DOC_COMMENT, BLOCK_COMMENT};
+
+	public Character[] delimiters = new Character[] {'<', '>'};
 
 	public STGroupSyntaxHighlighter(Editor editor, int startIndex) {
 		super(editor, startIndex);
@@ -63,6 +68,11 @@ public class STGroupSyntaxHighlighter extends SyntaxHighlighter {
 		ParserErrorListener errorListener = new ParserErrorListener();
 		parser.addErrorListener(errorListener);
 		ParserRuleContext tree = parser.group();
+		final Collection<ParseTree> delimiterStrings = XPath.findAll(tree, "//delimiters/STRING", parser);
+		int i = 0;
+		for (ParseTree s : delimiterStrings) {
+			delimiters[i++] = s.getText().charAt(1);
+		}
 		return new ParsingResult(parser, tree, errorListener);
 	}
 
@@ -141,7 +151,7 @@ public class STGroupSyntaxHighlighter extends SyntaxHighlighter {
 			String text = t.getText();
 			text = text.substring(1, text.length() - 1);
 			startOfEmbeddedToken++;
-			templateHighlighter = new STSyntaxHighlighter(getEditor(), startOfEmbeddedToken);
+			templateHighlighter = new STSyntaxHighlighter(this, getEditor(), t, startOfEmbeddedToken);
 			templateHighlighter.highlight(text);
 		}
 		else if (t.getType() == STGLexer.BIGSTRING ||
@@ -149,7 +159,7 @@ public class STGroupSyntaxHighlighter extends SyntaxHighlighter {
 			String text = t.getText();
 			text = text.substring(2, text.length() - 2);
 			startOfEmbeddedToken += 2;
-			templateHighlighter = new STSyntaxHighlighter(getEditor(), startOfEmbeddedToken);
+			templateHighlighter = new STSyntaxHighlighter(this, getEditor(), t, startOfEmbeddedToken);
 			templateHighlighter.highlight(text);
 		}
 	}

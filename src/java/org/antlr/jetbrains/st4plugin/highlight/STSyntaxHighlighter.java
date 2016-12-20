@@ -4,6 +4,7 @@ import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.HighlighterColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
+import org.antlr.jetbrains.st4plugin.parsing.ANTLR3StringStream;
 import org.antlr.jetbrains.st4plugin.parsing.ParserErrorListener;
 import org.antlr.jetbrains.st4plugin.parsing.ParsingResult;
 import org.antlr.jetbrains.st4plugin.parsing.STLexer;
@@ -27,13 +28,22 @@ public class STSyntaxHighlighter extends SyntaxHighlighter {
 		createTextAttributesKey("STGroup_TEMPLATE_TEXT", DefaultLanguageHighlighterColors.TEMPLATE_LANGUAGE_COLOR);
 	public static final TextAttributesKey ST_ID = STGroupSyntaxHighlighter.STGroup_TEMPLATE_NAME;
 
-	public STSyntaxHighlighter(Editor editor, int startIndex) {
+	public STGroupSyntaxHighlighter groupHighlighter;
+	public Token templateToken;
+
+	public STSyntaxHighlighter(STGroupSyntaxHighlighter groupHighlighter,
+	                           Editor editor,
+	                           Token templateToken,
+	                           int startIndex)
+	{
 		super(editor, startIndex);
+		this.templateToken = templateToken;
+		this.groupHighlighter = groupHighlighter;
 	}
 
 	@Override
 	public Lexer getLexer(String text) {
-		STLexer lexer = new STLexer(text);
+		STLexer lexer = new STLexer(new ANTLR3StringStream(text), templateToken, groupHighlighter.delimiters[0], groupHighlighter.delimiters[1]);
 		return lexer;
 	}
 
