@@ -6,8 +6,6 @@ An [IntelliJ](https://www.jetbrains.com/idea/) 13.x, 14.x, 15 plugin for StringT
 
 It understands `.stg` files (not .st files yet). For example,
 
-<img src="images/sample.png" width=500>
-
 <img src="images/structview.png" width=350>
 
 <img src="images/darcula.png" width=350>
