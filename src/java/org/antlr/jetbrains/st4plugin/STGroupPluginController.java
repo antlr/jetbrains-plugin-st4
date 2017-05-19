@@ -9,6 +9,7 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.EditorFactory;
 import com.intellij.openapi.editor.event.DocumentAdapter;
 import com.intellij.openapi.editor.event.DocumentEvent;
+import com.intellij.openapi.editor.event.DocumentListener;
 import com.intellij.openapi.editor.event.EditorFactoryAdapter;
 import com.intellij.openapi.editor.event.EditorFactoryEvent;
 import com.intellij.openapi.extensions.PluginId;
@@ -25,6 +26,7 @@ import com.intellij.openapi.vfs.VirtualFileAdapter;
 import com.intellij.openapi.vfs.VirtualFileEvent;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.util.messages.MessageBusConnection;
+import org.antlr.jetbrains.st4plugin.structview.STGroupStructureViewModel;
 import org.jetbrains.annotations.NotNull;
 
 public class STGroupPluginController implements ProjectComponent {
@@ -32,6 +34,8 @@ public class STGroupPluginController implements ProjectComponent {
 	public static final Logger LOG = Logger.getInstance("STGroupPluginController");
 	public static final Key<STGroupFileEditorListener> EDITOR_DOCUMENT_LISTENER_KEY =
 		Key.create("EDITOR_DOCUMENT_LISTENER_KEY");
+	public static final Key<DocumentListener> EDITOR_STRUCTVIEW_LISTENER_KEY =
+		Key.create("EDITOR_STRUCTVIEW_LISTENER_KEY");
 
 	public Project project;
 	public boolean projectIsClosed = false;
@@ -90,7 +94,7 @@ public class STGroupPluginController implements ProjectComponent {
 
 
 	public void installListeners() {
-		LOG.info("installListeners "+project.getName());
+		LOG.info("installListeners " + project.getName());
 		// Listen for .stg file saves
 		VirtualFileManager.getInstance().addVirtualFileListener(myVirtualFileListener);
 
@@ -115,12 +119,14 @@ public class STGroupPluginController implements ProjectComponent {
 	// editor listeners events.
 	public void uninstallListeners() {
 		VirtualFileManager.getInstance().removeVirtualFileListener(myVirtualFileListener);
-		MessageBusConnection msgBus = project.getMessageBus().connect(project);
-		msgBus.disconnect();
+		if ( !projectIsClosed ) {
+			MessageBusConnection msgBus = project.getMessageBus().connect(project);
+			msgBus.disconnect();
+		}
 	}
 
 	public void fileSavedEvent(VirtualFile file) {
-		LOG.info("fileSavedEvent "+(file!=null?file.getPath():"none")+" "+project.getName());
+		LOG.info("fileSavedEvent " + (file != null ? file.getPath() : "none") + " " + project.getName());
 	}
 
 	public void currentEditorFileSwitchedEvent(VirtualFile oldFile, VirtualFile newFile) {
@@ -129,22 +135,9 @@ public class STGroupPluginController implements ProjectComponent {
 		if ( newFile==null ) { // all files must be closed I guess
 			return;
 		}
-
-		Document doc = FileDocumentManager.getInstance().getDocument(newFile);
-		syntaxHighlightDocument(doc);
 	}
 
 	public void editorDocumentAlteredEvent(Document doc) {
-		syntaxHighlightDocument(doc);
-	}
-
-	public void syntaxHighlightDocument(Document doc) {
-		Editor editor = getEditor(doc);
-		if ( editor==null ) return;
-
-		// First do outer STGroup level tokenization
-		STGroupSyntaxHighlighter groupHighlighter = new STGroupSyntaxHighlighter(editor,0);
-		groupHighlighter.highlight();
 	}
 
 	public void editorFileClosedEvent(VirtualFile vfile) {
@@ -167,6 +160,21 @@ public class STGroupPluginController implements ProjectComponent {
 		return editors[0]; // hope just one
 	}
 
+	/** Invalidate tree upon doc change */
+	public void registerStructureViewModel(final Editor editor, final STGroupStructureViewModel model) {
+		final Document doc = editor.getDocument();
+		final DocumentListener listener = new DocumentAdapter() {
+			@Override
+			public void documentChanged(DocumentEvent e) { model.invalidate(); }
+		};
+		DocumentListener oldListener = doc.getUserData(EDITOR_STRUCTVIEW_LISTENER_KEY);
+		if ( oldListener!=null ) {
+			doc.removeDocumentListener(oldListener);
+		}
+		doc.putUserData(EDITOR_STRUCTVIEW_LISTENER_KEY, listener);
+		doc.addDocumentListener(listener);
+	}
+
 	// E v e n t  L i s t e n e r s
 
 	private class MyVirtualFileListener extends VirtualFileAdapter {
@@ -181,19 +189,31 @@ public class STGroupPluginController implements ProjectComponent {
 	private class MyFileEditorManagerListener extends FileEditorManagerAdapter {
 		@Override
 		public void selectionChanged(FileEditorManagerEvent event) {
-			if ( !projectIsClosed ) currentEditorFileSwitchedEvent(event.getOldFile(), event.getNewFile());
+			if ( !projectIsClosed ) {
+				final VirtualFile vfile = event.getNewFile();
+				if ( vfile!=null && vfile.getName().endsWith(".stg") ) {
+					currentEditorFileSwitchedEvent(event.getOldFile(), event.getNewFile());
+				}
+			}
 		}
 
 		@Override
-		public void fileClosed(FileEditorManager source, VirtualFile file) {
-			if ( !projectIsClosed ) editorFileClosedEvent(file);
+		public void fileClosed(FileEditorManager source, VirtualFile vfile) {
+			if ( !projectIsClosed ) {
+				if ( vfile!=null && vfile.getName().endsWith(".stg") ) {
+					editorFileClosedEvent(vfile);
+				}
+			}
 		}
 	}
 
 	private class STGroupFileEditorListener extends DocumentAdapter {
 		@Override
 		public void documentChanged(DocumentEvent e) {
-			editorDocumentAlteredEvent(e.getDocument());
+			VirtualFile vfile = FileDocumentManager.getInstance().getFile(e.getDocument());
+			if ( vfile!=null && vfile.getName().endsWith(".stg") ) {
+				editorDocumentAlteredEvent(e.getDocument());
+			}
 		}
 	}
 
@@ -221,6 +241,11 @@ public class STGroupPluginController implements ProjectComponent {
 			if (listener != null) {
 				doc.removeDocumentListener(listener);
 				doc.putUserData(EDITOR_DOCUMENT_LISTENER_KEY, null);
+			}
+			DocumentListener listener2 = editor.getUserData(EDITOR_STRUCTVIEW_LISTENER_KEY);
+			if (listener2 != null) {
+				doc.removeDocumentListener(listener2);
+				doc.putUserData(EDITOR_STRUCTVIEW_LISTENER_KEY, null);
 			}
 		}
 	}

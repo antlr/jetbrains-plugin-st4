@@ -50,12 +50,10 @@ TMPL_COMMENT		: LBang .? RBang	-> channel(HIDDEN)	;
 
 WS					: [ \r\n\t]+		-> channel(HIDDEN)	;
 
-ID        			: NameStartChar NameChar* ;
-
-STRING				: DQuoteLiteral			;
-BIGSTRING 			: LDAngle .*? RDAngle	;
-BIGSTRING_NO_NL		: LPct .*?	RPct		;
-ANON_TEMPLATE		: LBrace .*? RBrace		;
+STRING_START		: DQuote			-> more, pushMode(STRING_MODE) ;
+ANON_TEMPLATE		: LBrace ('\\}'|~'}')* RBrace ;
+BIGSTRING_START		: LDAngle 			-> more, pushMode(BIGSTRING_MODE) ;
+BIGSTRING_NO_NL_START : LPct			-> more, pushMode(BIGSTRING_NO_NL_MODE) ;
 
 
 // -----------------------------------
@@ -100,6 +98,7 @@ WRAP		: 'wrap'		;
 ANCHOR		: 'anchor'		;
 SEPARATOR	: 'separator'	;
 
+ID        	: NameStartChar NameChar* ;
 
 // -----------------------------------
 // Grammar specific fragments
@@ -111,4 +110,24 @@ fragment LPct		: '<%'		;
 fragment RPct		: '%>'		;
 fragment LDAngle	: LShift	;
 fragment RDAngle	: RShift	;
+
+mode STRING_MODE;
+
+STRING_ESC		: '\\"' {setText(getText()+"\"");} 	-> more ;
+STRING_NL		: '\n' 		-> more ; // match but it should be an error
+STRING			: '"' 		-> popMode ;
+TRING_TEXT		: .			-> more;
+
+mode BIGSTRING_MODE;
+
+BIGSTRING_ESC		: '\\>' 	-> more ;
+BIGSTRING			: '>>' 		-> popMode ;
+BIGSTRING_TEXT		: .			-> more;
+
+mode BIGSTRING_NO_NL_MODE;
+
+BIGSTRING_NO_NL_ESC	: '\\%' 	-> more;
+BIGSTRING_NO_NL		: '%>'		-> popMode ;
+BIGSTRING_NO_NL_TEXT: . 		-> more;
+
 

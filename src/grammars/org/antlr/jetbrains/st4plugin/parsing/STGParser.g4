@@ -103,3 +103,4 @@ keyValue
 	| KEY
 	;
 
+junk : JUNK ; // define to over come https://github.com/antlr/antlr4/issues/1042

@@ -1,14 +1,13 @@
 <idea-plugin version="2">
   <id>org.antlr.jetbrains.st4plugin</id>
   <name>StringTemplate v4 plugin</name>
-  <version>0.1</version>
+  <version>0.5</version>
   <vendor email="parrt@antlr.org" url="https://github.com/antlr/jetbrains-plugin-st4">ANTLR Project</vendor>
 
   <description><![CDATA[
   <p>
-      This plugin is for StringTemplate v4 It works with Intellij 13.x-15.
+      This plugin is for StringTemplate v4 .stg files. It works with Intellij 13.x+.
       It should work in other Jetbrains IDEs.
-                I have tested in PyCharm 4.5 and CLion 1.2.
      </p>
 
 <p>
@@ -16,7 +15,8 @@
   ]]></description>
 
   <change-notes><![CDATA[
-        ]]>
+  Bug fixes. Darcula looks good now. Delimiters work. See https://github.com/antlr/jetbrains-plugin-st4/issues?utf8=%E2%9C%93&q=is%3Aissue%20is%3Aclosed%20milestone%3A0.5
+  ]]>
   </change-notes>
 
   <!-- please see http://confluence.jetbrains.net/display/IDEADEV/Build+Number+Ranges for description -->
@@ -34,6 +34,9 @@
 	  <component>
        <implementation-class>org.antlr.jetbrains.st4plugin.STGroupPluginController</implementation-class>
    </component>
+    <component>
+        <implementation-class>org.antlr.jetbrains.st4plugin.highlight.STGroupHighlightingPassFactory</implementation-class>
+    </component>
   </project-components>
 
   <actions>
@@ -41,5 +44,8 @@
 
   <extensions defaultExtensionNs="com.intellij">
       <fileTypeFactory implementation="org.antlr.jetbrains.st4plugin.STGroupFileTypeFactory"/>
+      <structureViewBuilder factoryClass="org.antlr.jetbrains.st4plugin.structview.STGroupStructureViewBuilderProvider"/>
+      <additionalTextAttributes scheme="Default" file="colorSchemes/STGroupDefault.xml"/>
+   	  <additionalTextAttributes scheme="Darcula" file="colorSchemes/STGroupDarcula.xml"/>
   </extensions>
 </idea-plugin>
