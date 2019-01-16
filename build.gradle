@@ -1,0 +1,65 @@
+buildscript {
+    repositories {
+//        maven {
+//            name 'JFrog OSS snapshot repo'
+//            url  'https://oss.jfrog.org/oss-snapshot-local/'
+//        }
+        jcenter()
+        mavenCentral()
+    }
+//    dependencies {
+//        classpath 'me.champeau.gradle:antlr4-gradle-plugin:0.1'
+//    }
+}
+
+plugins {
+    id "org.jetbrains.intellij" version "0.3.12"
+}
+
+apply plugin: 'idea'
+apply plugin: 'org.jetbrains.intellij'
+apply plugin: 'java'
+apply plugin: 'antlr'
+
+intellij {
+    version = ideaVersion
+
+    pluginName 'jetbrains-plugin-st4'
+    downloadSources true
+    updateSinceUntilBuild false
+}
+
+group 'antlr'
+version pluginVersion
+
+wrapper {
+    gradleVersion = "4.10.3"
+}
+
+compileJava {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+}
+sourceSets {
+    main.java.srcDirs += ['src/gen/java']
+}
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation group: 'org.antlr', name: 'antlr4', version: antlr4Version
+    antlr("org.antlr:antlr4:$antlr4Version") { // use ANTLR version 4
+        exclude group:'com.ibm.icu', module:'icu4j'
+    }
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+generateGrammarSource {
+    arguments += ["-package", "org.antlr.jetbrains.st4plugin.parsing","-long-messages","-visitor"]
+    outputDirectory = file('src/gen/java/org/antlr/jetbrains/st4plugin/parsing')
+}
+clean {
+    delete 'src/gen/java'
+}
+//apply plugin: 'me.champeau.gradle.antlr4'

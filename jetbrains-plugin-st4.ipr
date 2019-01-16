@@ -11,13 +11,32 @@
       <entry name="!?*.kt" />
       <entry name="!?*.clj" />
     </wildcardResourcePatterns>
+    <bytecodeTargetLevel>
+      <module name="antlr.jetbrains-plugin-st4.gen" target="1.8" />
+      <module name="antlr.jetbrains-plugin-st4.main" target="1.8" />
+      <module name="antlr.jetbrains-plugin-st4.test" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
   <component name="CopyrightManager" default="" />
-  <component name="Encoding">
+  <component name="Encoding" addBOMForNewFiles="with NO BOM">
     <file url="PROJECT" charset="UTF-8" />
   </component>
-  <component name="EntryPointsManager">
-    <entry_points version="2.0" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="distributionType" value="WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleHome" value="F:/external/tools/gradle/4.5" />
+        <option name="gradleJvm" value="1.8" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+          </set>
+        </option>
+        <option name="useAutoImport" value="true" />
+        <option name="useQualifiedModuleNames" value="true" />
+      </GradleProjectSettings>
+    </option>
   </component>
   <component name="InspectionProjectProfileManager">
     <profile version="1.0">
@@ -158,13 +177,98 @@
   </component>
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/jetbrains-plugin-st4.iml" filepath="$PROJECT_DIR$/jetbrains-plugin-st4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/antlr.jetbrains-plugin-st4.iml" filepath="$PROJECT_DIR$/antlr.jetbrains-plugin-st4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/antlr.jetbrains-plugin-st4.main.iml" filepath="$PROJECT_DIR$/antlr.jetbrains-plugin-st4.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/antlr.jetbrains-plugin-st4.test.iml" filepath="$PROJECT_DIR$/antlr.jetbrains-plugin-st4.test.iml" />
     </modules>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" default="false" project-jdk-name="IntelliJ IDEA Community Edition IC-141.SNAPSHOT" project-jdk-type="IDEA JDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="false" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+  </component>
+  <component name="libraryTable">
+    <library name="Gradle: com.ibm.icu:icu4j:61.1">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.ibm.icu/icu4j/61.1/28d33b5e44e72edcc66a5da7a34a42147f38d987/icu4j-61.1.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.ibm.icu/icu4j/61.1/df1b5d109cd3734abc5ea028b48c67b5a1a44365/icu4j-61.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: junit:junit:4.11">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/junit/junit/4.11/4e031bb61df09069aeb2bffb4019e7a5034a4ee0/junit-4.11.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/junit/junit/4.11/28e0ad201304e4a4abf999ca0570b7cffc352c3c/junit-4.11-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: org.abego.treelayout:org.abego.treelayout.core:1.0.3">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.abego.treelayout/org.abego.treelayout.core/1.0.3/457216e8e6578099ae63667bb1e4439235892028/org.abego.treelayout.core-1.0.3.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.abego.treelayout/org.abego.treelayout.core/1.0.3/98d31576a54fd48dabf1fcf67a311dd9f0e4f66e/org.abego.treelayout.core-1.0.3-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: org.antlr:antlr-runtime:3.5.2">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.antlr/antlr-runtime/3.5.2/cd9cd41361c155f3af0f653009dcecb08d8b4afd/antlr-runtime-3.5.2.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.antlr/antlr-runtime/3.5.2/5214ea45dd20d3a2e4caa6f1ad2248ad107e0daf/antlr-runtime-3.5.2-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: org.antlr:antlr4-runtime:4.7.2">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.antlr/antlr4-runtime/4.7.2/e27d8ab4f984f9d186f54da984a6ab1cccac755e/antlr4-runtime-4.7.2.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.antlr/antlr4-runtime/4.7.2/14fff5b9b6c84f3b3a1fe0980e8560a555df07c0/antlr4-runtime-4.7.2-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: org.antlr:antlr4:4.7.2">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.antlr/antlr4/4.7.2/93058c41a6cbb7f5ca63edac837f42c002dbc556/antlr4-4.7.2.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.antlr/antlr4/4.7.2/285602cb687ffa3dc8221ba3a728115dfe2d79bf/antlr4-4.7.2-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: org.antlr:ST4:4.1">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.antlr/ST4/4.1/467d508be07a542ad0a68ffcaed2d561c5fb2e0c/ST4-4.1.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.antlr/ST4/4.1/a0024699bf2a3daa79d75d67295f45761076058a/ST4-4.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: org.glassfish:javax.json:1.0.4">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish/javax.json/1.0.4/3178f73569fd7a1e5ffc464e680f7a8cc784b85a/javax.json-1.0.4.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish/javax.json/1.0.4/ef782abad0d3f1d30644c4023a6bbc6fe371e23a/javax.json-1.0.4-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: org.hamcrest:hamcrest-core:1.3">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/1dc37250fbc78e23a65a67fbbaf71d2e9cbc3c0b/hamcrest-core-1.3-sources.jar!/" />
+      </SOURCES>
+    </library>
   </component>
 </project>
