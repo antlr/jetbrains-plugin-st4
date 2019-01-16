@@ -1,15 +1,8 @@
 buildscript {
     repositories {
-//        maven {
-//            name 'JFrog OSS snapshot repo'
-//            url  'https://oss.jfrog.org/oss-snapshot-local/'
-//        }
         jcenter()
         mavenCentral()
     }
-//    dependencies {
-//        classpath 'me.champeau.gradle:antlr4-gradle-plugin:0.1'
-//    }
 }
 
 plugins {
