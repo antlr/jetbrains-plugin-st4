@@ -32,7 +32,6 @@
 
   <project-components>
 	  <component>
-       <!--<implementation-class>org.antlr.jetbrains.st4plugin.STGroupPluginController</implementation-class>-->
        <implementation-class>org.antlr.jetbrains.st4plugin.STGroupPluginController</implementation-class>
    </component>
     <component>

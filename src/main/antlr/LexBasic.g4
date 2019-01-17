@@ -130,7 +130,7 @@ fragment CharLiteral	: SQuote ( EscSeq | ~['\r\n\\] )  SQuote	;
 fragment SQuoteLiteral	: SQuote ( EscSeq | ~['\r\n\\] )* SQuote	;
 fragment DQuoteLiteral	: DQuote ( EscSeq | ~["\r\n\\] )* DQuote	;
 fragment USQuoteLiteral	: SQuote ( EscSeq | ~['\r\n\\] )* 			;
-DOT:'.';
+//DOT:'.';
 fragment DecimalFloatingPointLiteral
 	:   DecDigits DOT DecDigits? ExponentPart? FloatTypeSuffix?
 	|   DOT DecDigits ExponentPart? FloatTypeSuffix?

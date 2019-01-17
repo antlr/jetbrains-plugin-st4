@@ -35,6 +35,7 @@ compileJava {
 }
 sourceSets {
     main.java.srcDirs += ['src/gen/java']
+    main.antlr.includes = ["ST*.g4"]
 }
 repositories {
     mavenCentral()
@@ -49,10 +50,10 @@ dependencies {
 }
 
 generateGrammarSource {
-    arguments += ["-package", "org.antlr.jetbrains.st4plugin.parsing","-long-messages","-visitor"]
+    arguments += ["-package", "org.antlr.jetbrains.st4plugin.parsing","-long-messages","-visitor","-lib","src/main/antlr"]
     outputDirectory = file('src/gen/java/org/antlr/jetbrains/st4plugin/parsing')
 }
 clean {
     delete 'src/gen/java'
 }
-//apply plugin: 'me.champeau.gradle.antlr4'
+
