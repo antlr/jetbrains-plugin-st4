@@ -1,4 +1,4 @@
-<idea-plugin version="2">
+<idea-plugin>
   <id>org.antlr.jetbrains.st4plugin</id>
   <name>StringTemplate v4 plugin</name>
   <version>0.5</version>

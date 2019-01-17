@@ -1,6 +1,5 @@
 buildscript {
     repositories {
-        jcenter()
         mavenCentral()
     }
 }
@@ -34,7 +33,6 @@ compileJava {
     targetCompatibility = '1.8'
 }
 sourceSets {
-    main.java.srcDirs += ['src/gen/java']
     main.antlr.includes = ["ST*.g4"]
 }
 repositories {
@@ -42,7 +40,6 @@ repositories {
 }
 
 dependencies {
-    implementation group: 'org.antlr', name: 'antlr4', version: antlr4Version
     antlr("org.antlr:antlr4:$antlr4Version") { // use ANTLR version 4
         exclude group:'com.ibm.icu', module:'icu4j'
     }
@@ -50,10 +47,10 @@ dependencies {
 }
 
 generateGrammarSource {
-    arguments += ["-package", "org.antlr.jetbrains.st4plugin.parsing","-long-messages","-visitor","-lib","src/main/antlr"]
-    outputDirectory = file('src/gen/java/org/antlr/jetbrains/st4plugin/parsing')
+    arguments += [
+            "-package", "org.antlr.jetbrains.st4plugin.parsing",
+            "-long-messages",
+            "-visitor",
+            "-lib","src/main/antlr"
+    ]
 }
-clean {
-    delete 'src/gen/java'
-}
-

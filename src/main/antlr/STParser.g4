@@ -36,7 +36,7 @@ parser grammar STParser;
 
 options {
 	language=Java;
-	tokenVocab= STLexer;
+	tokenVocab=STLexer;
 }
 
 template
@@ -166,9 +166,3 @@ argExprList
 namedArg
 	: ID EQUALS expr
 	;
-
-
-
-
-
-
