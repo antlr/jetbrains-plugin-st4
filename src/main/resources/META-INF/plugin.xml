@@ -6,8 +6,8 @@
 
   <description><![CDATA[
   <p>
-      This plugin is for StringTemplate v4 .stg files. It works with Intellij 13.x+.
-      It should work in other Jetbrains IDEs.
+  This plugin is for StringTemplate v4 .stg files. It works with
+  Intellij 15, 2016.1-2017.3.  It should work in other Jetbrains IDEs.
      </p>
 
 <p>
@@ -15,12 +15,12 @@
   ]]></description>
 
   <change-notes><![CDATA[
-  Bug fixes. Darcula looks good now. Delimiters work. See https://github.com/antlr/jetbrains-plugin-st4/issues?utf8=%E2%9C%93&q=is%3Aissue%20is%3Aclosed%20milestone%3A0.5
+  Added gradle build, Travis CI build config. Fix plugin for IDEA 2018.X. Big thanks to https://github.com/syakovlevdalet and https://github.com/bjansen
   ]]>
   </change-notes>
 
   <!-- please see http://confluence.jetbrains.net/display/IDEADEV/Build+Number+Ranges for description -->
-  <idea-version since-build="133"/> <!-- requires 13.x, 14.x, 15.x -->
+  <idea-version since-build="143.0"/> <!-- requires 15.x due to Java 7 requirements of ANTLR 4.7 -->
 
   <!-- please see http://confluence.jetbrains.net/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
        on how to target different products -->
