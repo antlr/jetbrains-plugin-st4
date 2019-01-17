@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>org.antlr.jetbrains.st4plugin</id>
   <name>StringTemplate v4 plugin</name>
-  <version>0.5</version>
+  <version>will be replaced by gradle</version>
   <vendor email="parrt@antlr.org" url="https://github.com/antlr/jetbrains-plugin-st4">ANTLR Project</vendor>
 
   <description><![CDATA[
