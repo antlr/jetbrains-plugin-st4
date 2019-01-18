@@ -1,4 +1,4 @@
-# IntelliJ Plugin for StringTemplate v4 [![Latest version](https://img.shields.io/jetbrains/plugin/v/8041.svg?label=latest%20version)](https://plugins.jetbrains.com/plugin/8041-stringtemplate-v4-plugin) ![Downloads](https://img.shields.io/jetbrains/plugin/d/8041.svg)
+# IntelliJ Plugin for StringTemplate v4 [![Build Status](https://travis-ci.org/antlr/jetbrains-plugin-st4.svg?branch=master)](https://travis-ci.org/antlr/jetbrains-plugin-st4) [![Latest version](https://img.shields.io/jetbrains/plugin/v/8041.svg?label=latest%20version)](https://plugins.jetbrains.com/plugin/8041-stringtemplate-v4-plugin) ![Downloads](https://img.shields.io/jetbrains/plugin/d/8041.svg)
 
 A plugin that adds support for StringTemplate v4 to [IntelliJ](https://www.jetbrains.com/idea/)-based IDEs (version 13.x and later).
 
