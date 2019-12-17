@@ -1,17 +1,19 @@
 package org.antlr.jetbrains.st4plugin.highlight;
 
+import com.intellij.codeInsight.daemon.impl.HighlightInfo;
+import com.intellij.codeInsight.daemon.impl.HighlightInfoType;
+import com.intellij.codeInsight.daemon.impl.UpdateHighlightersUtil;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.colors.EditorColorsManager;
 import com.intellij.openapi.editor.colors.EditorColorsScheme;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
-import com.intellij.openapi.editor.markup.EffectType;
 import com.intellij.openapi.editor.markup.HighlighterLayer;
 import com.intellij.openapi.editor.markup.HighlighterTargetArea;
 import com.intellij.openapi.editor.markup.MarkupModel;
 import com.intellij.openapi.editor.markup.RangeHighlighter;
 import com.intellij.openapi.editor.markup.TextAttributes;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Key;
-import com.intellij.ui.JBColor;
 import org.antlr.jetbrains.st4plugin.parsing.Issue;
 import org.antlr.jetbrains.st4plugin.parsing.LexerErrorListener;
 import org.antlr.jetbrains.st4plugin.parsing.ParserErrorListener;
@@ -24,6 +26,7 @@ import org.antlr.v4.runtime.Token;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class SyntaxHighlighter {
 	public static final Key<Object> SYNTAX_HIGHLIGHTING_TAG = Key.create("SYNTAX_HIGHLIGHTING_TAG");
@@ -33,10 +36,12 @@ public abstract class SyntaxHighlighter {
 
 	protected Editor editor;
 	protected int startIndex;
+	protected List<HighlightInfo> highlightInfos;
 
-	public SyntaxHighlighter(Editor editor, int startIndex) {
+	public SyntaxHighlighter(Editor editor, int startIndex, List<HighlightInfo> highlightInfos) {
 		this.editor = editor;
 		this.startIndex = startIndex;
+		this.highlightInfos = highlightInfos;
 	}
 
 	public abstract Lexer getLexer(String text);
@@ -99,6 +104,14 @@ public abstract class SyntaxHighlighter {
 				}
 			}
 		}
+
+		Project project = editor.getProject();
+
+		if (project != null) {
+			UpdateHighlightersUtil.setHighlightersToEditor(
+					project, editor.getDocument(), 0, editor.getDocument().getTextLength(),
+					highlightInfos, editorColorsManager.getGlobalScheme(), 0);
+		}
 	}
 
 	protected void lexicalError(String annotation, Token offendingToken) {
@@ -106,24 +119,11 @@ public abstract class SyntaxHighlighter {
 	}
 
 	protected void syntaxError(String annotation, Token offendingToken) {
-//		Annotation annot = new Annotation(20, 30, HighlightSeverity.ERROR, "Test!", "Test Message!");
-//		HighlightInfo info = HighlightInfo.fromAnnotation(annot);
-//		List<HighlightInfo> al = new ArrayList<HighlightInfo>();
-//		al.add(info);
-//		UpdateHighlightersUtil.setHighlightersToEditor(project, doc, 20, 30, al, null, 0)
-
-		final TextAttributes attr = new TextAttributes();
-		attr.setForegroundColor(JBColor.RED);
-		attr.setEffectColor(JBColor.RED);
-		attr.setEffectType(EffectType.WAVE_UNDERSCORE);
-		MarkupModel markupModel = editor.getMarkupModel();
-		RangeHighlighter h =
-			markupModel.addRangeHighlighter(startIndex+offendingToken.getStartIndex(),
-			                                startIndex+offendingToken.getStopIndex()+1,
-			                                HighlighterLayer.ERROR, // layer
-			                                attr,
-			                                HighlighterTargetArea.EXACT_RANGE);
-		h.putUserData(SYNTAX_HIGHLIGHTING_TAG, offendingToken); // store any non-null value to tag it
+		HighlightInfo highlightInfo = HighlightInfo.newHighlightInfo(HighlightInfoType.ERROR)
+				.range(startIndex + offendingToken.getStartIndex(), startIndex + offendingToken.getStopIndex() + 1)
+				.descriptionAndTooltip(annotation)
+				.create();
+		highlightInfos.add(highlightInfo);
 	}
 
 	protected void highlightToken(Token t) {

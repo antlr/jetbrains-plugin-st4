@@ -36,7 +36,7 @@ public class STSyntaxHighlighter extends SyntaxHighlighter {
 	                           Token templateToken,
 	                           int startIndex)
 	{
-		super(editor, startIndex);
+		super(editor, startIndex, groupHighlighter.highlightInfos);
 		this.templateToken = templateToken;
 		this.groupHighlighter = groupHighlighter;
 	}
