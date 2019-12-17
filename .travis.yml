@@ -6,4 +6,7 @@ env:
   - IDEA_VERSION=IC-2017.3.6
   - IDEA_VERSION=IC-2018.2.7
   - IDEA_VERSION=IC-2018.3.3
-install: sed -i '/ideaVersion=/c\ideaVersion='"$IDEA_VERSION"'' gradle.properties
+  - IDEA_VERSION=IC-2019.3
+
+script:
+  - ./gradlew build -PideaVersion=$IDEA_VERSION

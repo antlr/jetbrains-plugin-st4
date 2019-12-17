@@ -5,7 +5,7 @@ buildscript {
 }
 
 plugins {
-    id "org.jetbrains.intellij" version "0.3.12"
+    id "org.jetbrains.intellij" version "0.4.15"
 }
 
 apply plugin: 'idea'
@@ -25,7 +25,7 @@ group 'antlr'
 version pluginVersion
 
 wrapper {
-    gradleVersion = "4.10.3"
+    gradleVersion = "6.0.1"
 }
 
 compileJava {
