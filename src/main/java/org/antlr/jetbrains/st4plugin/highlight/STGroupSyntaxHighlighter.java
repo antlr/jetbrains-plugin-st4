@@ -44,7 +44,7 @@ public class STGroupSyntaxHighlighter extends SyntaxHighlighter {
 	public Character[] delimiters = new Character[] {'<', '>'};
 
 	public STGroupSyntaxHighlighter(Editor editor, int startIndex) {
-		super(editor, startIndex);
+		super(editor, startIndex, new ArrayList<>());
 	}
 
 	@Override
