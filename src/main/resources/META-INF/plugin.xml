@@ -49,5 +49,6 @@
    	  <additionalTextAttributes scheme="Darcula" file="colorSchemes/STGroupDarcula.xml"/>
 
       <lang.parserDefinition language="STGroup" implementationClass="org.antlr.jetbrains.st4plugin.psi.STGroupParserDefinition"/>
+      <lang.foldingBuilder language="STGroup" implementationClass="org.antlr.jetbrains.st4plugin.folding.STGroupFoldingBuilder"/>
   </extensions>
 </idea-plugin>
