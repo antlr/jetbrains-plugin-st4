@@ -5,17 +5,20 @@
   <vendor email="parrt@antlr.org" url="https://github.com/antlr/jetbrains-plugin-st4">ANTLR Project</vendor>
 
   <description><![CDATA[
-  <p>
-  This plugin is for StringTemplate v4 .stg files. It works with
-  Intellij 15, 2016.1-2017.3.  It should work in other Jetbrains IDEs.
-     </p>
+    <p>
+        This plugin is for StringTemplate v4 .stg files. It works with
+        IntelliJ IDEA 15, 2016.1-2019.3. It should work in other IntelliJ-based IDEs.
+    </p>
 
-<p>
-<a href="https://github.com/antlr/jetbrains-plugin-st4">Github source</a>
+    <p><a href="https://github.com/antlr/jetbrains-plugin-st4">Github source</a></p>
   ]]></description>
 
   <change-notes><![CDATA[
-  Added gradle build, Travis CI build config. Fix plugin for IDEA 2018.X. Big thanks to https://github.com/syakovlevdalet and https://github.com/bjansen
+    <ul>
+        <li>Fixed icons in 2019.3 (<a href="https://github.com/antlr/jetbrains-plugin-st4/issues/16">#16</a>)</li>
+        <li>Parsing errors are now shown in a tooltip and in the status bar (<a href="https://github.com/antlr/jetbrains-plugin-st4/issues/18">#18</a>)</li>
+        <li>Added code folding in StringTemplate group files (<a href="https://github.com/antlr/jetbrains-plugin-st4/issues/17">#17</a>)</li>
+    </ul>
   ]]>
   </change-notes>
 
