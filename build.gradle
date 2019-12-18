@@ -43,7 +43,8 @@ dependencies {
     antlr("org.antlr:antlr4:$antlr4Version") { // use ANTLR version 4
         exclude group:'com.ibm.icu', module:'icu4j'
     }
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    implementation "org.antlr:antlr4-intellij-adaptor:0.1"
+    testImplementation group: 'junit', name: 'junit', version: '4.11'
 }
 
 generateGrammarSource {
