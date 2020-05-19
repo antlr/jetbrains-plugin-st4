@@ -37,9 +37,6 @@
 	  <component>
        <implementation-class>org.antlr.jetbrains.st4plugin.STGroupPluginController</implementation-class>
    </component>
-    <component>
-        <implementation-class>org.antlr.jetbrains.st4plugin.highlight.STGroupHighlightingPassFactory</implementation-class>
-    </component>
   </project-components>
 
   <actions>
@@ -50,6 +47,7 @@
       <structureViewBuilder factoryClass="org.antlr.jetbrains.st4plugin.structview.STGroupStructureViewBuilderProvider"/>
       <additionalTextAttributes scheme="Default" file="colorSchemes/STGroupDefault.xml"/>
    	  <additionalTextAttributes scheme="Darcula" file="colorSchemes/STGroupDarcula.xml"/>
+      <highlightingPassFactory implementation="org.antlr.jetbrains.st4plugin.highlight.STGroupHighlightingPassFactory"/>
 
       <lang.parserDefinition language="STGroup" implementationClass="org.antlr.jetbrains.st4plugin.psi.STGroupParserDefinition"/>
       <lang.foldingBuilder language="STGroup" implementationClass="org.antlr.jetbrains.st4plugin.folding.STGroupFoldingBuilder"/>
