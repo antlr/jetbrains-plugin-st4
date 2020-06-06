@@ -16,21 +16,21 @@ import org.jetbrains.annotations.Nullable;
 public class STGroupHighlightingPassFactory
 	implements TextEditorHighlightingPassFactory, TextEditorHighlightingPassFactoryRegistrar
 {
-	private Project project;
 
 	@Nullable
 	@Override
-	public TextEditorHighlightingPass createHighlightingPass(PsiFile file, Editor editor) {
+	public TextEditorHighlightingPass createHighlightingPass(@NotNull PsiFile file, @NotNull Editor editor) {
 		if ( editor==null ) return null;
 		Document doc = editor.getDocument();
+		Project project = editor.getProject();
 		VirtualFile vfile = FileDocumentManager.getInstance().getFile(doc);
-		if ( vfile==null || !vfile.getName().endsWith(".stg") ) return null;
+		if ( project == null || vfile==null || !vfile.getName().endsWith(".stg") ) return null;
 		return new STGroupHighlightingPass(project, editor);
 	}
 
 	@Override
-	public void registerHighlightingPassFactory(@NotNull TextEditorHighlightingPassRegistrar registrar, @NotNull Project project) {
-		this.project = project;
+	public void registerHighlightingPassFactory(@NotNull TextEditorHighlightingPassRegistrar registrar,
+												@NotNull Project project) {
 		registrar.registerTextEditorHighlightingPass(this, null, null, true, -1);
 	}
 
