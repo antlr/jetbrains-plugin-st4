@@ -43,7 +43,8 @@
   </actions>
 
   <extensions defaultExtensionNs="com.intellij">
-      <fileTypeFactory implementation="org.antlr.jetbrains.st4plugin.STGroupFileTypeFactory"/>
+      <fileType name="StringTemplate v4 template group file" implementationClass="org.antlr.jetbrains.st4plugin.STGroupFileType"
+                fieldName="INSTANCE" language="STGroup" extensions="stg"/>
       <structureViewBuilder factoryClass="org.antlr.jetbrains.st4plugin.structview.STGroupStructureViewBuilderProvider"/>
       <additionalTextAttributes scheme="Default" file="colorSchemes/STGroupDefault.xml"/>
    	  <additionalTextAttributes scheme="Darcula" file="colorSchemes/STGroupDarcula.xml"/>
