@@ -6,6 +6,7 @@ import com.intellij.lang.folding.FoldingDescriptor;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.tree.TokenSet;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.antlr.jetbrains.st4plugin.parsing.STGLexer;
 import org.antlr.jetbrains.st4plugin.parsing.STGParser;
@@ -36,10 +37,19 @@ public class STGroupFoldingBuilder extends CustomFoldingBuilder {
     private void foldTemplates(List<FoldingDescriptor> descriptors, PsiElement root) {
         PsiTreeUtil.processElements(root, element -> {
             if (element.getNode().getElementType() == getRuleElementType(STGParser.RULE_template)) {
-                ASTNode bigString = element.getNode().findChildByType(getTokenElementType(STGLexer.BIGSTRING));
+                ASTNode bigString = element.getNode().findChildByType(TokenSet.create(
+                        getTokenElementType(STGLexer.BIGSTRING),
+                        getTokenElementType(STGLexer.BIGSTRING_NO_NL)
+                ));
 
                 if (bigString != null) {
                     descriptors.add(new FoldingDescriptor(bigString, bigString.getTextRange()));
+                }
+            } else if (element.getNode().getElementType() == getRuleElementType(STGParser.RULE_formalArg)) {
+                ASTNode template = element.getNode().findChildByType(getTokenElementType(STGLexer.ANON_TEMPLATE));
+
+                if (template != null) {
+                    descriptors.add(new FoldingDescriptor(template, template.getTextRange()));
                 }
             }
 
@@ -80,6 +90,10 @@ public class STGroupFoldingBuilder extends CustomFoldingBuilder {
     protected String getLanguagePlaceholderText(@NotNull ASTNode node, @NotNull TextRange range) {
         if (node.getElementType() == getTokenElementType(STGLexer.BIGSTRING)) {
             return "<<...>>";
+        } else if (node.getElementType() == getTokenElementType(STGLexer.BIGSTRING_NO_NL)) {
+            return "<%...%>";
+        } else if (node.getElementType() == getTokenElementType(STGLexer.ANON_TEMPLATE)) {
+            return "{...}";
         } else if (node.getElementType() == getRuleElementType(STGParser.RULE_dict)) {
             return "[...]";
         } else if (node.getElementType() == getTokenElementType(STGLexer.DOC_COMMENT)) {
