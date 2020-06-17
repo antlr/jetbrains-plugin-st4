@@ -98,7 +98,7 @@ WRAP		: 'wrap'		;
 ANCHOR		: 'anchor'		;
 SEPARATOR	: 'separator'	;
 
-ID        	: NameStartChar NameChar* ;
+ID        	: ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'-'|'_')* ;
 
 // -----------------------------------
 // Grammar specific fragments
@@ -111,23 +111,28 @@ fragment RPct		: '%>'		;
 fragment LDAngle	: LShift	;
 fragment RDAngle	: RShift	;
 
+ERRCHAR             : . -> channel (HIDDEN)   ;
+
 mode STRING_MODE;
 
 STRING_ESC		: '\\"' {setText(getText()+"\"");} 	-> more ;
 STRING_NL		: '\n' 		-> more ; // match but it should be an error
 STRING			: '"' 		-> popMode ;
-TRING_TEXT		: .			-> more;
+EOF_STRING      : EOF       -> popMode ;
+STRING_TEXT		: .			-> more;
 
 mode BIGSTRING_MODE;
 
 BIGSTRING_ESC		: '\\>' 	-> more ;
 BIGSTRING			: '>>' 		-> popMode ;
+EOF_BIGSTRING       : EOF       -> popMode ;
 BIGSTRING_TEXT		: .			-> more;
 
 mode BIGSTRING_NO_NL_MODE;
 
 BIGSTRING_NO_NL_ESC	: '\\%' 	-> more;
 BIGSTRING_NO_NL		: '%>'		-> popMode ;
+EOF_BIGSTRING_NO_NL : EOF       -> popMode ;
 BIGSTRING_NO_NL_TEXT: . 		-> more;
 
 

@@ -45,12 +45,21 @@
   <extensions defaultExtensionNs="com.intellij">
       <fileType name="StringTemplate v4 template group file" implementationClass="org.antlr.jetbrains.st4plugin.STGroupFileType"
                 fieldName="INSTANCE" language="STGroup" extensions="stg"/>
+      <fileType name="StringTemplate v4 template file" implementationClass="org.antlr.jetbrains.st4plugin.STFileType"
+                fieldName="INSTANCE" language="ST" extensions="st"/>
       <structureViewBuilder factoryClass="org.antlr.jetbrains.st4plugin.structview.STGroupStructureViewBuilderProvider"/>
       <additionalTextAttributes scheme="Default" file="colorSchemes/STGroupDefault.xml"/>
    	  <additionalTextAttributes scheme="Darcula" file="colorSchemes/STGroupDarcula.xml"/>
-      <highlightingPassFactory implementation="org.antlr.jetbrains.st4plugin.highlight.STGroupHighlightingPassFactory"/>
+<!--      <highlightingPassFactory implementation="org.antlr.jetbrains.st4plugin.highlight.STGroupHighlightingPassFactory"/>-->
 
+      <lang.syntaxHighlighterFactory language="STGroup" implementationClass="org.antlr.jetbrains.st4plugin.highlight.NewSTGroupSyntaxHighlighterFactory"/>
+      <lang.syntaxHighlighterFactory language="ST" implementationClass="org.antlr.jetbrains.st4plugin.highlight.NewSTSyntaxHighlighterFactory"/>
+      <annotator language="STGroup" implementationClass="org.antlr.jetbrains.st4plugin.highlight.STGroupSemanticHighlightAnnotator"/>
       <lang.parserDefinition language="STGroup" implementationClass="org.antlr.jetbrains.st4plugin.psi.STGroupParserDefinition"/>
+      <lang.parserDefinition language="ST" implementationClass="org.antlr.jetbrains.st4plugin.psi.STParserDefinition"/>
       <lang.foldingBuilder language="STGroup" implementationClass="org.antlr.jetbrains.st4plugin.folding.STGroupFoldingBuilder"/>
+      <lang.braceMatcher language="STGroup" implementationClass="org.antlr.jetbrains.st4plugin.highlight.STGroupBraceMatcher"/>
+      <lang.braceMatcher language="ST" implementationClass="org.antlr.jetbrains.st4plugin.highlight.STBraceMatcher"/>
+      <languageInjector implementation="org.antlr.jetbrains.st4plugin.psi.STLanguageInjector"/>
   </extensions>
 </idea-plugin>

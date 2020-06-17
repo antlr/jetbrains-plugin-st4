@@ -2,9 +2,7 @@ package org.antlr.jetbrains.st4plugin.highlight;
 
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.editor.HighlighterColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
-import org.antlr.jetbrains.st4plugin.parsing.ANTLR3StringStream;
 import org.antlr.jetbrains.st4plugin.parsing.ParserErrorListener;
 import org.antlr.jetbrains.st4plugin.parsing.ParsingResult;
 import org.antlr.jetbrains.st4plugin.parsing.STLexer;
@@ -43,8 +41,9 @@ public class STSyntaxHighlighter extends SyntaxHighlighter {
 
 	@Override
 	public Lexer getLexer(String text) {
-		STLexer lexer = new STLexer(new ANTLR3StringStream(text), templateToken, groupHighlighter.delimiters[0], groupHighlighter.delimiters[1]);
-		return lexer;
+//		STLexer lexer = new STLexer(new ANTLR3StringStream(text), templateToken, groupHighlighter.delimiters[0], groupHighlighter.delimiters[1]);
+//		return lexer;
+		return null;
 	}
 
 	@Override
@@ -74,7 +73,7 @@ public class STSyntaxHighlighter extends SyntaxHighlighter {
 		switch ( tokenType ) {
 			case STLexer.IF:
 			case STLexer.ELSE:
-			case STLexer.REGION_END:
+//			case STLexer.REGION_END:
 			case STLexer.TRUE:
 			case STLexer.FALSE:
 			case STLexer.ELSEIF:
@@ -89,12 +88,12 @@ public class STSyntaxHighlighter extends SyntaxHighlighter {
 			case STLexer.TEXT:
 				key = STGroup_TEMPLATE_TEXT;
 				break;
-			case STLexer.COMMENT:
-				key = DefaultLanguageHighlighterColors.LINE_COMMENT;
-				break;
-			case STLexer.ERROR_TYPE :
-				key = HighlighterColors.BAD_CHARACTER;
-				break;
+//			case STLexer.COMMENT:
+//				key = DefaultLanguageHighlighterColors.LINE_COMMENT;
+//				break;
+//			case STLexer.ERROR_TYPE :
+//				key = HighlighterColors.BAD_CHARACTER;
+//				break;
 			default:
 				return EMPTY;
 		}

@@ -15,38 +15,51 @@ import com.intellij.psi.tree.TokenSet;
 import org.antlr.intellij.adaptor.lexer.ANTLRLexerAdaptor;
 import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory;
 import org.antlr.intellij.adaptor.parser.ANTLRParserAdaptor;
-import org.antlr.jetbrains.st4plugin.STGroupLanguage;
-import org.antlr.jetbrains.st4plugin.parsing.STGLexer;
-import org.antlr.jetbrains.st4plugin.parsing.STGParser;
+import org.antlr.jetbrains.st4plugin.STLanguage;
+import org.antlr.jetbrains.st4plugin.parsing.STLexer;
+import org.antlr.jetbrains.st4plugin.parsing.STParser;
 import org.antlr.v4.runtime.Parser;
+import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.jetbrains.annotations.NotNull;
 
-public class STGroupParserDefinition implements ParserDefinition {
+public class STParserDefinition implements ParserDefinition {
 
-    public static final IFileElementType FILE = new IFileElementType(STGroupLanguage.INSTANCE);
+    public static final IFileElementType FILE = new IFileElementType(STLanguage.INSTANCE);
 
-    public STGroupParserDefinition() {
+    public STParserDefinition() {
         PSIElementTypeFactory.defineLanguageIElementTypes(
-                STGroupLanguage.INSTANCE,
-                STGLexer.tokenNames,
-                STGParser.ruleNames
+                STLanguage.INSTANCE,
+                STLexer.tokenNames,
+                STParser.ruleNames
         );
     }
 
     @NotNull
     @Override
     public Lexer createLexer(Project project) {
-        STGLexer lexer = new STGLexer(null);
-        return new ANTLRLexerAdaptor(STGroupLanguage.INSTANCE, lexer);
+        return new ANTLRLexerAdaptor(STLanguage.INSTANCE, new STLexer(null)) {
+            @Override
+            public void advance() {
+                Token before = super.getCurrentToken();
+                super.advance();
+                Token after = super.getCurrentToken();
+
+                if (before != null && after != null) {
+                    if (after.getStartIndex() != before.getStopIndex() + 1) {
+                        System.err.println("Lexer gap between tokens\n" + before + "\n\nand\n\n" + after);
+                    }
+                }
+            }
+        };
     }
 
     @Override
     public PsiParser createParser(Project project) {
-        return new ANTLRParserAdaptor(STGroupLanguage.INSTANCE, new STGParser(null)) {
+        return new ANTLRParserAdaptor(STLanguage.INSTANCE, new STParser(null)) {
             @Override
             protected ParseTree parse(Parser parser, IElementType root) {
-                return ((STGParser) parser).group();
+                return ((STParser) parser).template();
             }
         };
     }
@@ -60,11 +73,8 @@ public class STGroupParserDefinition implements ParserDefinition {
     @Override
     public TokenSet getCommentTokens() {
         return PSIElementTypeFactory.createTokenSet(
-                STGroupLanguage.INSTANCE,
-                STGLexer.DOC_COMMENT,
-                STGLexer.BLOCK_COMMENT,
-                STGLexer.LINE_COMMENT,
-                STGLexer.TMPL_COMMENT
+                STLanguage.INSTANCE,
+                STLexer.TMPL_COMMENT
         );
     }
 
@@ -72,32 +82,29 @@ public class STGroupParserDefinition implements ParserDefinition {
     @Override
     public TokenSet getStringLiteralElements() {
         return PSIElementTypeFactory.createTokenSet(
-                STGroupLanguage.INSTANCE,
-                STGLexer.STRING
+                STLanguage.INSTANCE,
+                STLexer.STRING
         );
     }
 
     @NotNull
     @Override
     public PsiElement createElement(ASTNode node) {
-        if (node.getElementType() == STGroupTokenTypes.getRuleElementType(STGParser.RULE_templateContent)) {
-            return new TemplateContentElement(node);
-        }
-
         return new ASTWrapperPsiElement(node);
     }
 
     @Override
     public PsiFile createFile(FileViewProvider viewProvider) {
-        return new STGroupFile(viewProvider);
+        return new STFile(viewProvider);
     }
 
     @NotNull
     @Override
     public TokenSet getWhitespaceTokens() {
         return PSIElementTypeFactory.createTokenSet(
-                STGroupLanguage.INSTANCE,
-                STGLexer.WS
+                STLanguage.INSTANCE,
+                STLexer.VERT_WS,
+                STLexer.HORZ_WS
         );
     }
 
