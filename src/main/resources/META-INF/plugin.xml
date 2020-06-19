@@ -7,7 +7,7 @@
   <description><![CDATA[
     <p>
         This plugin is for StringTemplate v4 .stg files. It works with
-        IntelliJ IDEA 15, 2016.1-2019.3. It should work in other IntelliJ-based IDEs.
+        IntelliJ IDEA 15, 2016.1-2020.1. It should work in other IntelliJ-based IDEs.
     </p>
 
     <p><a href="https://github.com/antlr/jetbrains-plugin-st4">Github source</a></p>
@@ -23,7 +23,7 @@
   </change-notes>
 
   <!-- please see http://confluence.jetbrains.net/display/IDEADEV/Build+Number+Ranges for description -->
-  <idea-version since-build="192.5729"/> <!-- requires 15.x due to Java 7 requirements of ANTLR 4.7 -->
+  <idea-version since-build="143.0"/> <!-- requires 15.x due to Java 7 requirements of ANTLR 4.7 -->
 
   <!-- please see http://confluence.jetbrains.net/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
        on how to target different products -->
@@ -40,10 +40,8 @@
   </actions>
 
   <extensions defaultExtensionNs="com.intellij">
-      <fileType name="StringTemplate v4 template group file" implementationClass="org.antlr.jetbrains.st4plugin.STGroupFileType"
-                fieldName="INSTANCE" language="STGroup" extensions="stg"/>
-      <fileType name="StringTemplate v4 template file" implementationClass="org.antlr.jetbrains.st4plugin.STFileType"
-                fieldName="INSTANCE" language="ST" extensions="st"/>
+      <fileTypeFactory implementation="org.antlr.jetbrains.st4plugin.STGroupFileType$Factory"/>
+      <fileTypeFactory implementation="org.antlr.jetbrains.st4plugin.STFileType$Factory"/>
       <lang.psiStructureViewFactory language="STGroup" implementationClass="org.antlr.jetbrains.st4plugin.structview.STGroupStructureViewFactory"/>
       <additionalTextAttributes scheme="Default" file="colorSchemes/STGroupDefault.xml"/>
    	  <additionalTextAttributes scheme="Darcula" file="colorSchemes/STGroupDarcula.xml"/>

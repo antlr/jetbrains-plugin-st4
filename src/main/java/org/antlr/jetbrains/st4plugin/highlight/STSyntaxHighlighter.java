@@ -51,7 +51,7 @@ public class STSyntaxHighlighter extends SyntaxHighlighterBase {
 //        } else if (STTokenTypes.getTokenElementType(STLexer.SUB_ERR_CHAR).equals(tokenType)) {
 //            key = HighlighterColors.BAD_CHARACTER;
         } else {
-            return TextAttributesKey.EMPTY_ARRAY;
+            return STGroupSyntaxHighlighter.NO_ATTRIBUTES;
         }
 
         return new TextAttributesKey[]{key};

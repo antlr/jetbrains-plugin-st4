@@ -45,6 +45,8 @@ public class STGroupSyntaxHighlighter extends SyntaxHighlighterBase {
             STGLexer.DOC_COMMENT, STGLexer.LINE_COMMENT, STGLexer.BLOCK_COMMENT
     ).map(STGroupTokenTypes::getTokenElementType).collect(Collectors.toList());
 
+    public static final TextAttributesKey[] NO_ATTRIBUTES = new TextAttributesKey[0];
+
     @NotNull
     @Override
     public Lexer getHighlightingLexer() {
@@ -65,6 +67,6 @@ public class STGroupSyntaxHighlighter extends SyntaxHighlighterBase {
         } else if (tokenType instanceof TokenIElementType && ((TokenIElementType) tokenType).getANTLRTokenType() == Token.INVALID_TYPE) {
             return new TextAttributesKey[]{HighlighterColors.BAD_CHARACTER};
         }
-        return TextAttributesKey.EMPTY_ARRAY;
+        return NO_ATTRIBUTES;
     }
 }
