@@ -1,44 +1,44 @@
 package org.antlr.jetbrains.st4plugin.structview;
 
+import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.ide.util.treeView.smartTree.TreeElement;
 import com.intellij.navigation.ItemPresentation;
-import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
 import org.antlr.jetbrains.st4plugin.parsing.STGParser;
-import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.Trees;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.Arrays;
+
+import static org.antlr.jetbrains.st4plugin.psi.STGroupTokenTypes.getRuleElementType;
 
 public class STGroupRootTreeElement extends STGroupStructureViewTreeElement {
-	protected final VirtualFile file;
 
-	public STGroupRootTreeElement(STGroupStructureViewModel model, ParseTree root, VirtualFile file) {
-		super(model, root);
-		this.file = file;
-	}
+    public STGroupRootTreeElement(PsiFile psiFile) {
+        super(psiFile);
+    }
 
-	@NotNull
-	@Override
-	public ItemPresentation getPresentation() {
-		return new STGroupRootItemPresentation(node,file);
-	}
+    @NotNull
+    @Override
+    public ItemPresentation getPresentation() {
+        return new STGroupRootItemPresentation((PsiFile) psiElement);
+    }
 
-	@NotNull
-	@Override
-	public TreeElement[] getChildren() {
-		ParserRuleContext root = (ParserRuleContext) this.node;
-		Collection<ParseTree> rules = Trees.findAllRuleNodes(root, STGParser.RULE_template);
-		if ( rules.size()==0 ) return EMPTY_ARRAY;
-		List<TreeElement> treeElements = new ArrayList<TreeElement>(rules.size());
-		for (ParseTree t : rules) {
-			ParseTree nameNode = t.getChild(0);
-			treeElements.add(new STGroupTemplateDefTreeElement(model, nameNode));
-		}
-//		System.out.println("rules="+rules);
-		return treeElements.toArray(new TreeElement[treeElements.size()]);
+    @NotNull
+    @Override
+    public TreeElement[] getChildren() {
+        return Arrays.stream(this.psiElement.getChildren())
+                .filter(e -> e.getNode().getElementType() == getRuleElementType(STGParser.RULE_group))
+                .findFirst()
+                .map(group -> Arrays.stream(group.getChildren())
+                        .filter(this::shouldShowInStructureView)
+                        .map(e -> new STGroupTemplateDefTreeElement((ASTWrapperPsiElement) e))
+                        .toArray(TreeElement[]::new))
+                .orElse(TreeElement.EMPTY_ARRAY);
+    }
+
+	private boolean shouldShowInStructureView(@NotNull PsiElement child) {
+		return child.getNode().getElementType() == getRuleElementType(STGParser.RULE_template)
+				|| child.getNode().getElementType() == getRuleElementType(STGParser.RULE_dict);
 	}
 }

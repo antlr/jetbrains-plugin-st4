@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 2048 2048">
+	<circle fill-opacity="0.6" r="896" cx="1024" cy="1024" fill="#ea96f3"></circle>
+	<path fill-opacity="0.7" transform="translate(430.56, 1392.16) scale(0.48, -0.48)" fill="#171516" d="M563 1656h424v-143h-240v-1540h240v-143h-424v1826z"></path><path fill-opacity="0.7" transform="translate(1022.4000000000001, 1392.16) scale(0.48, -0.48)" fill="#171516" d="M720 1656v-1826h-424v143h240v1540h-240v143h424z"></path>
+</svg>
