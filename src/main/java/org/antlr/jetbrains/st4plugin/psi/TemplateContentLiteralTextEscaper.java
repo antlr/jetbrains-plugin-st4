@@ -8,6 +8,10 @@ import org.jetbrains.annotations.NotNull;
 
 import static org.antlr.jetbrains.st4plugin.psi.STGroupTokenTypes.getTokenElementType;
 
+/**
+ * Removes escaped quotes from subtemplates when parsing them as {@link org.antlr.jetbrains.st4plugin.STLanguage}
+ * files.
+ */
 class TemplateContentLiteralTextEscaper extends LiteralTextEscaper<PsiLanguageInjectionHost> {
 
     private int[] offsetsFromDecodedToHost = new int[0];

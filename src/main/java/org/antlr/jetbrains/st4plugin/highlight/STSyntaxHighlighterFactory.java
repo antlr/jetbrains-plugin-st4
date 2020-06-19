@@ -7,10 +7,10 @@ import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class NewSTSyntaxHighlighterFactory extends SyntaxHighlighterFactory {
+public class STSyntaxHighlighterFactory extends SyntaxHighlighterFactory {
     @NotNull
     @Override
     public SyntaxHighlighter getSyntaxHighlighter(@Nullable Project project, @Nullable VirtualFile virtualFile) {
-        return new NewSTSyntaxHighlighter();
+        return new STSyntaxHighlighter();
     }
 }

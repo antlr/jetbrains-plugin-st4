@@ -11,6 +11,9 @@ import org.jetbrains.annotations.NotNull;
 
 import static org.antlr.jetbrains.st4plugin.psi.STGroupTokenTypes.getRuleElementType;
 
+/**
+ * Highlights a group's formal args differently from its name.
+ */
 public class STGroupSemanticHighlightAnnotator implements Annotator {
     @Override
     public void annotate(@NotNull PsiElement element, @NotNull AnnotationHolder holder) {

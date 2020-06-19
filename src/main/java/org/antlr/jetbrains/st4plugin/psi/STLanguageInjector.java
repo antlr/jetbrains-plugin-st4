@@ -11,6 +11,9 @@ import org.jetbrains.annotations.NotNull;
 
 import static org.antlr.jetbrains.st4plugin.psi.STGroupTokenTypes.getTokenElementType;
 
+/**
+ * Inject the {@link STLanguage} in {@link org.antlr.jetbrains.st4plugin.STGroupLanguage} subtemplates.
+ */
 public class STLanguageInjector implements LanguageInjector {
 
     @Override
