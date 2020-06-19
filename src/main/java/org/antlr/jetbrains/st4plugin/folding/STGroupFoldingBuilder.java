@@ -36,7 +36,7 @@ public class STGroupFoldingBuilder extends CustomFoldingBuilder {
 
     private void foldTemplates(List<FoldingDescriptor> descriptors, PsiElement root) {
         PsiTreeUtil.processElements(root, element -> {
-            if (element.getNode().getElementType() == getRuleElementType(STGParser.RULE_template)) {
+            if (element.getNode().getElementType() == getRuleElementType(STGParser.RULE_templateContent)) {
                 ASTNode bigString = element.getNode().findChildByType(TokenSet.create(
                         getTokenElementType(STGLexer.BIGSTRING),
                         getTokenElementType(STGLexer.BIGSTRING_NO_NL)

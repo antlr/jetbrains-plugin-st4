@@ -52,6 +52,7 @@
       <lang.parserDefinition language="STGroup" implementationClass="org.antlr.jetbrains.st4plugin.psi.STGroupParserDefinition"/>
       <lang.parserDefinition language="ST" implementationClass="org.antlr.jetbrains.st4plugin.psi.STParserDefinition"/>
       <lang.foldingBuilder language="STGroup" implementationClass="org.antlr.jetbrains.st4plugin.folding.STGroupFoldingBuilder"/>
+      <lang.foldingBuilder language="ST" implementationClass="org.antlr.jetbrains.st4plugin.folding.STFoldingBuilder"/>
       <lang.braceMatcher language="STGroup" implementationClass="org.antlr.jetbrains.st4plugin.highlight.STGroupBraceMatcher"/>
       <lang.braceMatcher language="ST" implementationClass="org.antlr.jetbrains.st4plugin.highlight.STBraceMatcher"/>
       <languageInjector implementation="org.antlr.jetbrains.st4plugin.psi.STLanguageInjector"/>
