@@ -59,13 +59,15 @@ template
 	: ( AT ID DOT ID LPAREN RPAREN
 	  | ID LPAREN formalArgs? RPAREN
 	  )
-		TMPL_ASSIGN
-			( STRING			// "..."
-			| BIGSTRING			// <<...>>
-			| BIGSTRING_NO_NL	// <%...%>
-			)
+		TMPL_ASSIGN templateContent
 	| ID TMPL_ASSIGN ID			// alias one template to another
 	;
+
+templateContent
+    : STRING			// "..."
+    | BIGSTRING			// <<...>>
+    | BIGSTRING_NO_NL	// <%...%>
+    ;
 
 formalArgs
 	: formalArg ( COMMA formalArg )*

@@ -4,6 +4,8 @@ import com.intellij.ide.structureView.StructureViewTreeElement;
 import com.intellij.ide.util.treeView.smartTree.SortableTreeElement;
 import com.intellij.ide.util.treeView.smartTree.TreeElement;
 import com.intellij.navigation.ItemPresentation;
+import com.intellij.psi.NavigatablePsiElement;
+import com.intellij.psi.PsiFile;
 import org.antlr.jetbrains.st4plugin.Icons;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -15,12 +17,11 @@ import javax.swing.*;
 public abstract class STGroupStructureViewTreeElement
 	implements StructureViewTreeElement, ItemPresentation, SortableTreeElement
 {
-	protected ParseTree node;
-	protected STGroupStructureViewModel model;
 
-	public STGroupStructureViewTreeElement(STGroupStructureViewModel model, ParseTree node) {
-		this.model = model;
-		this.node = node;
+	protected NavigatablePsiElement psiElement;
+
+	public STGroupStructureViewTreeElement(NavigatablePsiElement psiElement) {
+		this.psiElement = psiElement;
 	}
 
 	@Nullable
@@ -32,19 +33,17 @@ public abstract class STGroupStructureViewTreeElement
 	@Nullable
 	@Override
 	public String getPresentableText() {
-		if ( node instanceof TerminalNode ) {
-			return ((TerminalNode) node).getSymbol().getText();
-		}
-		return node.getClass().getSimpleName();
+		return "TODO";
 	}
 
 	@Override
 	public void navigate(boolean requestFocus) {
+		psiElement.navigate(requestFocus);
 	}
 
 	@Override
 	public boolean canNavigate() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -59,14 +58,14 @@ public abstract class STGroupStructureViewTreeElement
 	}
 
 	@Override
-	public Object getValue() {
-		return node;
+	public NavigatablePsiElement getValue() {
+		return psiElement;
 	}
 
 	@NotNull
 	@Override
 	public String getAlphaSortKey() {
-		return getPresentableText();
+		return getPresentation().getPresentableText();
 	}
 
 	@NotNull

@@ -8,29 +8,29 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 
-public class STGroupFileType extends LanguageFileType {
-	public static final STGroupFileType INSTANCE = new STGroupFileType();
+public class STFileType extends LanguageFileType {
+	public static final STFileType INSTANCE = new STFileType();
 
-	protected STGroupFileType() {
-		super(STGroupLanguage.INSTANCE);
+	protected STFileType() {
+		super(STLanguage.INSTANCE);
 	}
 
 	@NotNull
 	@Override
 	public String getName() {
-		return "StringTemplate v4 template group file";
+		return "StringTemplate v4 template file";
 	}
 
 	@NotNull
 	@Override
 	public String getDescription() {
-		return "StringTemplate v4 template group file";
+		return "StringTemplate v4 template file";
 	}
 
 	@NotNull
 	@Override
 	public String getDefaultExtension() {
-		return "stg";
+		return "st";
 	}
 
 	@Nullable
@@ -42,7 +42,7 @@ public class STGroupFileType extends LanguageFileType {
 	static class Factory extends FileTypeFactory {
 		@Override
 		public void createFileTypes(@NotNull FileTypeConsumer consumer) {
-			consumer.consume(STGroupFileType.INSTANCE);
+			consumer.consume(STFileType.INSTANCE);
 		}
 	}
 }

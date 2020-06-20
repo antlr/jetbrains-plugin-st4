@@ -5,7 +5,7 @@ buildscript {
 }
 
 plugins {
-    id "org.jetbrains.intellij" version "0.4.15"
+    id "org.jetbrains.intellij" version "0.4.21"
 }
 
 apply plugin: 'idea'
@@ -44,7 +44,8 @@ dependencies {
         exclude group:'com.ibm.icu', module:'icu4j'
     }
     implementation "org.antlr:antlr4-intellij-adaptor:0.1"
-    testImplementation group: 'junit', name: 'junit', version: '4.11'
+    testImplementation group: 'junit', name: 'junit', version: '4.13'
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.3.3'
 }
 
 generateGrammarSource {

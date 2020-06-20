@@ -1,19 +1,36 @@
 package org.antlr.jetbrains.st4plugin.structview;
 
+import com.intellij.navigation.ItemPresentation;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.PsiFile;
+import org.antlr.jetbrains.st4plugin.Icons;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.jetbrains.annotations.Nullable;
 
-public class STGroupRootItemPresentation extends STGroupItemPresentation {
-	protected final VirtualFile file;
-	public STGroupRootItemPresentation(ParseTree node, VirtualFile file) {
-		super(node);
+import javax.swing.*;
+
+public class STGroupRootItemPresentation implements ItemPresentation {
+	private final PsiFile file;
+
+	public STGroupRootItemPresentation(PsiFile file) {
 		this.file = file;
 	}
 
 	@Nullable
 	@Override
 	public String getPresentableText() {
-		return file.getPresentableName();
+		return file.getName();
+	}
+
+	@Nullable
+	@Override
+	public String getLocationString() {
+		return null;
+	}
+
+	@Nullable
+	@Override
+	public Icon getIcon(boolean unused) {
+		return Icons.STG_FILE;
 	}
 }

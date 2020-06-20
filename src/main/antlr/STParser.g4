@@ -54,7 +54,7 @@ element
 
 singleElement
 	: exprTag
-	| TEXT+
+	| (TEXT | ESCAPE)+
 	;
 
 compoundElement
@@ -63,7 +63,7 @@ compoundElement
 	;
 
 exprTag
-	: LDELIM expr ( SEMI exprOptions )? RDELIM
+	: LDELIM mapExpr ( SEMI exprOptions )? RDELIM
 	;
 
 region
@@ -73,7 +73,7 @@ region
 	;
 
 subtemplate
-	: LCURLY ( ID ( COMMA  ID )* PIPE )? elements RCURLY
+	: LBRACE ( ID ( COMMA  ID )* PIPE )? elements RBRACE
 	;
 
 ifstat
@@ -94,12 +94,12 @@ andConditional
 
 notConditional
 	: BANG notConditional
-	| expr
+	| memberExpr
 	;
 
 notConditionalExpr
 	: ID	( DOT  ID
-			| DOT LPAREN expr RPAREN
+			| DOT LPAREN mapExpr RPAREN
 			)*
 	;
 
@@ -111,14 +111,22 @@ option
 	: ID ( EQUALS expr )?
 	;
 
-expr: expr COLON mapTemplateRef					// chain template applications together
-	| expr DOT ID
-    | expr DOT LPAREN expr RPAREN
-	| includeExpr
-	| expr (COMMA expr)* COLON mapTemplateRef	// template application
-	| expr COLON mapTemplateRef            		// alternating templates
-	  ( COMMA mapTemplateRef )*
-	| primary
+expr
+	: memberExpr ( COLON mapTemplateRef )?
+	;
+
+// more complicated than necessary to avoid backtracking,
+// which ruins error handling
+mapExpr
+	: memberExpr ( ( COMMA memberExpr )+  COLON mapTemplateRef )?
+	  ( COLON  mapTemplateRef ( COMMA mapTemplateRef )*  )*
+	;
+
+memberExpr
+	: includeExpr
+		( DOT ID
+		| DOT LPAREN mapExpr RPAREN
+		)*
 	;
 
 // expr:template(args) apply template to expr
@@ -127,15 +135,16 @@ expr: expr COLON mapTemplateRef					// chain template applications together
 mapTemplateRef
 	: ID LPAREN args? RPAREN
 	| subtemplate
-	| LPAREN expr RPAREN LPAREN argExprList? RPAREN
+	| LPAREN mapExpr RPAREN LPAREN argExprList? RPAREN
 	;
 
 includeExpr
-	: ID LPAREN expr? RPAREN
+	: ID LPAREN mapExpr? RPAREN
 	| SUPER DOT ID LPAREN args? RPAREN
 	| ID LPAREN args? RPAREN
 	| AT SUPER DOT ID LPAREN  RPAREN
 	| AT ID LPAREN  RPAREN
+	| primary
 	;
 
 primary
@@ -146,7 +155,7 @@ primary
 	| subtemplate
 	| list
 	| LPAREN conditional RPAREN
-	| LPAREN expr RPAREN ( LPAREN argExprList? RPAREN )?
+	| LPAREN mapExpr RPAREN ( LPAREN argExprList? RPAREN )?
 	;
 
 list
