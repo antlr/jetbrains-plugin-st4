@@ -2,7 +2,7 @@
 
 A plugin that adds support for StringTemplate v4 to [IntelliJ](https://www.jetbrains.com/idea/)-based IDEs (version 15.x and later).
 
-It understands `.stg` files (not .st files yet). For example,
+It understands `.stg` and `.st` files. For example,
 
 <img src="images/structview.png" width=350>
 

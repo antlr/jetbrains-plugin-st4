@@ -6,7 +6,7 @@
 
   <description><![CDATA[
     <p>
-        This plugin is for StringTemplate v4 .stg files. It works with
+        This plugin is for StringTemplate v4 .stg/.st files. It works with
         IntelliJ IDEA 15, 2016.1-2020.1. It should work in other IntelliJ-based IDEs.
     </p>
 
