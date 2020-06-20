@@ -15,9 +15,9 @@
 
   <change-notes><![CDATA[
     <ul>
-        <li>Fixed icons in 2019.3 (<a href="https://github.com/antlr/jetbrains-plugin-st4/issues/16">#16</a>)</li>
-        <li>Parsing errors are now shown in a tooltip and in the status bar (<a href="https://github.com/antlr/jetbrains-plugin-st4/issues/18">#18</a>)</li>
-        <li>Added code folding in StringTemplate group files (<a href="https://github.com/antlr/jetbrains-plugin-st4/issues/17">#17</a>)</li>
+        <li>Added support for .st files (<a href="https://github.com/antlr/jetbrains-plugin-st4/issues/24">#24</a>)</li>
+        <li>Improved code folding (<a href="https://github.com/antlr/jetbrains-plugin-st4/issues/17">#17</a>)</li>
+        <li>Reworked the structure view</li>
     </ul>
   ]]>
   </change-notes>
