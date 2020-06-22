@@ -45,13 +45,17 @@ channels {
 	OFF_CHANNEL		// non-default channel for whitespace and comments
 }
 
+tokens {
+    HORZ_WS, VERT_WS
+}
+
 // -----------------------------------
 // default mode = Outside
 
 TMPL_COMMENT	: TmplComment		-> channel(OFF_CHANNEL)	;
 
-HORZ_WS			: Hws+				-> channel(OFF_CHANNEL)	;
-VERT_WS			: Vws+				-> channel(OFF_CHANNEL)	;
+//HORZ_WS			: Hws+				-> channel(OFF_CHANNEL)	;
+//VERT_WS			: Vws+				-> channel(OFF_CHANNEL)	;
 
 ESCAPE			: . { isLDelim() }? EscSeq . { isRDelim() }?	; // self contained
 LDELIM			: . { isLDelim() }?	-> mode(Inside)				; // switch mode to inside

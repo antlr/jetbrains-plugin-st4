@@ -1,15 +1,15 @@
 package org.antlr.jetbrains.st4plugin.parsing;
 
 import com.intellij.psi.PsiLanguageInjectionHost;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.Lexer;
-import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.*;
 
 import static org.stringtemplate.v4.compiler.STLexer.isIDLetter;
 
 public abstract class LexerAdaptor extends Lexer {
 
 	public static final char DELIMITERS_PREFIX = '\u0001';
+
+	private java.util.Queue<Token> queue = new java.util.LinkedList<>();
 
 	public char lDelim = '<';
 	public char rDelim = '>';
@@ -25,7 +25,33 @@ public abstract class LexerAdaptor extends Lexer {
 		if (_input.index() == 0 && _input.LA(1) == DELIMITERS_PREFIX) {
 			return lexDelimitersPrefix();
 		}
-		return super.nextToken();
+
+		if (!queue.isEmpty()) {
+			return queue.poll();
+		}
+
+		Token next = super.nextToken();
+
+		if (next.getType() != STLexer.TEXT) {
+			return next;
+		}
+
+		StringBuilder builder = new StringBuilder();
+		Token startToken = next;
+
+		while (next.getType() == STLexer.TEXT) {
+			builder.append(next.getText());
+			next = super.nextToken();
+		}
+
+		// The `next` will _not_ be a TEXT-token, store it in
+		// the queue to return the next time!
+		queue.offer(next);
+
+		CommonToken token = new CommonToken(startToken);
+		token.setStopIndex(startToken.getStartIndex() + builder.length() - 1);
+
+		return token;
 	}
 
 	/**
@@ -160,5 +186,11 @@ public abstract class LexerAdaptor extends Lexer {
 	public Token newTokenFromPreviousChar(int ttype) {
 		return _factory.create(_tokenFactorySourcePair, ttype, _text, _channel, getCharIndex()-1, getCharIndex()-1,
 				_tokenStartLine, _tokenStartCharPositionInLine);
+	}
+
+	@Override
+	public void setInputStream(IntStream input) {
+		queue.clear();
+		super.setInputStream(input);
 	}
 }

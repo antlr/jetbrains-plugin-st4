@@ -3,12 +3,13 @@ package org.antlr.jetbrains.st4plugin;
 import com.intellij.openapi.fileTypes.FileTypeConsumer;
 import com.intellij.openapi.fileTypes.FileTypeFactory;
 import com.intellij.openapi.fileTypes.LanguageFileType;
+import com.intellij.openapi.fileTypes.TemplateLanguageFileType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 
-public class STFileType extends LanguageFileType {
+public class STFileType extends LanguageFileType implements TemplateLanguageFileType {
 	public static final STFileType INSTANCE = new STFileType();
 
 	protected STFileType() {
