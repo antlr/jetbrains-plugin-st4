@@ -1,5 +1,6 @@
 package org.antlr.jetbrains.st4plugin.parsing;
 
+import com.intellij.psi.PsiLanguageInjectionHost;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.Token;
@@ -8,6 +9,8 @@ import static org.stringtemplate.v4.compiler.STLexer.isIDLetter;
 
 public abstract class LexerAdaptor extends Lexer {
 
+	public static final char DELIMITERS_PREFIX = '\u0001';
+
 	public char lDelim = '<';
 	public char rDelim = '>';
 
@@ -15,6 +18,36 @@ public abstract class LexerAdaptor extends Lexer {
 
 	public LexerAdaptor(CharStream input) {
 		super(input);
+	}
+
+	@Override
+	public Token nextToken() {
+		if (_input.index() == 0 && _input.LA(1) == DELIMITERS_PREFIX) {
+			return lexDelimitersPrefix();
+		}
+		return super.nextToken();
+	}
+
+	/**
+	 * @see org.antlr.jetbrains.st4plugin.psi.STLanguageInjector#detectDelimiters(PsiLanguageInjectionHost)
+	 */
+	private Token lexDelimitersPrefix() {
+		int _lDelim = _input.LA(2);
+		int _rDelim = _input.LA(3);
+
+		if (_lDelim != -1 && _rDelim != -1) {
+			lDelim = (char) _lDelim;
+			rDelim = (char) _rDelim;
+
+			// Consume the prefix and the delimiters
+			_input.consume();
+			_input.consume();
+			_input.consume();
+
+			return getTokenFactory().create(_tokenFactorySourcePair, STLexer.HORZ_WS, "xxx", HIDDEN, 0, 2, 1, 0);
+		}
+
+		return super.nextToken();
 	}
 
 	public void startSubTemplate() {
