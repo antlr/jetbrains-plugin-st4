@@ -29,6 +29,7 @@
        on how to target different products -->
   <!-- uncomment to enable plugin in all products -->
   <depends>com.intellij.modules.lang</depends>
+  <depends optional="true" config-file="st-intellilang.xml">org.intellij.intelliLang</depends>
 
   <application-components>
   </application-components>

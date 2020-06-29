@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="LanguageInjectionConfiguration">
+    <injection language="ST" injector-id="java">
+        <display-name>ST (org.stringtemplate.v4)</display-name>
+        <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("ST").withParameters("java.lang.String").definedInClass("org.stringtemplate.v4.ST"))]]></place>
+        <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("ST").withParameters("java.lang.String", "char", "char").definedInClass("org.stringtemplate.v4.ST"))]]></place>
+        <place><![CDATA[psiParameter().ofMethod(1, psiMethod().withName("ST").withParameters("org.stringtemplate.v4.STGroup", "java.lang.String").definedInClass("org.stringtemplate.v4.ST"))]]></place>
+        <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("format").withParameters("java.lang.String", "java.lang.Object[]").definedInClass("org.stringtemplate.v4.ST"))]]></place>
+        <place><![CDATA[psiParameter().ofMethod(1, psiMethod().withName("format").withParameters("int", "java.lang.String", "java.lang.Object[]").definedInClass("org.stringtemplate.v4.ST"))]]></place>
+    </injection>
+
+    <injection language="ST" injector-id="java">
+        <display-name>STGroup (org.stringtemplate.v4)</display-name>
+        <place><![CDATA[psiParameter().ofMethod(3, psiMethod().withName("compile").withParameters("java.lang.String", "java.lang.String", "java.util.List", "java.lang.String", "org.antlr.runtime.Token").definedInClass("org.stringtemplate.v4.STGroup"))]]></place>
+        <place><![CDATA[psiParameter().ofMethod(1, psiMethod().withName("defineTemplate").withParameters("java.lang.String", "java.lang.String").definedInClass("org.stringtemplate.v4.STGroup"))]]></place>
+        <place><![CDATA[psiParameter().ofMethod(2, psiMethod().withName("defineTemplate").withParameters("java.lang.String", "java.lang.String", "java.lang.String").definedInClass("org.stringtemplate.v4.STGroup"))]]></place>
+        <place><![CDATA[psiParameter().ofMethod(3, psiMethod().withName("defineTemplate").withParameters("java.lang.String", "org.antlr.runtime.Token", "java.util.List", "java.lang.String", "org.antlr.runtime.Token").definedInClass("org.stringtemplate.v4.STGroup"))]]></place>
+        <place><![CDATA[psiParameter().ofMethod(3, psiMethod().withName("defineTemplateOrRegion").withParameters("java.lang.String", "java.lang.String", "org.antlr.runtime.Token", "java.lang.String", "org.antlr.runtime.Token", "java.util.List").definedInClass("org.stringtemplate.v4.STGroup"))]]></place>
+    </injection>
+
+    <injection language="STGroup" injector-id="java">
+        <display-name>STGroupString (org.stringtemplate.v4)</display-name>
+        <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("STGroupString").withParameters("java.lang.String").definedInClass("org.stringtemplate.v4.STGroupString"))]]></place>
+        <place><![CDATA[psiParameter().ofMethod(1, psiMethod().withName("STGroupString").withParameters("java.lang.String", "java.lang.String").definedInClass("org.stringtemplate.v4.STGroupString"))]]></place>
+        <place><![CDATA[psiParameter().ofMethod(1, psiMethod().withName("STGroupString").withParameters("java.lang.String", "java.lang.String", "char", "char").definedInClass("org.stringtemplate.v4.STGroupString"))]]></place>
+    </injection>
+</component>
