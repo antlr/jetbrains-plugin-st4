@@ -32,10 +32,10 @@ public abstract class LexerAdaptor extends Lexer {
 
 		Token next = super.nextToken();
 
-		if (next.getType() != STLexer.TEXT) {
-			return next;
-		}
+		return next.getType() == STLexer.TEXT ? mergeConsecutiveTextTokens(next) : next;
+	}
 
+	private Token mergeConsecutiveTextTokens(Token next) {
 		StringBuilder builder = new StringBuilder();
 		Token startToken = next;
 
