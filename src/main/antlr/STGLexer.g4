@@ -42,11 +42,8 @@ import LexBasic;	// Standard set of fragments
 // ------------------------------------------------------------------------------
 // mode default
 
-DOC_COMMENT			: DocComment		-> channel(HIDDEN)	;
-BLOCK_COMMENT		: BlockComment		-> channel(HIDDEN)	;
+COMMENT		        : BlockComment		-> channel(HIDDEN)	;
 LINE_COMMENT		: LineComment		-> channel(HIDDEN)	;
-
-TMPL_COMMENT		: LBang .? RBang	-> channel(HIDDEN)	;
 
 WS					: [ \r\n\t]+		-> channel(HIDDEN)	;
 
@@ -65,6 +62,7 @@ ASSIGN		: Equal			;
 DOT			: Dot			;
 COMMA		: Comma			;
 COLON		: Colon			;
+SEMI        : Semi          ;
 LPAREN		: LParen		;
 RPAREN		: RParen		;
 LBRACK		: LBrack		;
@@ -81,22 +79,9 @@ DELIMITERS	: 'delimiters'	;
 IMPORT		: 'import'		;
 DEFAULT		: 'default'		;
 KEY			: 'key'			;
-VALUE		: 'value'		;
 
-FIRST		: 'first'		;
-LAST		: 'last'		;
-REST		: 'rest'		;
-TRUNC		: 'trunc'		;
-STRIP		: 'strip'		;
-TRIM		: 'trim'		;
-LENGTH		: 'length'		;
-STRLEN		: 'strlen'		;
-REVERSE		: 'reverse'		;
-
-GROUP		: 'group'		;	// not used by parser?
-WRAP		: 'wrap'		;
-ANCHOR		: 'anchor'		;
-SEPARATOR	: 'separator'	;
+GROUP		: 'group'		;	// for compatibility with V3 syntax
+IMPLEMENTS  : 'implements'  ;	// for compatibility with V3 syntax
 
 ID        	: ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'-'|'_')* ;
 
@@ -104,8 +89,6 @@ ID        	: ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'-'|'_')* ;
 // Grammar specific fragments
 
 fragment TmplAssign	: '::='		;
-fragment LBang		: '<!'		;
-fragment RBang		: '!>'		;
 fragment LPct		: '<%'		;
 fragment RPct		: '%>'		;
 fragment LDAngle	: LShift	;

@@ -54,9 +54,6 @@ tokens {
 
 TMPL_COMMENT	: TmplComment		-> channel(OFF_CHANNEL)	;
 
-//HORZ_WS			: Hws+				-> channel(OFF_CHANNEL)	;
-//VERT_WS			: Vws+				-> channel(OFF_CHANNEL)	;
-
 ESCAPE			: . { isLDelim() }? EscSeq . { isRDelim() }?	; // self contained
 LDELIM			: . { isLDelim() }?	-> mode(Inside)				; // switch mode to inside
 RBRACE			: RBrace { endsSubTemplate() }?				    ; // conditional switch to inside

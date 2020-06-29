@@ -61,10 +61,8 @@ public class STGroupParserDefinition implements ParserDefinition {
     public TokenSet getCommentTokens() {
         return PSIElementTypeFactory.createTokenSet(
                 STGroupLanguage.INSTANCE,
-                STGLexer.DOC_COMMENT,
-                STGLexer.BLOCK_COMMENT,
-                STGLexer.LINE_COMMENT,
-                STGLexer.TMPL_COMMENT
+                STGLexer.COMMENT,
+                STGLexer.LINE_COMMENT
         );
     }
 

@@ -41,12 +41,12 @@ public class STSyntaxHighlighter extends SyntaxHighlighterBase {
         TextAttributesKey key;
 
         if (KEYWORDS.contains(tokenType)) {
-            key = DefaultLanguageHighlighterColors.KEYWORD;
+            key = STGroupSyntaxHighlighter.KEYWORD;
         } else if (getTokenElementType(STLexer.STRING).equals(tokenType)
                 || getTokenElementType(STLexer.TEXT).equals(tokenType)) {
             key = STGroup_TEMPLATE_TEXT;
         } else if (getTokenElementType(STLexer.TMPL_COMMENT).equals(tokenType)) {
-            key = DefaultLanguageHighlighterColors.BLOCK_COMMENT;
+            key = STGroupSyntaxHighlighter.BLOCK_COMMENT;
         } else if (getTokenElementType(STLexer.SUB_ERR_CHAR).equals(tokenType)) {
             key = HighlighterColors.BAD_CHARACTER;
         } else if (getTokenElementType(STLexer.ESCAPE).equals(tokenType)) {

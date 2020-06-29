@@ -24,19 +24,20 @@ import static org.antlr.jetbrains.st4plugin.psi.STTokenTypes.getTokenElementType
 public class STSemanticHighlightAnnotator implements Annotator {
 
     private static final TextAttributesKey ST_TAG = createTextAttributesKey("ST_TAG");
+    public static final TextAttributesKey OPTION = createTextAttributesKey("ST_OPTION", DefaultLanguageHighlighterColors.INSTANCE_METHOD);
 
     @Override
     public void annotate(@NotNull PsiElement element, @NotNull AnnotationHolder holder) {
         if (element.getNode().getElementType() == STTokenTypes.getTokenElementType(STLexer.ID)) {
             if (isPrimary(element) || isSubtemplate(element)) {
                 holder.createInfoAnnotation(element, null)
-                        .setTextAttributes(DefaultLanguageHighlighterColors.INSTANCE_FIELD);
+                        .setTextAttributes(STGroupSemanticHighlightAnnotator.TEMPLATE_PARAM);
             } else if (isOptionId(element)) {
                 holder.createInfoAnnotation(element, null)
-                        .setTextAttributes(DefaultLanguageHighlighterColors.INSTANCE_METHOD);
+                        .setTextAttributes(OPTION);
             } else if (isCall(element)) {
                 holder.createInfoAnnotation(element, null)
-                        .setTextAttributes(STGroupSyntaxHighlighter.STGroup_TEMPLATE_NAME);
+                        .setTextAttributes(STGroupSyntaxHighlighter.TEMPLATE_NAME);
             }
         }
 

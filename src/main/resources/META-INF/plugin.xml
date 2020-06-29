@@ -49,6 +49,7 @@
 
       <lang.syntaxHighlighterFactory language="STGroup" implementationClass="org.antlr.jetbrains.st4plugin.highlight.STGroupSyntaxHighlighterFactory"/>
       <lang.syntaxHighlighterFactory language="ST" implementationClass="org.antlr.jetbrains.st4plugin.highlight.STSyntaxHighlighterFactory"/>
+      <colorSettingsPage implementation="org.antlr.jetbrains.st4plugin.highlight.STColorSettingsPage"/>
       <editorHighlighterProvider filetype="StringTemplate v4 template group file" implementationClass="org.antlr.jetbrains.st4plugin.highlight.STEditorHighlighterProvider"/>
       <editorHighlighterProvider filetype="StringTemplate v4 template file" implementationClass="org.antlr.jetbrains.st4plugin.highlight.STEditorHighlighterProvider"/>
       <annotator language="STGroup" implementationClass="org.antlr.jetbrains.st4plugin.highlight.STGroupSemanticHighlightAnnotator"/>
