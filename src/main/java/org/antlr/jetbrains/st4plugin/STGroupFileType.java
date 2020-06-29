@@ -10,40 +10,40 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 
 public class STGroupFileType extends LanguageFileType implements TemplateLanguageFileType {
-	public static final STGroupFileType INSTANCE = new STGroupFileType();
+    public static final STGroupFileType INSTANCE = new STGroupFileType();
 
-	protected STGroupFileType() {
-		super(STGroupLanguage.INSTANCE);
-	}
+    protected STGroupFileType() {
+        super(STGroupLanguage.INSTANCE);
+    }
 
-	@NotNull
-	@Override
-	public String getName() {
-		return "StringTemplate v4 template group file";
-	}
+    @NotNull
+    @Override
+    public String getName() {
+        return "StringTemplate v4 template group file";
+    }
 
-	@NotNull
-	@Override
-	public String getDescription() {
-		return "StringTemplate v4 template group file";
-	}
+    @NotNull
+    @Override
+    public String getDescription() {
+        return "StringTemplate v4 template group file";
+    }
 
-	@NotNull
-	@Override
-	public String getDefaultExtension() {
-		return "stg";
-	}
+    @NotNull
+    @Override
+    public String getDefaultExtension() {
+        return "stg";
+    }
 
-	@Nullable
-	@Override
-	public Icon getIcon() {
-		return Icons.STG_FILE;
-	}
+    @Nullable
+    @Override
+    public Icon getIcon() {
+        return Icons.STG_FILE;
+    }
 
-	static class Factory extends FileTypeFactory {
-		@Override
-		public void createFileTypes(@NotNull FileTypeConsumer consumer) {
-			consumer.consume(STGroupFileType.INSTANCE);
-		}
-	}
+    static class Factory extends FileTypeFactory {
+        @Override
+        public void createFileTypes(@NotNull FileTypeConsumer consumer) {
+            consumer.consume(STGroupFileType.INSTANCE);
+        }
+    }
 }

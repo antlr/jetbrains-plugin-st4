@@ -49,7 +49,7 @@ public class STSyntaxHighlighter extends SyntaxHighlighterBase {
             key = DefaultLanguageHighlighterColors.BLOCK_COMMENT;
         } else if (getTokenElementType(STLexer.SUB_ERR_CHAR).equals(tokenType)) {
             key = HighlighterColors.BAD_CHARACTER;
-        } else if (getTokenElementType(STLexer.ESCAPE).equals(tokenType)){
+        } else if (getTokenElementType(STLexer.ESCAPE).equals(tokenType)) {
             key = DefaultLanguageHighlighterColors.VALID_STRING_ESCAPE;
         } else {
             return STGroupSyntaxHighlighter.NO_ATTRIBUTES;

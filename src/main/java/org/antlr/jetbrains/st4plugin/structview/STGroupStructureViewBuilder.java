@@ -8,15 +8,15 @@ import org.jetbrains.annotations.NotNull;
 
 public class STGroupStructureViewBuilder extends TreeBasedStructureViewBuilder {
 
-	private final PsiFile psiFile;
+    private final PsiFile psiFile;
 
-	public STGroupStructureViewBuilder(PsiFile psiFile) {
-		this.psiFile = psiFile;
-	}
+    public STGroupStructureViewBuilder(PsiFile psiFile) {
+        this.psiFile = psiFile;
+    }
 
-	@NotNull
-	@Override
-	public StructureViewModel createStructureViewModel(final Editor editor) {
-		return new STGroupStructureViewModel(psiFile);
-	}
+    @NotNull
+    @Override
+    public StructureViewModel createStructureViewModel(final Editor editor) {
+        return new STGroupStructureViewModel(psiFile);
+    }
 }

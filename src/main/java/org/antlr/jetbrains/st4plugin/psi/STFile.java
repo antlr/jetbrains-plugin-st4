@@ -3,7 +3,9 @@ package org.antlr.jetbrains.st4plugin.psi;
 import com.intellij.extapi.psi.PsiFileBase;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.psi.FileViewProvider;
-import org.antlr.jetbrains.st4plugin.*;
+import org.antlr.jetbrains.st4plugin.Icons;
+import org.antlr.jetbrains.st4plugin.STFileType;
+import org.antlr.jetbrains.st4plugin.STLanguage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
