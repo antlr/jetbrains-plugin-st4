@@ -29,6 +29,7 @@
        on how to target different products -->
   <!-- uncomment to enable plugin in all products -->
   <depends>com.intellij.modules.lang</depends>
+  <depends optional="true" config-file="st-intellilang.xml">org.intellij.intelliLang</depends>
 
   <application-components>
   </application-components>
@@ -48,7 +49,10 @@
 
       <lang.syntaxHighlighterFactory language="STGroup" implementationClass="org.antlr.jetbrains.st4plugin.highlight.STGroupSyntaxHighlighterFactory"/>
       <lang.syntaxHighlighterFactory language="ST" implementationClass="org.antlr.jetbrains.st4plugin.highlight.STSyntaxHighlighterFactory"/>
+      <editorHighlighterProvider filetype="StringTemplate v4 template group file" implementationClass="org.antlr.jetbrains.st4plugin.highlight.STEditorHighlighterProvider"/>
+      <editorHighlighterProvider filetype="StringTemplate v4 template file" implementationClass="org.antlr.jetbrains.st4plugin.highlight.STEditorHighlighterProvider"/>
       <annotator language="STGroup" implementationClass="org.antlr.jetbrains.st4plugin.highlight.STGroupSemanticHighlightAnnotator"/>
+      <annotator language="ST" implementationClass="org.antlr.jetbrains.st4plugin.highlight.STSemanticHighlightAnnotator"/>
       <lang.parserDefinition language="STGroup" implementationClass="org.antlr.jetbrains.st4plugin.psi.STGroupParserDefinition"/>
       <lang.parserDefinition language="ST" implementationClass="org.antlr.jetbrains.st4plugin.psi.STParserDefinition"/>
       <lang.foldingBuilder language="STGroup" implementationClass="org.antlr.jetbrains.st4plugin.folding.STGroupFoldingBuilder"/>

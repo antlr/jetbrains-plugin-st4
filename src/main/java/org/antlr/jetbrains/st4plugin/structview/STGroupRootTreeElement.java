@@ -37,8 +37,8 @@ public class STGroupRootTreeElement extends STGroupStructureViewTreeElement {
                 .orElse(TreeElement.EMPTY_ARRAY);
     }
 
-	private boolean shouldShowInStructureView(@NotNull PsiElement child) {
-		return child.getNode().getElementType() == getRuleElementType(STGParser.RULE_template)
-				|| child.getNode().getElementType() == getRuleElementType(STGParser.RULE_dict);
-	}
+    private boolean shouldShowInStructureView(@NotNull PsiElement child) {
+        return child.getNode().getElementType() == getRuleElementType(STGParser.RULE_template)
+                || child.getNode().getElementType() == getRuleElementType(STGParser.RULE_dict);
+    }
 }

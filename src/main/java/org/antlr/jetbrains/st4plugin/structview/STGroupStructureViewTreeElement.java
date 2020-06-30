@@ -5,72 +5,68 @@ import com.intellij.ide.util.treeView.smartTree.SortableTreeElement;
 import com.intellij.ide.util.treeView.smartTree.TreeElement;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.psi.NavigatablePsiElement;
-import com.intellij.psi.PsiFile;
 import org.antlr.jetbrains.st4plugin.Icons;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.TerminalNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 
 public abstract class STGroupStructureViewTreeElement
-	implements StructureViewTreeElement, ItemPresentation, SortableTreeElement
-{
+        implements StructureViewTreeElement, ItemPresentation, SortableTreeElement {
 
-	protected NavigatablePsiElement psiElement;
+    protected NavigatablePsiElement psiElement;
 
-	public STGroupStructureViewTreeElement(NavigatablePsiElement psiElement) {
-		this.psiElement = psiElement;
-	}
+    public STGroupStructureViewTreeElement(NavigatablePsiElement psiElement) {
+        this.psiElement = psiElement;
+    }
 
-	@Nullable
-	@Override
-	public Icon getIcon(boolean unused) {
-		return Icons.STG_FILE;
-	}
+    @Nullable
+    @Override
+    public Icon getIcon(boolean unused) {
+        return Icons.STG_FILE;
+    }
 
-	@Nullable
-	@Override
-	public String getPresentableText() {
-		return "TODO";
-	}
+    @Nullable
+    @Override
+    public String getPresentableText() {
+        return "TODO";
+    }
 
-	@Override
-	public void navigate(boolean requestFocus) {
-		psiElement.navigate(requestFocus);
-	}
+    @Override
+    public void navigate(boolean requestFocus) {
+        psiElement.navigate(requestFocus);
+    }
 
-	@Override
-	public boolean canNavigate() {
-		return true;
-	}
+    @Override
+    public boolean canNavigate() {
+        return true;
+    }
 
-	@Override
-	public boolean canNavigateToSource() {
-		return false;
-	}
+    @Override
+    public boolean canNavigateToSource() {
+        return false;
+    }
 
-	@Nullable
-	@Override
-	public String getLocationString() {
-		return null;
-	}
+    @Nullable
+    @Override
+    public String getLocationString() {
+        return null;
+    }
 
-	@Override
-	public NavigatablePsiElement getValue() {
-		return psiElement;
-	}
+    @Override
+    public NavigatablePsiElement getValue() {
+        return psiElement;
+    }
 
-	@NotNull
-	@Override
-	public String getAlphaSortKey() {
-		return getPresentation().getPresentableText();
-	}
+    @NotNull
+    @Override
+    public String getAlphaSortKey() {
+        return getPresentation().getPresentableText();
+    }
 
-	@NotNull
-	@Override
-	public TreeElement[] getChildren() {
-		return EMPTY_ARRAY;
-	}
+    @NotNull
+    @Override
+    public TreeElement[] getChildren() {
+        return EMPTY_ARRAY;
+    }
 }

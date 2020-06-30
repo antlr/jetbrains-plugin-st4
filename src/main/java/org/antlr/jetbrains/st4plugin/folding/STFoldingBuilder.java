@@ -7,7 +7,6 @@ import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
-import org.antlr.jetbrains.st4plugin.parsing.STGLexer;
 import org.antlr.jetbrains.st4plugin.parsing.STLexer;
 import org.antlr.jetbrains.st4plugin.parsing.STParser;
 import org.antlr.jetbrains.st4plugin.psi.STFile;

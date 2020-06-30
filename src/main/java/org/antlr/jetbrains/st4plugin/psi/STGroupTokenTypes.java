@@ -12,13 +12,14 @@ import java.util.List;
 
 public class STGroupTokenTypes {
 
-	private static final List<TokenIElementType> TOKEN_ELEMENT_TYPES = PSIElementTypeFactory.getTokenIElementTypes(STGroupLanguage.INSTANCE);
-	private static final List<RuleIElementType> RULE_ELEMENT_TYPES = PSIElementTypeFactory.getRuleIElementTypes(STGroupLanguage.INSTANCE);
+    private static final List<TokenIElementType> TOKEN_ELEMENT_TYPES = PSIElementTypeFactory.getTokenIElementTypes(STGroupLanguage.INSTANCE);
+    private static final List<RuleIElementType> RULE_ELEMENT_TYPES = PSIElementTypeFactory.getRuleIElementTypes(STGroupLanguage.INSTANCE);
 
-    public static RuleIElementType getRuleElementType(@MagicConstant(valuesFromClass = STGParser.class)int ruleIndex){
+    public static RuleIElementType getRuleElementType(@MagicConstant(valuesFromClass = STGParser.class) int ruleIndex) {
         return RULE_ELEMENT_TYPES.get(ruleIndex);
     }
-    public static TokenIElementType getTokenElementType(@MagicConstant(valuesFromClass = STGLexer.class)int ruleIndex){
+
+    public static TokenIElementType getTokenElementType(@MagicConstant(valuesFromClass = STGLexer.class) int ruleIndex) {
         return TOKEN_ELEMENT_TYPES.get(ruleIndex);
     }
 }

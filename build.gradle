@@ -52,7 +52,8 @@ generateGrammarSource {
     arguments += [
             "-package", "org.antlr.jetbrains.st4plugin.parsing",
             "-long-messages",
-            "-visitor",
+            "-no-visitor",
+            "-no-listener",
             "-lib","src/main/antlr"
     ]
 }

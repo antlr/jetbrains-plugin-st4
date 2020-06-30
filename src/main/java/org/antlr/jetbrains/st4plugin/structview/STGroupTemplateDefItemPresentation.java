@@ -19,60 +19,60 @@ import static org.antlr.jetbrains.st4plugin.psi.STGroupTokenTypes.getTokenElemen
 
 public class STGroupTemplateDefItemPresentation implements ItemPresentation {
 
-	private final ASTWrapperPsiElement psiElement;
+    private final ASTWrapperPsiElement psiElement;
 
-	public STGroupTemplateDefItemPresentation(ASTWrapperPsiElement psiElement) {
-		this.psiElement = psiElement;
-	}
+    public STGroupTemplateDefItemPresentation(ASTWrapperPsiElement psiElement) {
+        this.psiElement = psiElement;
+    }
 
-	@Nullable
-	@Override
-	public String getPresentableText() {
-		ASTNode id = psiElement.getNode().findChildByType(getTokenElementType(STGLexer.ID));
+    @Nullable
+    @Override
+    public String getPresentableText() {
+        ASTNode id = psiElement.getNode().findChildByType(getTokenElementType(STGLexer.ID));
 
-		if (id == null) {
-			return null;
-		}
+        if (id == null) {
+            return null;
+        }
 
-		StringBuilder text = new StringBuilder(id.getText());
+        StringBuilder text = new StringBuilder(id.getText());
 
-		ASTNode args = psiElement.getNode().findChildByType(getRuleElementType(STGParser.RULE_formalArgs));
+        ASTNode args = psiElement.getNode().findChildByType(getRuleElementType(STGParser.RULE_formalArgs));
 
-		if (args != null) {
-			text.append('(');
+        if (args != null) {
+            text.append('(');
 
-			ASTNode[] argList = args.getChildren(TokenSet.create(getRuleElementType(STGParser.RULE_formalArg)));
+            ASTNode[] argList = args.getChildren(TokenSet.create(getRuleElementType(STGParser.RULE_formalArg)));
 
-			text.append(Arrays.stream(argList).map(ASTNode::getText).collect(Collectors.joining(", ")));
+            text.append(Arrays.stream(argList).map(ASTNode::getText).collect(Collectors.joining(", ")));
 
-			text.append(')');
-		}
+            text.append(')');
+        }
 
-		return text.toString();
-	}
+        return text.toString();
+    }
 
-	@Nullable
-	@Override
-	public String getLocationString() {
-		return null;
-	}
+    @Nullable
+    @Override
+    public String getLocationString() {
+        return null;
+    }
 
-	@Nullable
-	@Override
-	public Icon getIcon(boolean unused) {
-		if (psiElement.getNode().getElementType() == getRuleElementType(STGParser.RULE_dict)) {
-			return Icons.DICT;
-		}
+    @Nullable
+    @Override
+    public Icon getIcon(boolean unused) {
+        if (psiElement.getNode().getElementType() == getRuleElementType(STGParser.RULE_dict)) {
+            return Icons.DICT;
+        }
 
-		ASTNode content = psiElement.getNode().findChildByType(getRuleElementType(STGParser.RULE_templateContent));
-		IElementType elementType = content == null ? null : content.getFirstChildNode().getElementType();
+        ASTNode content = psiElement.getNode().findChildByType(getRuleElementType(STGParser.RULE_templateContent));
+        IElementType elementType = content == null ? null : content.getFirstChildNode().getElementType();
 
-		if (elementType == getTokenElementType(STGLexer.STRING)) {
-			return Icons.STRING;
-		} else if (elementType == getTokenElementType(STGLexer.BIGSTRING_NO_NL)) {
-			return Icons.BIGSTRING_NONL;
-		}
+        if (elementType == getTokenElementType(STGLexer.STRING)) {
+            return Icons.STRING;
+        } else if (elementType == getTokenElementType(STGLexer.BIGSTRING_NO_NL)) {
+            return Icons.BIGSTRING_NONL;
+        }
 
-		return Icons.BIGSTRING;
-	}
+        return Icons.BIGSTRING;
+    }
 }

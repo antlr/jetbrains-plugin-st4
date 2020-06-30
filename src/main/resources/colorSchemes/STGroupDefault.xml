@@ -5,4 +5,9 @@
 			<option name="FOREGROUND" value="808000"/>
 		</value>
 	</option>
+	<option name="ST_TAG">
+		<value>
+			<option name="BACKGROUND" value="ffffff"/>
+		</value>
+	</option>
 </list>

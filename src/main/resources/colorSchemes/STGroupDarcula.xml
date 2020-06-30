@@ -5,4 +5,9 @@
 			<option name="FOREGROUND" value="FFC66D"/>
 		</value>
 	</option>
+	<option name="ST_TAG">
+		<value>
+			<option name="BACKGROUND" value="2B2B2B"/>
+		</value>
+	</option>
 </list>

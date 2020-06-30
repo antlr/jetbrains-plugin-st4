@@ -23,7 +23,6 @@ public class STSyntaxHighlighter extends SyntaxHighlighterBase {
 
     public static final TextAttributesKey STGroup_TEMPLATE_TEXT =
             createTextAttributesKey("STGroup_TEMPLATE_TEXT", DefaultLanguageHighlighterColors.TEMPLATE_LANGUAGE_COLOR);
-    public static final TextAttributesKey ST_ID = STGroupSyntaxHighlighter.STGroup_TEMPLATE_NAME;
 
     private static final List<IElementType> KEYWORDS = Stream.of(
             STLexer.IF, STLexer.ELSE, STLexer.END, STLexer.TRUE,
@@ -43,8 +42,6 @@ public class STSyntaxHighlighter extends SyntaxHighlighterBase {
 
         if (KEYWORDS.contains(tokenType)) {
             key = DefaultLanguageHighlighterColors.KEYWORD;
-        } else if (getTokenElementType(STLexer.ID).equals(tokenType)) {
-            key = ST_ID;
         } else if (getTokenElementType(STLexer.STRING).equals(tokenType)
                 || getTokenElementType(STLexer.TEXT).equals(tokenType)) {
             key = STGroup_TEMPLATE_TEXT;
@@ -52,7 +49,7 @@ public class STSyntaxHighlighter extends SyntaxHighlighterBase {
             key = DefaultLanguageHighlighterColors.BLOCK_COMMENT;
         } else if (getTokenElementType(STLexer.SUB_ERR_CHAR).equals(tokenType)) {
             key = HighlighterColors.BAD_CHARACTER;
-        } else if (getTokenElementType(STLexer.ESCAPE).equals(tokenType)){
+        } else if (getTokenElementType(STLexer.ESCAPE).equals(tokenType)) {
             key = DefaultLanguageHighlighterColors.VALID_STRING_ESCAPE;
         } else {
             return STGroupSyntaxHighlighter.NO_ATTRIBUTES;
