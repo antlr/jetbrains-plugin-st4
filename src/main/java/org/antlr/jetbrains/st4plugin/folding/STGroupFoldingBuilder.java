@@ -75,9 +75,7 @@ public class STGroupFoldingBuilder extends CustomFoldingBuilder {
 
     private void foldComments(List<FoldingDescriptor> descriptors, PsiElement root) {
         PsiTreeUtil.processElements(root, element -> {
-            if (element.getNode().getElementType() == getTokenElementType(STGLexer.DOC_COMMENT)
-                    || element.getNode().getElementType() == getTokenElementType(STGLexer.BLOCK_COMMENT)
-                    || element.getNode().getElementType() == getTokenElementType(STGLexer.TMPL_COMMENT)) {
+            if (element.getNode().getElementType() == getTokenElementType(STGLexer.COMMENT)) {
                 descriptors.add(new FoldingDescriptor(element, element.getTextRange()));
             }
 
@@ -96,12 +94,8 @@ public class STGroupFoldingBuilder extends CustomFoldingBuilder {
             return "{...}";
         } else if (node.getElementType() == getRuleElementType(STGParser.RULE_dict)) {
             return "[...]";
-        } else if (node.getElementType() == getTokenElementType(STGLexer.DOC_COMMENT)) {
-            return "/**...*/";
-        } else if (node.getElementType() == getTokenElementType(STGLexer.BLOCK_COMMENT)) {
+        } else if (node.getElementType() == getTokenElementType(STGLexer.COMMENT)) {
             return "/*...*/";
-        } else if (node.getElementType() == getTokenElementType(STGLexer.TMPL_COMMENT)) {
-            return "<!...!>";
         }
         return "...";
     }

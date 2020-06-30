@@ -42,10 +42,14 @@ options {
 }
 
 group
-	: delimiters? imports?
+	: oldStyleHeader? delimiters? imports?
 	( template | dict )+
 	EOF
 	;
+
+// Accepted for retrocompatibility with V3 but ignored by the reference parser
+oldStyleHeader
+    : GROUP ID (COLON ID)? (IMPLEMENTS ID (COMMA ID)* )? SEMI;
 
 delimiters
 	: DELIMITERS STRING COMMA STRING
