@@ -7,7 +7,7 @@
   <description><![CDATA[
     <p>
         This plugin is for StringTemplate v4 .stg/.st files. It works with
-        IntelliJ IDEA 15, 2016.1-2020.1. It should work in other IntelliJ-based IDEs.
+        IntelliJ IDEA 15, 2016.1-2020.2. It should work in other IntelliJ-based IDEs.
     </p>
 
     <p><a href="https://github.com/antlr/jetbrains-plugin-st4">Github source</a></p>
@@ -27,18 +27,8 @@
 
   <!-- please see http://confluence.jetbrains.net/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
        on how to target different products -->
-  <!-- uncomment to enable plugin in all products -->
   <depends>com.intellij.modules.lang</depends>
   <depends optional="true" config-file="st-intellilang.xml">org.intellij.intelliLang</depends>
-
-  <application-components>
-  </application-components>
-
-  <project-components>
-  </project-components>
-
-  <actions>
-  </actions>
 
   <extensions defaultExtensionNs="com.intellij">
       <fileTypeFactory implementation="org.antlr.jetbrains.st4plugin.STGroupFileType$Factory"/>
@@ -61,5 +51,9 @@
       <lang.braceMatcher language="STGroup" implementationClass="org.antlr.jetbrains.st4plugin.highlight.STGroupBraceMatcher"/>
       <lang.braceMatcher language="ST" implementationClass="org.antlr.jetbrains.st4plugin.highlight.STBraceMatcher"/>
       <languageInjector implementation="org.antlr.jetbrains.st4plugin.psi.STLanguageInjector"/>
+
+      <typedHandler implementation="org.antlr.jetbrains.st4plugin.editor.AutoCloseTypedHandler"/>
+      <lang.quoteHandler language="STGroup" implementationClass="org.antlr.jetbrains.st4plugin.editor.STGroupQuoteHandler"/>
+      <lang.quoteHandler language="ST" implementationClass="org.antlr.jetbrains.st4plugin.editor.STQuoteHandler"/>
   </extensions>
 </idea-plugin>

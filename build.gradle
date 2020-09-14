@@ -19,6 +19,7 @@ intellij {
     pluginName 'jetbrains-plugin-st4'
     downloadSources true
     updateSinceUntilBuild false
+    plugins 'java', 'IntelliLang'
 }
 
 group 'antlr'

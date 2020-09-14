@@ -71,6 +71,7 @@ LBRACE		: LBrace { startSubTemplate(); }    	                    ;
 RDELIM		: . { isRDelim() }?					-> mode(DEFAULT_MODE)	;
 
 STRING		: DQuoteLiteral	;
+EOF_STRING  : DQuote ( EscSeq | ~["\r\n\\] )* ;
 
 IF			: 'if'			;
 ELSEIF		: 'elseif'		;

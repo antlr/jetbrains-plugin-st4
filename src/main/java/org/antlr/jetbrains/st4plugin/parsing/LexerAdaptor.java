@@ -155,6 +155,14 @@ public abstract class LexerAdaptor extends Lexer {
         this.rDelim = rDelim;
     }
 
+    public char getlDelim() {
+        return lDelim;
+    }
+
+    public char getrDelim() {
+        return rDelim;
+    }
+
     public boolean isLDelim() {
         return lDelim == _input.LA(-1);
     }
