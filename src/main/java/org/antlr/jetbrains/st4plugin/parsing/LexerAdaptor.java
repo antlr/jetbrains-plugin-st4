@@ -7,8 +7,6 @@ import org.antlr.v4.runtime.IntStream;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.Token;
 
-import static org.stringtemplate.v4.compiler.STLexer.isIDLetter;
-
 public abstract class LexerAdaptor extends Lexer {
 
     public static final char DELIMITERS_PREFIX = '\u0001';
@@ -194,5 +192,9 @@ public abstract class LexerAdaptor extends Lexer {
     public void setInputStream(IntStream input) {
         queue.clear();
         super.setInputStream(input);
+    }
+
+    private static boolean isIDLetter(char c) {
+        return c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || c >= '0' && c <= '9' || c == '-' || c == '_';
     }
 }
