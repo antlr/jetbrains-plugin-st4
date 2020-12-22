@@ -65,7 +65,15 @@ public class STGroupTemplateDefItemPresentation implements ItemPresentation {
         }
 
         ASTNode content = psiElement.getNode().findChildByType(getRuleElementType(STGParser.RULE_templateContent));
-        IElementType elementType = content == null ? null : content.getFirstChildNode().getElementType();
+        IElementType elementType = null;
+
+        if (content != null) {
+            ASTNode firstChild = content.getFirstChildNode();
+
+            if (firstChild != null) {
+                elementType = firstChild.getElementType();
+            }
+        }
 
         if (elementType == getTokenElementType(STGLexer.STRING)) {
             return Icons.STRING;
