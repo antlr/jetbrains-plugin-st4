@@ -7,7 +7,7 @@
   <description><![CDATA[
     <p>
         This plugin is for StringTemplate v4 .stg/.st files. It works with
-        IntelliJ IDEA 15, 2016.1-2020.1. It should work in other IntelliJ-based IDEs.
+        IntelliJ IDEA 15, 2016.1-2021.x. It should work in other IntelliJ-based IDEs.
     </p>
 
     <p><a href="https://github.com/antlr/jetbrains-plugin-st4">Github source</a></p>
@@ -18,6 +18,8 @@
         <li>Added color settings (<a href="https://github.com/antlr/jetbrains-plugin-st4/issues/21">#21</a>)</li>
         <li>Fixed support for custom delimiters (<a href="https://github.com/antlr/jetbrains-plugin-st4/issues/28">#28</a>)</li>
         <li>Improved syntax highlighting</li>
+        <li>Double-clicking on text now selects words (<a href="https://github.com/antlr/jetbrains-plugin-st4/issues/31">#31</a>)</li>
+        <li>Fixed a NPE (<a href="https://github.com/antlr/jetbrains-plugin-st4/issues/37">#37</a>)</li>
     </ul>
   ]]>
   </change-notes>
