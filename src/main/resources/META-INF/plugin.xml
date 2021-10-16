@@ -15,11 +15,7 @@
 
   <change-notes><![CDATA[
     <ul>
-        <li>Added color settings (<a href="https://github.com/antlr/jetbrains-plugin-st4/issues/21">#21</a>)</li>
-        <li>Fixed support for custom delimiters (<a href="https://github.com/antlr/jetbrains-plugin-st4/issues/28">#28</a>)</li>
-        <li>Improved syntax highlighting</li>
-        <li>Double-clicking on text now selects words (<a href="https://github.com/antlr/jetbrains-plugin-st4/issues/31">#31</a>)</li>
-        <li>Fixed a NPE (<a href="https://github.com/antlr/jetbrains-plugin-st4/issues/37">#37</a>)</li>
+        <li>Xxx (<a href="https://github.com/antlr/jetbrains-plugin-st4/issues/xx">#xx</a>)</li>
     </ul>
   ]]>
   </change-notes>
