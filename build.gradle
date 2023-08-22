@@ -16,21 +16,21 @@ apply plugin: 'antlr'
 intellij {
     version = ideaVersion
 
-    pluginName 'jetbrains-plugin-st4'
-    downloadSources true
-    updateSinceUntilBuild false
+    pluginName = 'jetbrains-plugin-st4'
+    downloadSources = true
+    updateSinceUntilBuild = false
 }
 
 group 'antlr'
 version pluginVersion
 
 wrapper {
-    gradleVersion = "6.0.1"
+    gradleVersion = "8.3"
 }
 
 compileJava {
-    sourceCompatibility = '1.8'
-    targetCompatibility = '1.8'
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
 }
 sourceSets {
     main.antlr.includes = ["ST*.g4"]
