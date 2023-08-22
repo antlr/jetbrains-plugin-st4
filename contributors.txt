@@ -55,3 +55,4 @@ YYYY/MM/DD, github id, Full name, email
 2019/01/16, syakovlevdalet, Sergey Yakovlev, syakovlev@dalet.com
 2019/01/17, bjansen, Bastien Jansen, bastien.jansen@gmx.com
 2020/05/19, FHannes, Frédéric Hannes, frederic.hannes@gmail.com
+2023/08/23, daithiscully, David Scully, davidscully129@gmail.com
