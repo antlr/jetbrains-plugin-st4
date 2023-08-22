@@ -53,7 +53,7 @@ dependencies {
     implementation "org.antlr:antlr4-intellij-adaptor:0.1"
     implementation "org.antlr:antlr4-runtime:$antlr4Version"
     testImplementation group: 'junit', name: 'junit', version: '4.13.1'
-    testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.6.28'
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.4.0'
 }
 
 generateGrammarSource {
