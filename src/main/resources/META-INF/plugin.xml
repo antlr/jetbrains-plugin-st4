@@ -44,12 +44,12 @@
                 implementationClass="org.antlr.jetbrains.st4plugin.STGroupFileType"
                 fieldName="INSTANCE"
                 language="STGroup"
-                extensions="simple"/>
+                extensions="stg"/>
       <fileType name="StringTemplate v4 template file"
                 implementationClass="org.antlr.jetbrains.st4plugin.STFileType"
                 fieldName="INSTANCE"
                 language="ST"
-                extensions="simple"/>
+                extensions="st"/>
       <lang.psiStructureViewFactory language="STGroup" implementationClass="org.antlr.jetbrains.st4plugin.structview.STGroupStructureViewFactory"/>
       <additionalTextAttributes scheme="Default" file="colorSchemes/STGroupDefault.xml"/>
    	  <additionalTextAttributes scheme="Darcula" file="colorSchemes/STGroupDarcula.xml"/>
