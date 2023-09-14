@@ -27,11 +27,7 @@ public class STGroupParserDefinition implements ParserDefinition {
     public static final IFileElementType FILE = new IFileElementType(STGroupLanguage.INSTANCE);
 
     public STGroupParserDefinition() {
-        PSIElementTypeFactory.defineLanguageIElementTypes(
-                STGroupLanguage.INSTANCE,
-                STGLexer.tokenNames,
-                STGParser.ruleNames
-        );
+        STGroupTokenTypes.initIElementTypes();
     }
 
     @NotNull

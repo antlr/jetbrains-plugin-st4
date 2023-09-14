@@ -7,7 +7,7 @@
   <description><![CDATA[
     <p>
         This plugin is for StringTemplate v4 .stg/.st files. It works with
-        IntelliJ IDEA 15, 2016.1-2021.x. It should work in other IntelliJ-based IDEs.
+        IntelliJ IDEA 2022.2.5 and newer. It should work in other IntelliJ-based IDEs.
     </p>
 
     <p><a href="https://github.com/antlr/jetbrains-plugin-st4">Github source</a></p>
@@ -15,13 +15,14 @@
 
   <change-notes><![CDATA[
     <ul>
-        <li>Xxx (<a href="https://github.com/antlr/jetbrains-plugin-st4/issues/xx">#xx</a>)</li>
+        <li>Fixed compatibility with IntelliJ 2022.3.x (<a href="https://github.com/antlr/jetbrains-plugin-st4/issues/41">#41</a>)</li>
+        <li>Fixed compatibility with Rider 2022.3.x (<a href="https://github.com/antlr/jetbrains-plugin-st4/issues/42">#42</a>)</li>
     </ul>
   ]]>
   </change-notes>
 
   <!-- please see http://confluence.jetbrains.net/display/IDEADEV/Build+Number+Ranges for description -->
-  <idea-version since-build="143.0"/> <!-- requires 15.x due to Java 7 requirements of ANTLR 4.7 -->
+  <idea-version since-build="222.4554.10"/>
 
   <!-- please see http://confluence.jetbrains.net/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
        on how to target different products -->
@@ -39,8 +40,16 @@
   </actions>
 
   <extensions defaultExtensionNs="com.intellij">
-      <fileTypeFactory implementation="org.antlr.jetbrains.st4plugin.STGroupFileType$Factory"/>
-      <fileTypeFactory implementation="org.antlr.jetbrains.st4plugin.STFileType$Factory"/>
+      <fileType name="StringTemplate v4 template group file"
+                implementationClass="org.antlr.jetbrains.st4plugin.STGroupFileType"
+                fieldName="INSTANCE"
+                language="STGroup"
+                extensions="simple"/>
+      <fileType name="StringTemplate v4 template file"
+                implementationClass="org.antlr.jetbrains.st4plugin.STFileType"
+                fieldName="INSTANCE"
+                language="ST"
+                extensions="simple"/>
       <lang.psiStructureViewFactory language="STGroup" implementationClass="org.antlr.jetbrains.st4plugin.structview.STGroupStructureViewFactory"/>
       <additionalTextAttributes scheme="Default" file="colorSchemes/STGroupDefault.xml"/>
    	  <additionalTextAttributes scheme="Darcula" file="colorSchemes/STGroupDarcula.xml"/>
