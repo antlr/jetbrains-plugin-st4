@@ -28,11 +28,7 @@ public class STParserDefinition implements ParserDefinition {
     public static final IFileElementType FILE = new IFileElementType(STLanguage.INSTANCE);
 
     public STParserDefinition() {
-        PSIElementTypeFactory.defineLanguageIElementTypes(
-                STLanguage.INSTANCE,
-                STLexer.tokenNames,
-                STParser.ruleNames
-        );
+        STTokenTypes.initIElementTypes();
     }
 
     @NotNull

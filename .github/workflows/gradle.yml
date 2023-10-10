@@ -15,28 +15,17 @@ jobs:
         env:
           # see https://www.jetbrains.com/idea/download/previous.html
           # and https://www.jetbrains.com/intellij-repository/snapshots/
-          - IDEA_VERSION: IC-15.0.6
-          - IDEA_VERSION: IC-2016.3.8
-          - IDEA_VERSION: IC-2017.3.6
-          - IDEA_VERSION: IC-2018.3.6
-          - IDEA_VERSION: IC-2019.3.3
-          - IDEA_VERSION: IC-2020.3
-            JDK_VERSION: '11'
+          - IDEA_VERSION: IC-2022.2.5
+          - IDEA_VERSION: IC-2022.3.1
+          - IDEA_VERSION: IC-2023.2.2
           - IDEA_VERSION: IU-LATEST-EAP-SNAPSHOT
-            JDK_VERSION: '11'
 
     steps:
       - uses: actions/checkout@v2
-      - name: Set up JDK 1.8
+      - name: Set up JDK 17
         uses: actions/setup-java@v1
         with:
-          java-version: 1.8
-        if: matrix.env.JDK_VERSION != '11'
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
-        if: matrix.env.JDK_VERSION == '11'
+          java-version: 17
       - name: Build with Gradle
         run: |
           ./gradlew -PideaVersion=${IDEA_VERSION} buildPlugin
@@ -47,4 +36,4 @@ jobs:
         with:
           name: ${{env.DIST_FILE}}
           path: build/distributions/jetbrains-plugin-st4-*.zip
-        if: matrix.env.IDEA_VERSION == 'IC-2020.3'
+        if: matrix.env.IDEA_VERSION == 'IC-2022.2.5'

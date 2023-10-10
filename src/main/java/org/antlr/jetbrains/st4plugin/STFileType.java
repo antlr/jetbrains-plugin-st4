@@ -1,7 +1,5 @@
 package org.antlr.jetbrains.st4plugin;
 
-import com.intellij.openapi.fileTypes.FileTypeConsumer;
-import com.intellij.openapi.fileTypes.FileTypeFactory;
 import com.intellij.openapi.fileTypes.LanguageFileType;
 import com.intellij.openapi.fileTypes.TemplateLanguageFileType;
 import org.jetbrains.annotations.NotNull;
@@ -38,12 +36,5 @@ public class STFileType extends LanguageFileType implements TemplateLanguageFile
     @Override
     public Icon getIcon() {
         return Icons.STG_FILE;
-    }
-
-    static class Factory extends FileTypeFactory {
-        @Override
-        public void createFileTypes(@NotNull FileTypeConsumer consumer) {
-            consumer.consume(STFileType.INSTANCE);
-        }
     }
 }
