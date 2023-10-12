@@ -7,7 +7,7 @@
   <description><![CDATA[
     <p>
         This plugin is for StringTemplate v4 .stg/.st files. It works with
-        IntelliJ IDEA 2022.2.5 and newer. It should work in other IntelliJ-based IDEs.
+        IntelliJ IDEA 2022.2 and newer. It should work in other IntelliJ-based IDEs.
     </p>
 
     <p><a href="https://github.com/antlr/jetbrains-plugin-st4">Github source</a></p>
@@ -17,12 +17,13 @@
     <ul>
         <li>Fixed compatibility with IntelliJ 2022.3.x (<a href="https://github.com/antlr/jetbrains-plugin-st4/issues/41">#41</a>)</li>
         <li>Fixed compatibility with Rider 2022.3.x (<a href="https://github.com/antlr/jetbrains-plugin-st4/issues/42">#42</a>)</li>
+        <li>Updated to latest versions of ANTLR and StringTemplate</li>
     </ul>
   ]]>
   </change-notes>
 
   <!-- please see http://confluence.jetbrains.net/display/IDEADEV/Build+Number+Ranges for description -->
-  <idea-version since-build="222.4554.10"/>
+  <idea-version since-build="222"/>
 
   <!-- please see http://confluence.jetbrains.net/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
        on how to target different products -->
