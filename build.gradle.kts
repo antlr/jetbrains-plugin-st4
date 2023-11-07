@@ -41,7 +41,7 @@ sourceSets {
 // See https://github.com/gradle/gradle/issues/820#issuecomment-1585814999
 configurations {
     api {
-        setExtendsFrom(extendsFrom.filterNot { it == configurations.antlr })
+        setExtendsFrom(extendsFrom.filterNot { it == antlr.get() })
     }
 }
 
